@@ -35,7 +35,7 @@
             <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Jinak me nesel view resolver / routovani na jednotlivz url bey techhlech dependencz-->
+    <!-- Jinak me nesel view resolver / routovani na jednotlivz url bey techhlech dependencz-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -53,9 +53,10 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- Pro http://localhost:8080/h2-console/ -->
+        <!-- Nově i na: http://localhost:8082, po přídání H2ServerConf fajlu -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -71,6 +72,9 @@
             <artifactId>hibernate-java8</artifactId>
             <version>5.0.5.Final</version>
         </dependency>
+
+
+
 
     </dependencies>
 

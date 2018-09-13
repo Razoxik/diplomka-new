@@ -14,10 +14,10 @@ public class HelloController {
     @Autowired
     StudentJdbcRepository studentJdbcRepository;
 
-    @RequestMapping("/s")
+    @RequestMapping("/sa")
     public String index() {
-        List<Student> listStudentu = (List<Student>) studentJdbcRepository.findAll();
-        List<Student> studs = studentJdbcRepository.findByName("Ra");
+        List<Student> listStudentu  = (List<Student>) studentJdbcRepository.findAll();
+        List<Student> studs  =  studentJdbcRepository.findByName("Ra");
         return "@aGreetings from Spring Boot!";
     }
 

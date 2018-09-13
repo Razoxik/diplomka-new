@@ -1,8 +1,3 @@
-insert into student
-values(10001,'Ranga', 'E1234567');
-
-insert into student
-values(10002,'Ravi', 'A1234568');
 SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO avatar VALUES(1, 'avatar_img_1', 'avatar_name_1', '1970-01-01 00:00:01' );
@@ -32,13 +27,15 @@ INSERT INTO game VALUES(2, 'football', 'game_description_2');
 INSERT INTO league VALUES(1, 'Centipede Deamon League', 'league_description_1', 1);
 INSERT INTO league VALUES(2, 'Moonlight Butterfly League', 'league_description_2', 2);
 
-INSERT INTO team VALUES(1, '1970-01-01 00:00:01', 'Nito team', 'team_description_1', '1', 42);
-INSERT INTO team VALUES(2, '2038-01-19 03:14:07', 'Ornstein and Smough', 'team_description_2', '2', 23);
+INSERT INTO team VALUES(1, '1970-01-01 00:00:01', 'Nito team', 'team_description_1', '1', 1);
+INSERT INTO team VALUES(2, '2038-01-19 03:14:07', 'Ornstein and Smough', 'team_description_2', '2', 2);
 
 INSERT INTO team_user VALUES(1, 1, 1);
 INSERT INTO team_user VALUES(2, 2, 2);
 
 INSERT INTO challenge VALUES(1,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '49.902238', '16.439289',  'challenge_text_1', 1, 2);
+INSERT INTO challenge VALUES(2,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '49.904809', '16.440984', 'challenge_text_1', 2, 1);
+
 -- INSERT INTO challenge VALUES(2, 2, 1, '1970-01-01 00:00:01', '2038-01-19 03:14:07', 'challenge_text_2', '49.904753', '16.445780');
 -- INSERT INTO challenge VALUES(3, 2, 1, '1970-01-01 00:00:01', '2038-01-19 03:14:07', 'challenge_text_2', '49.904028', '16.445855');
 -- INSERT INTO challenge VALUES(4, 2, 1, '1970-01-01 00:00:01', '2038-01-19 03:14:07', 'challenge_text_2', '49.904809', '16.440984');
