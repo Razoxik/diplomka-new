@@ -7,7 +7,7 @@
 
 <body class="dark-edition">
 <div class="wrapper ">
-   <jsp:include page="fragments/sidebar.jsp"/>
+    <jsp:include page="fragments/sidebar.jsp"/>
 
     <div class="main-panel">
         <jsp:include page="fragments/navbar.jsp"/>
@@ -40,6 +40,8 @@
                                         <th>
                                             Salary
                                         </th>
+                                        <th>
+                                        </th>
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${challenges}" var="challenge" varStatus="status">
@@ -55,6 +57,9 @@
                                                         ${challenge.coordsLng} </td>
                                                 <td class="text-primary">
                                                     $36,738
+                                                </td>
+                                                <td class=>
+                                                    <a href="">Zobrazit detail</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
