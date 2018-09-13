@@ -1,3 +1,1 @@
-# diplomka-new
-blablablaabalbla descr
-Test
+Can you read, man?
