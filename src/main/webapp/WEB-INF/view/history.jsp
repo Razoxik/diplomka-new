@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
-<%--@elvariable id="activities" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
 
 <jsp:include page="fragments/header.jsp"/>
 
@@ -25,23 +25,25 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class=" text-primary">
-                                        <th>
-                                            ID
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Country
-                                        </th>
-                                        <th>
-                                            City
-                                        </th>
-                                        <th>
-                                            Salary
-                                        </th>
-                                        <th>
-                                        </th>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Country
+                                            </th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                Salary
+                                            </th>
+                                            <th>
+                                            </th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${challenges}" var="challenge" varStatus="status">
@@ -80,21 +82,23 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="">
-                                        <th>
-                                            ID
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Country
-                                        </th>
-                                        <th>
-                                            City
-                                        </th>
-                                        <th>
-                                            Salary
-                                        </th>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Country
+                                            </th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                Salary
+                                            </th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
