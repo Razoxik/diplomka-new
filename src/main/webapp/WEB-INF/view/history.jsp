@@ -15,8 +15,9 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card  ">
                             <div class="card-header card-header-primary">
                                 <h4 class="card-title ">Simple Table</h4>
                                 <p class="card-category"> Here is a subtitle for this table</p>
@@ -130,7 +131,7 @@
         <jsp:include page="fragments/footer.jsp"/>
     </div>
 </div>
-<%--<jsp:include page="fragments/filterOnDaRightSide.jsp"/>--%>
+<jsp:include page="fragments/filterOnDaRightSide.jsp"/>
 </body>
 <jsp:include page="fragments/jsCommon.jsp"/>
 

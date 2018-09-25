@@ -23,7 +23,7 @@ public class HistoryController {
     @GetMapping("/history")
     public ModelAndView renderMap(Map<String, Object> model) {
         model.put("challenges", challengeDao.findChallengeByTeamByChallengerTeamId(teamDao.findById(1)));
-        model.put("activeTab", "history");
+        model.put("activeTab", "History");
         return new ModelAndView("history", model);
     }
 }

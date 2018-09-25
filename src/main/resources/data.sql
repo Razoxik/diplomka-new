@@ -8,6 +8,7 @@ INSERT INTO role VALUES(1, '1970-01-01 00:00:01', 'USER');
 INSERT INTO role VALUES(2, '2038-01-19 03:14:07', 'ADMIN');
 
 INSERT INTO user VALUES(1, '1970-01-01 00:00:01', 'mejl', 'tomas', '1970-02-02 02:02:02','bart', 'AsylumDemon@praise.sun', 'tomas123', '123',  '1', '1');
+INSERT INTO user VALUES(2, '1970-01-01 00:00:01', 'asdasddas', 'pepa', '1970-02-02 02:02:02','bart', 'asd@praise.sun', 'asd', '23',  '2', '2');
 
 INSERT INTO report VALUES(1, '1970-01-01 00:00:01', 'report_reason_1', 'report_text_1', '1', '2');
 INSERT INTO report VALUES(2, '2038-01-19 03:14:07', 'report_reason_2', 'report_text_2', '2', '1');
@@ -21,8 +22,8 @@ INSERT INTO message VALUES(2, '2038-01-19 03:14:07', 'message_text_2', 'message_
 INSERT INTO game_param VALUES(1, '1970-01-01 00:00:01', 'game_param_name_1', 'game_param_value_1', '1');
 INSERT INTO game_param VALUES(2,'2038-01-19 03:14:07', 'game_param_name_2',  'game_param_value_2', '2');
 
-INSERT INTO game VALUES(1, 'chess', 'game_description_1');
-INSERT INTO game VALUES(2, 'football', 'game_description_2');
+INSERT INTO game VALUES(1, 'game_description_1', 'chess');
+INSERT INTO game VALUES(2, 'game_description_2', 'football');
 
 INSERT INTO league VALUES(1, 'Centipede Deamon League', 'league_description_1', 1);
 INSERT INTO league VALUES(2, 'Moonlight Butterfly League', 'league_description_2', 2);
@@ -35,6 +36,9 @@ INSERT INTO team_user VALUES(2, 2, 2);
 
 INSERT INTO challenge VALUES(1,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '49.902238', '16.439289',  'challenge_text_1', 1, 2);
 INSERT INTO challenge VALUES(2,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '49.904809', '16.440984', 'challenge_text_1', 2, 1);
+INSERT INTO challenge VALUES(3,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '50.039969', '15.773887', 'challenge_text_1', 2, 1);
+INSERT INTO challenge VALUES(4,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '50.040915', '15.769183', 'challenge_text_1', 2, 1);
+INSERT INTO challenge VALUES(5,'1970-01-01 00:00:01', '2038-01-19 03:14:07', '50.040240', '15.760171', 'challenge_text_1', 2, 1);
 
 -- INSERT INTO challenge VALUES(2, 2, 1, '1970-01-01 00:00:01', '2038-01-19 03:14:07', 'challenge_text_2', '49.904753', '16.445780');
 -- INSERT INTO challenge VALUES(3, 2, 1, '1970-01-01 00:00:01', '2038-01-19 03:14:07', 'challenge_text_2', '49.904028', '16.445855');

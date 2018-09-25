@@ -4,7 +4,7 @@
             <ul>
                 <li>
                     <a href="https://www.creative-tim.com">
-                        Creative Tim
+                        Lets Go
                     </a>
                 </li>
                 <li>
@@ -17,16 +17,11 @@
                         Blog
                     </a>
                 </li>
-                <li>
-                    <a href="https://www.creative-tim.com/license">
-                        Licenses
-                    </a>
-                </li>
             </ul>
         </nav>
         <div class="copyright float-right" id="date">
             , made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+            <a href="https://www.creative-tim.com" target="_blank">Tom Bart</a> for a better world.
         </div>
     </div>
 </footer>

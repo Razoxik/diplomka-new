@@ -172,6 +172,23 @@ demo = {
                 };
                 var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+                var createChallengeWindow = new google.maps.InfoWindow;
+
+                map.addListener('rightclick', function (event) {
+
+                    const latitude = event.latLng.lat();
+                    const longitude = event.latLng.lng();
+                    var a = document.createElement('a');
+                    var linkText = document.createTextNode("CREATE CHALLENGE");
+                    a.appendChild(linkText);
+                    a.style.color = "black";
+                    a.href = "/challenge/create?latCoords=" + latitude + "&lngCoords=" + longitude ;
+                    document.body.appendChild(a);
+                   // const createChallengeLink = "<b><a href='/challenge/create?latCoords='  style='color:black'>VYTVOŘIT VÝZVU</a></b>";
+                    createChallengeWindow.setContent(a);
+                    createChallengeWindow.setPosition({lat: latitude, lng: longitude});
+                    createChallengeWindow.open(map);
+                });
 
                 const avatarIcon = {
                     url: "/img/avatars/default.png", // url
@@ -184,16 +201,11 @@ demo = {
                     position: new google.maps.LatLng(pos.lat, pos.lng), // position
                     map: map, // same as avatarMarker.setMap(map);
                     icon: avatarIcon, // icon of marker
-                    title: "This is you!"
+                    title: "Here you are!"
                 });
 
                 //marker.setMap(map);
 
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: challenges[0][0]
-                });
 
                 // To add the marker to the map, call setMap();
 
@@ -204,7 +216,7 @@ demo = {
                 for (let i = 0; i < challenges.length; i++) {
                     // game icon
                     var icon = {
-                        url: "/img/activities/chess.png",//+ challenges[i][9] + ".png", // url
+                        url: "/img/activities/football.png",//+ challenges[i][9] + ".png", // url
                         scaledSize: new google.maps.Size(50, 50), // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(0, 0) // anchor
@@ -222,7 +234,7 @@ demo = {
                             var linkToChallenge = "linkToChallenge";//<b><a href='/user/challengeDetail?challengeId=" + challenges[i][8] + "'><spring:message code="map.linkToChallenge"/></a></b>";
                             infowindow.setContent(
                                 '<b><spring:message code="map.team"/></b> ' + challenges[i][0] + "<br/>" +
-                                '<b><spring:message code="map.startTime"/></b> ' + challenges[i][2] + "<br/>" +
+                                //       '<b><spring:message code="map.startTime"/></b> ' + challenges[i][2] + "<br/>" +
                                 '<b><spring:message code="map.endTime"/></b> ' + challenges[i][3] + "<br/>" +
                                 challenges[i][1] + "<br/>" + linkToChallenge
                             );
@@ -231,6 +243,9 @@ demo = {
                     })(marker, i));
                 }
 
+                map.addListener('rightClick', function () {
+                    map.setZoom(8);
+                });
             });
         }
     }

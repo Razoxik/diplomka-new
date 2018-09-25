@@ -1,21 +1,21 @@
 <!--   Core JS Files   -->
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap-material-design.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap-material-design.min.js"></script>
 <script src="https://unpkg.com/default-passive-events"></script>
-<script src="js/perfect-scrollbar.jquery.min.js"></script>
+<script src="/js/perfect-scrollbar.jquery.min.js"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!--  Google Maps Plugin    -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM3hLUh10lPdC4qzzQ24HMuVldsSja0yk"></script>
 <!-- Chartist JS -->
-<script src="js/chartist.min.js"></script>
+<script src="/js/chartist.min.js"></script>
 <!--  Notifications Plugin    -->
-<script src="js/bootstrap-notify.js"></script>
+<script src="/js/bootstrap-notify.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="js/material-dashboard.js?v=2.1.0"></script>
+<script src="/js/material-dashboard.js?v=2.1.0"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="js/demo.js"></script>
+<script src="/js/demo.js"></script>
 <script>
     $(document).ready(function () {
         $().ready(function () {

@@ -12,7 +12,7 @@ public class WelcomeController {
     @Value("${application.message:Hello World}")
     private String helloMessage;
 
-    @GetMapping("/")
+    @GetMapping("/s")
     public String welcome(Map<String, Object> model) {
 
         model.put("message", helloMessage);
