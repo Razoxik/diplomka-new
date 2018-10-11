@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sp" uri="http://www.springframework.org/tags" %>
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="img/sidebar-2.jpg">
     <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -12,7 +13,6 @@
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            ${activeTab}
             <li class="nav-item <c:if test="${activeTab == 'News'}">active</c:if>">
                 <a class="nav-link" href="/news">
                     <i class="material-icons">dashboard</i>
@@ -33,7 +33,7 @@
             </li>
             <li class="nav-item  <c:if test="${activeTab == 'Message'}">active</c:if>">
                 <a class="nav-link" href="/message/list">
-                    <i class="material-icons">library_books</i>
+                    <i class="material-icons">message</i>
                     <p>Messages</p>
                 </a>
             </li>
@@ -43,10 +43,10 @@
                     <p>Statistics</p>
                 </a>
             </li>
-            <li class="nav-item <c:if test="${activeTab == 'Map'}">active</c:if>">
+            <li class="nav-item <c:if test="${activeTab eq 'MAP' }">active</c:if>">
                 <a class="nav-link" href="/map">
                     <i class="material-icons">location_ons</i>
-                    <p>Maps</p>
+                    <p>Map</p>
                 </a>
             </li>
             <li class="nav-item ">
@@ -55,12 +55,12 @@
                     <p>Notifications</p>
                 </a>
             </li>
-            <!-- <li class="nav-item active-pro ">
-                  <a class="nav-link" href="./upgrade.html">
-                      <i class="material-icons">unarchive</i>
-                      <p>Upgrade to PRO</p>
-                  </a>
-              </li> -->
+            <li class="nav-item ">
+                <a class="nav-link" href="/leaderBoard">
+                    <i class="material-icons">unarchive</i>
+                    <p>Leaderboard</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

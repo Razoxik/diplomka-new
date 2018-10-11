@@ -1,8 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="challengeModel" type="cz.upce.diplomovaprace.model.ChallengeModel"--%>
 
 <jsp:include page="fragments/header.jsp"/>
 
@@ -16,12 +17,24 @@
 
         <div class="content">
             <div class="container-fluid">
+
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Game</label>
+                        <form:form method="POST" action="create" modelAttribute="challengeModel"><%----%>
+                            <form:select path="gameId" cssClass="form-control selectpicker" id="exampleFormControlSelect1">
+                                <c:forEach items="${games}" var="game" varStatus="status">
+                                    <form:option value="${status.current}" cssStyle="color:black">${game.gameName}</form:option>
+                                </c:forEach>
+                            </form:select>
+                        </form:form>
+                        </div>
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title ">Detail zprávy</h4>
-                                <p class="card-category">Zde vidíte detail vybrané zprávy</p>
+                                <h4 class="card-title ">Leader board</h4>
+                                <p class="card-category">...for football game!</p>
+
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -29,16 +42,22 @@
                                         <thead class=" text-primary">
                                         <tr>
                                             <th>
-                                                Author
+                                                User
                                             </th>
                                             <th>
-                                                Subject
+                                                Games
                                             </th>
                                             <th>
-                                                Text
+                                                Wins
                                             </th>
                                             <th>
-                                                Date
+                                                Loses
+                                            </th>
+                                            <th>
+                                                W/R ratio
+                                            </th>
+                                            <th>
+                                                Rating
                                             </th>
                                             <th>
                                             </th>
@@ -51,22 +70,22 @@
                                                 Razox
                                             </td>
                                             <td>
-                                                Pozdrav
+                                                158
+                                            <td> 75
+                                            </td>
+                                            <td> 42
+                                            </td>
                                             <td>
-                                                Duis elementum convallis augue malesuada fermentum. Aliquam dictum,
-                                                lacus eu iaculis semper, quam felis consequat diam, nec pellentesque leo
-                                                urna vel dolor. Sed quis viverra sapien. Ut cursus commodo orci, ac
-                                                aliquet purus. Curabitur metus purus, varius non augue nec, varius
-                                                dictum ligula. Nam nisl arcu, elementum eu luctus in, pharetra a est.
-                                                Morbi semper tortor quis luctus maximus. Vestibulum mattis magna vitae
-                                                dapibus cursus. Nam viverra odio vitae urna aliquam, quis pellentesque
-                                                elit porta. Suspendisse non tempus risus, at bibendum purus. Etiam
-                                                vulputate elementum pellentesque. Nam vitae nibh malesuada, rutrum dui
-                                                vel, ornare metus. Donec id velit leo. Morbi vel est quis nisl rhoncus
-                                                accumsan.
+                                                62%
                                             </td>
                                             <td class="text-primary">
-                                                10. 4. 14:52
+                                                1547
+                                            </td>
+                                            <spring:url value="detail" var="detailUrl" htmlEscape="true">
+                                                <spring:param name="messageId" value="1"/>
+                                            </spring:url>
+                                            <td class=>
+                                                <a href="${detailUrl}">Zobrazit detail</a>
                                             </td>
                                         </tr>
                                         <%--</c:forEach>--%>
@@ -74,17 +93,11 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <spring:url value="reply" var="replyUrl" htmlEscape="true">
-                                    <spring:param name="messageId" value="1"/>
-                                </spring:url>
-                                <a href="${replyUrl}" class="btn btn-primary " role="button" aria-disabled="true">Odpovědět</a>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
-
             </div>
         </div>
         <jsp:include page="fragments/footer.jsp"/>

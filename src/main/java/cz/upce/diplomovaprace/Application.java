@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @SpringBootApplication
 @EntityScan // For DB
-public class Application  extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -22,8 +22,9 @@ public class Application  extends SpringBootServletInitializer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
-     @Bean
-    public ViewResolver getViewResolver(){
+
+    @Bean
+    public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(".jsp");

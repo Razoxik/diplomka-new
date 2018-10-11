@@ -28,7 +28,7 @@
                                         <thead class=" text-primary">
                                         <tr>
                                             <th>
-                                                Author [Email]
+                                                Author
                                             </th>
                                             <th>
                                                 Subject
@@ -47,7 +47,7 @@
                                         <%--<c:forEach items="${challenges}" var="challenge" varStatus="status"> --%>
                                         <tr>
                                             <td>
-                                                Razox [Razox@seznam.cz]
+                                                Razox
                                             </td>
                                             <td>
                                                 Pozdrav

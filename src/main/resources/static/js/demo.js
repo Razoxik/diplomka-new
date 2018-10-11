@@ -170,7 +170,7 @@ demo = {
                     ]
 
                 };
-                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                const map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
                 var createChallengeWindow = new google.maps.InfoWindow;
 

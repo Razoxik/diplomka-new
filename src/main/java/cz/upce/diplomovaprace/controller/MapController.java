@@ -21,9 +21,8 @@ public class MapController {
 
     @GetMapping("/map")
     public ModelAndView renderMap(Map<String, Object> model) {
-        model.put("", teamDao.findAll());
         model.put("activities", activityDao.findAll());
-        model.put("activeTab", ActiveTab.MAP);
+        model.put("activeTab", ActiveTab.MAP.toString());
         return new ModelAndView("map", model);
     }
 }
