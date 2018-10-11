@@ -1,7 +1,7 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.repository.ChallengeDao;
-import cz.upce.diplomovaprace.repository.TeamDao;
+import cz.upce.diplomovaprace.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +15,14 @@ public class HistoryController {
     @Autowired
     ChallengeDao challengeDao;
 
-
     @Autowired
-    TeamDao teamDao;
+    UserDao userDao;
+
 
 
     @GetMapping("/history")
     public ModelAndView renderMap(Map<String, Object> model) {
-        model.put("challenges", challengeDao.findChallengeByTeamByChallengerTeamId(teamDao.findById(1)));
+        model.put("challenges", challengeDao.findChallengeByUserByChallengerUserId(userDao.findById(1)));
         model.put("activeTab", "History");
         return new ModelAndView("history", model);
     }

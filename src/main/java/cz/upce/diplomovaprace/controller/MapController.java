@@ -2,7 +2,6 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.enums.ActiveTab;
 import cz.upce.diplomovaprace.repository.ActivityDao;
-import cz.upce.diplomovaprace.repository.TeamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +15,7 @@ public class MapController {
     @Autowired
     ActivityDao activityDao;
 
-    @Autowired
-    TeamDao teamDao;
+
 
     @GetMapping("/map")
     public ModelAndView renderMap(Map<String, Object> model) {

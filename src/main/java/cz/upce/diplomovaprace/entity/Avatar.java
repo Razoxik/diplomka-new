@@ -9,9 +9,6 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class Avatar {
     private int avatarId;
@@ -21,7 +18,7 @@ public class Avatar {
     private Collection<User> usersByAvatarId;
 
     @Id
-    @Column(name = "avatar_id")
+    @Column(name = "avatar_id", nullable = false)
     public int getAvatarId() {
         return avatarId;
     }
@@ -31,7 +28,7 @@ public class Avatar {
     }
 
     @Basic
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -41,7 +38,7 @@ public class Avatar {
     }
 
     @Basic
-    @Column(name = "avatar_image")
+    @Column(name = "avatar_image", nullable = false, length = 45)
     public String getAvatarImage() {
         return avatarImage;
     }
@@ -51,7 +48,7 @@ public class Avatar {
     }
 
     @Basic
-    @Column(name = "avatar_name")
+    @Column(name = "avatar_name", nullable = false, length = 45)
     public String getAvatarName() {
         return avatarName;
     }
@@ -68,14 +65,13 @@ public class Avatar {
         return avatarId == avatar.avatarId &&
                 Objects.equals(created, avatar.created) &&
                 Objects.equals(avatarImage, avatar.avatarImage) &&
-                Objects.equals(avatarName, avatar.avatarName) &&
-                Objects.equals(usersByAvatarId, avatar.usersByAvatarId);
+                Objects.equals(avatarName, avatar.avatarName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(avatarId, created, avatarImage, avatarName, usersByAvatarId);
+        return Objects.hash(avatarId, created, avatarImage, avatarName);
     }
 
     @OneToMany(mappedBy = "avatarByAvatarsAvatarId")

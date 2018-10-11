@@ -4,7 +4,7 @@ import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.model.ChallengeModel;
 import cz.upce.diplomovaprace.repository.ChallengeDao;
 import cz.upce.diplomovaprace.repository.GameDao;
-import cz.upce.diplomovaprace.repository.TeamDao;
+import cz.upce.diplomovaprace.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,7 +27,7 @@ public class ChallengeController {
     ChallengeDao challengeDao;
 
     @Autowired
-    TeamDao teamDao;
+    UserDao userDao;
 
     @Autowired
     GameDao gameDao;
@@ -53,8 +53,8 @@ public class ChallengeController {
         challenge.setChallengeEnd(Timestamp.valueOf("1992-04-10 10:10:11"));
         challenge.setCoordsLat(challengeModel.getLatCoords());
         challenge.setCoordsLng(challengeModel.getLngCoords());
-        challenge.setTeamByChallengerTeamId(teamDao.findById(1).get());
-        challenge.setTeamByOponnentTeamId(teamDao.findById(1).get());
+        challenge.setUserByChallengerUserId(userDao.findById(1).get());
+        challenge.setUserByOponnentUserId(userDao.findById(1).get());
         challenge.setText("asd");
         challengeDao.save(challenge);
         return new ModelAndView("redirect:/map", model);

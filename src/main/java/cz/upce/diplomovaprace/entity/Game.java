@@ -6,20 +6,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Collection;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class Game {
     private int gameId;
     private String gameName;
     private String gameDescription;
+    private Collection<Challenge> challengesByGameId;
     private Collection<GameParam> gameParamsByGameId;
-    private Collection<League> leaguesByGameId;
+    private Collection<Rating> ratingsByGameId;
 
     @Id
-    @Column(name = "game_id")
+    @Column(name = "game_id", nullable = false)
     public int getGameId() {
         return gameId;
     }
@@ -29,7 +28,7 @@ public class Game {
     }
 
     @Basic
-    @Column(name = "game_name")
+    @Column(name = "game_name", nullable = false, length = 45)
     public String getGameName() {
         return gameName;
     }
@@ -39,7 +38,7 @@ public class Game {
     }
 
     @Basic
-    @Column(name = "game_description")
+    @Column(name = "game_description", nullable = false, length = 100)
     public String getGameDescription() {
         return gameDescription;
     }
@@ -52,23 +51,25 @@ public class Game {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Game game = (Game) o;
-
-        if (gameId != game.gameId) return false;
-        if (gameName != null ? !gameName.equals(game.gameName) : game.gameName != null) return false;
-        if (gameDescription != null ? !gameDescription.equals(game.gameDescription) : game.gameDescription != null)
-            return false;
-
-        return true;
+        return gameId == game.gameId &&
+                Objects.equals(gameName, game.gameName) &&
+                Objects.equals(gameDescription, game.gameDescription);
     }
 
     @Override
     public int hashCode() {
-        int result = gameId;
-        result = 31 * result + (gameName != null ? gameName.hashCode() : 0);
-        result = 31 * result + (gameDescription != null ? gameDescription.hashCode() : 0);
-        return result;
+
+        return Objects.hash(gameId, gameName, gameDescription);
+    }
+
+    @OneToMany(mappedBy = "gameByGameGameId")
+    public Collection<Challenge> getChallengesByGameId() {
+        return challengesByGameId;
+    }
+
+    public void setChallengesByGameId(Collection<Challenge> challengesByGameId) {
+        this.challengesByGameId = challengesByGameId;
     }
 
     @OneToMany(mappedBy = "gameByGameGameId")
@@ -81,11 +82,11 @@ public class Game {
     }
 
     @OneToMany(mappedBy = "gameByGameGameId")
-    public Collection<League> getLeaguesByGameId() {
-        return leaguesByGameId;
+    public Collection<Rating> getRatingsByGameId() {
+        return ratingsByGameId;
     }
 
-    public void setLeaguesByGameId(Collection<League> leaguesByGameId) {
-        this.leaguesByGameId = leaguesByGameId;
+    public void setRatingsByGameId(Collection<Rating> ratingsByGameId) {
+        this.ratingsByGameId = ratingsByGameId;
     }
 }

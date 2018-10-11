@@ -1,27 +1,26 @@
 package cz.upce.diplomovaprace.entity;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class GameParam {
     private int gameParamId;
     private String name;
     private Timestamp created;
     private String value;
+    private int gameGameId;
     private Game gameByGameGameId;
 
     @Id
-    @Column(name = "game_param_id")
+    @Column(name = "game_param_id", nullable = false)
     public int getGameParamId() {
         return gameParamId;
     }
@@ -31,7 +30,7 @@ public class GameParam {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 45)
     public String getName() {
         return name;
     }
@@ -41,7 +40,7 @@ public class GameParam {
     }
 
     @Basic
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -51,7 +50,7 @@ public class GameParam {
     }
 
     @Basic
-    @Column(name = "value")
+    @Column(name = "value", nullable = true, length = 255)
     public String getValue() {
         return value;
     }
@@ -60,28 +59,32 @@ public class GameParam {
         this.value = value;
     }
 
+    @Basic
+    @Column(name = "Game_game_id", nullable = false,insertable = false, updatable = false)
+    public int getGameGameId() {
+        return gameGameId;
+    }
+
+    public void setGameGameId(int gameGameId) {
+        this.gameGameId = gameGameId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         GameParam gameParam = (GameParam) o;
-
-        if (gameParamId != gameParam.gameParamId) return false;
-        if (name != null ? !name.equals(gameParam.name) : gameParam.name != null) return false;
-        if (created != null ? !created.equals(gameParam.created) : gameParam.created != null) return false;
-        if (value != null ? !value.equals(gameParam.value) : gameParam.value != null) return false;
-
-        return true;
+        return gameParamId == gameParam.gameParamId &&
+                gameGameId == gameParam.gameGameId &&
+                Objects.equals(name, gameParam.name) &&
+                Objects.equals(created, gameParam.created) &&
+                Objects.equals(value, gameParam.value);
     }
 
     @Override
     public int hashCode() {
-        int result = gameParamId;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (created != null ? created.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
-        return result;
+
+        return Objects.hash(gameParamId, name, created, value, gameGameId);
     }
 
     @ManyToOne

@@ -1,6 +1,5 @@
 package cz.upce.diplomovaprace.entity;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,24 +9,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class Challenge {
     private int challengeId;
     private Timestamp challengeStart;
     private Timestamp challengeEnd;
     private String text;
-    private Team teamByChallengerTeamId;
-    private Team teamByOponnentTeamId;
-    private Collection<ChallengeResult> challengeResultsByChallengeId;
     private String coordsLat;
     private String coordsLng;
+    @Column(insertable = false, updatable = false)
+    private int gameGameId;
+    private int challengerUserId;
+    private int oponnentUserId;
+    private String password;
+    @Column(insertable = false, updatable = false)
+    private Game gameByGameGameId;
+    private User userByChallengerUserId;
+    private User userByOponnentUserId;
+    private Collection<ChallengeResult> challengeResultsByChallengeId;
 
     @Id
-    @Column(name = "challenge_id")
+    @Column(name = "challenge_id", nullable = false)
     public int getChallengeId() {
         return challengeId;
     }
@@ -37,7 +41,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "Challenge_start")
+    @Column(name = "Challenge_start", nullable = false)
     public Timestamp getChallengeStart() {
         return challengeStart;
     }
@@ -47,7 +51,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "Challenge_end")
+    @Column(name = "Challenge_end", nullable = false)
     public Timestamp getChallengeEnd() {
         return challengeEnd;
     }
@@ -57,7 +61,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "Text")
+    @Column(name = "Text", nullable = true, length = 45)
     public String getText() {
         return text;
     }
@@ -67,7 +71,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "coordsLat")
+    @Column(name = "CoordsLat", nullable = false, length = 255)
     public String getCoordsLat() {
         return coordsLat;
     }
@@ -77,7 +81,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "coordsLng")
+    @Column(name = "CoordsLng", nullable = false, length = 255)
     public String getCoordsLng() {
         return coordsLng;
     }
@@ -86,54 +90,97 @@ public class Challenge {
         this.coordsLng = coordsLng;
     }
 
+    @Basic
+    @Column(name = "Game_game_id", nullable = false,insertable = false, updatable = false)
+    public int getGameGameId() {
+        return gameGameId;
+    }
+
+    public void setGameGameId(int gameGameId) {
+        this.gameGameId = gameGameId;
+    }
+
+    @Basic
+    @Column(name = "challenger_user_id", nullable = false,insertable = false, updatable = false)
+    public int getChallengerUserId() {
+        return challengerUserId;
+    }
+
+    public void setChallengerUserId(int challengerUserId) {
+        this.challengerUserId = challengerUserId;
+    }
+
+    @Basic
+    @Column(name = "oponnent_user_id", nullable = false,insertable = false, updatable = false)
+    public int getOponnentUserId() {
+        return oponnentUserId;
+    }
+
+    public void setOponnentUserId(int oponnentUserId) {
+        this.oponnentUserId = oponnentUserId;
+    }
+
+    @Basic
+    @Column(name = "password", nullable = true, length = 45)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Challenge challenge = (Challenge) o;
-
-        if (challengeId != challenge.challengeId) return false;
-        if (coordsLat != null ? !coordsLat.equals(challenge.coordsLat) : challenge.coordsLat != null) return false;
-        if (coordsLng != null ? !coordsLng.equals(challenge.coordsLng) : challenge.coordsLng != null) return false;
-        if (challengeStart != null ? !challengeStart.equals(challenge.challengeStart) : challenge.challengeStart != null)
-            return false;
-        if (challengeEnd != null ? !challengeEnd.equals(challenge.challengeEnd) : challenge.challengeEnd != null)
-            return false;
-        if (text != null ? !text.equals(challenge.text) : challenge.text != null) return false;
-
-        return true;
+        return challengeId == challenge.challengeId &&
+                gameGameId == challenge.gameGameId &&
+                challengerUserId == challenge.challengerUserId &&
+                oponnentUserId == challenge.oponnentUserId &&
+                Objects.equals(challengeStart, challenge.challengeStart) &&
+                Objects.equals(challengeEnd, challenge.challengeEnd) &&
+                Objects.equals(text, challenge.text) &&
+                Objects.equals(coordsLat, challenge.coordsLat) &&
+                Objects.equals(coordsLng, challenge.coordsLng) &&
+                Objects.equals(password, challenge.password);
     }
 
     @Override
     public int hashCode() {
-        int result = challengeId;
-        result = 31 * result + (coordsLat != null ? coordsLat.hashCode() : 0);
-        result = 31 * result + (coordsLng != null ? coordsLng.hashCode() : 0);
-        result = 31 * result + (challengeStart != null ? challengeStart.hashCode() : 0);
-        result = 31 * result + (challengeEnd != null ? challengeEnd.hashCode() : 0);
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        return result;
+
+        return Objects.hash(challengeId, challengeStart, challengeEnd, text, coordsLat, coordsLng, gameGameId, challengerUserId, oponnentUserId, password);
     }
 
     @ManyToOne
-    @JoinColumn(name = "challenger_team_id", referencedColumnName = "team_id", nullable = false)
-    public Team getTeamByChallengerTeamId() {
-        return teamByChallengerTeamId;
+    @JoinColumn(name = "Game_game_id", referencedColumnName = "game_id", nullable = false)
+    public Game getGameByGameGameId() {
+        return gameByGameGameId;
     }
 
-    public void setTeamByChallengerTeamId(Team teamByChallengerTeamId) {
-        this.teamByChallengerTeamId = teamByChallengerTeamId;
+    public void setGameByGameGameId(Game gameByGameGameId) {
+        this.gameByGameGameId = gameByGameGameId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "oponnent_team_id", referencedColumnName = "team_id")
-    public Team getTeamByOponnentTeamId() {
-        return teamByOponnentTeamId;
+    @JoinColumn(name = "challenger_user_id", referencedColumnName = "user_id", nullable = false)
+    public User getUserByChallengerUserId() {
+        return userByChallengerUserId;
     }
 
-    public void setTeamByOponnentTeamId(Team teamByOponnentTeamId) {
-        this.teamByOponnentTeamId = teamByOponnentTeamId;
+    public void setUserByChallengerUserId(User userByChallengerUserId) {
+        this.userByChallengerUserId = userByChallengerUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "oponnent_user_id", referencedColumnName = "user_id", nullable = false)
+    public User getUserByOponnentUserId() {
+        return userByOponnentUserId;
+    }
+
+    public void setUserByOponnentUserId(User userByOponnentUserId) {
+        this.userByOponnentUserId = userByOponnentUserId;
     }
 
     @OneToMany(mappedBy = "challengeByChallengesChallengeId")

@@ -32,7 +32,7 @@ public class MessageController {
     @GetMapping("/reply")
     public ModelAndView replyMessage(@RequestParam("messageId") Integer messageId, Map<String, Object> model) {
         model.put("activeTab", "Message");
-        model.put("message", messageDao.findById(messageId));
+        model.put("message", messageDao.findById(messageId).get());
         return new ModelAndView("createMessage", model);
     }
 }

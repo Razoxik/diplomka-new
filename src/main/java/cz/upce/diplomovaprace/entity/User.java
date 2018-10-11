@@ -1,13 +1,16 @@
 package cz.upce.diplomovaprace.entity;
 
-
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class User {
     private int userId;
@@ -18,20 +21,22 @@ public class User {
     private String email;
     private String password;
     private Timestamp lastLogin;
-    private int userRating;
+    private int avatarsAvatarId;
+    private int roleRoleId;
+    private Collection<Challenge> challengesByUserId;
+    private Collection<Challenge> challengesByUserId_0;
     private Collection<Friend> friendsByUserId;
     private Collection<Friend> friendsByUserId_0;
-    private Collection<Message> messagesOutbox;
-    private Collection<Message> messagesInbox;
+    private Collection<Message> messagesByUserId;
+    private Collection<Message> messagesByUserId_0;
+    private Collection<Rating> ratingsByUserId;
     private Collection<Report> reportsByUserId;
     private Collection<Report> reportsByUserId_0;
-    private Collection<TeamUser> teamUsersByUserId;
     private Avatar avatarByAvatarsAvatarId;
     private Role roleByRoleRoleId;
 
-
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -41,7 +46,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "created", insertable = false)
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -51,7 +56,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = true, length = 45)
     public String getFirstName() {
         return firstName;
     }
@@ -61,7 +66,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = true, length = 45)
     public String getLastName() {
         return lastName;
     }
@@ -71,7 +76,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false, length = 45)
     public String getNickname() {
         return nickname;
     }
@@ -81,7 +86,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 45)
     public String getEmail() {
         return email;
     }
@@ -91,7 +96,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 255)
     public String getPassword() {
         return password;
     }
@@ -101,7 +106,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "last_login")
+    @Column(name = "last_login", nullable = false)
     public Timestamp getLastLogin() {
         return lastLogin;
     }
@@ -111,48 +116,67 @@ public class User {
     }
 
     @Basic
-    @Column(name = "user_rating")
-    public int getUserRating() {
-        return userRating;
+    @Column(name = "Avatars_avatar_id", nullable = false,insertable = false, updatable = false)
+    public int getAvatarsAvatarId() {
+        return avatarsAvatarId;
     }
 
-    public void setUserRating(int userRating) {
-        this.userRating = userRating;
+    public void setAvatarsAvatarId(int avatarsAvatarId) {
+        this.avatarsAvatarId = avatarsAvatarId;
+    }
+
+    @Basic
+    @Column(name = "Role_role_id", nullable = false,insertable = false, updatable = false)
+    public int getRoleRoleId() {
+        return roleRoleId;
+    }
+
+    public void setRoleRoleId(int roleRoleId) {
+        this.roleRoleId = roleRoleId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (userId != user.userId) return false;
-        if (created != null ? !created.equals(user.created) : user.created != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (lastLogin != null ? !lastLogin.equals(user.lastLogin) : user.lastLogin != null) return false;
-
-        return true;
+        return userId == user.userId &&
+                avatarsAvatarId == user.avatarsAvatarId &&
+                roleRoleId == user.roleRoleId &&
+                Objects.equals(created, user.created) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(nickname, user.nickname) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(lastLogin, user.lastLogin);
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
-        result = 31 * result + (created != null ? created.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (lastLogin != null ? lastLogin.hashCode() : 0);
-        return result;
+
+        return Objects.hash(userId, created, firstName, lastName, nickname, email, password, lastLogin, avatarsAvatarId, roleRoleId);
     }
 
-    @OneToMany(mappedBy = "userByUserId")
+    @OneToMany(mappedBy = "userByChallengerUserId")
+    public Collection<Challenge> getChallengesByUserId() {
+        return challengesByUserId;
+    }
+
+    public void setChallengesByUserId(Collection<Challenge> challengesByUserId) {
+        this.challengesByUserId = challengesByUserId;
+    }
+
+    @OneToMany(mappedBy = "userByOponnentUserId")
+    public Collection<Challenge> getChallengesByUserId_0() {
+        return challengesByUserId_0;
+    }
+
+    public void setChallengesByUserId_0(Collection<Challenge> challengesByUserId_0) {
+        this.challengesByUserId_0 = challengesByUserId_0;
+    }
+
+    @OneToMany(mappedBy = "userByUserFriendId")
     public Collection<Friend> getFriendsByUserId() {
         return friendsByUserId;
     }
@@ -161,7 +185,7 @@ public class User {
         this.friendsByUserId = friendsByUserId;
     }
 
-    @OneToMany(mappedBy = "userByUserFriendId")
+    @OneToMany(mappedBy = "userByUserId")
     public Collection<Friend> getFriendsByUserId_0() {
         return friendsByUserId_0;
     }
@@ -171,21 +195,30 @@ public class User {
     }
 
     @OneToMany(mappedBy = "userByFromUserId")
-    public Collection<Message> getMessagesOutbox() {
-        return messagesOutbox;
+    public Collection<Message> getMessagesByUserId() {
+        return messagesByUserId;
     }
 
-    public void setMessagesOutbox(Collection<Message> messagesOutbox) {
-        this.messagesOutbox = messagesOutbox;
+    public void setMessagesByUserId(Collection<Message> messagesByUserId) {
+        this.messagesByUserId = messagesByUserId;
     }
 
     @OneToMany(mappedBy = "userByToUserId")
-    public Collection<Message> getMessagesInbox() {
-        return messagesInbox;
+    public Collection<Message> getMessagesByUserId_0() {
+        return messagesByUserId_0;
     }
 
-    public void setMessagesInbox(Collection<Message> messagesInbox) {
-        this.messagesInbox = messagesInbox;
+    public void setMessagesByUserId_0(Collection<Message> messagesByUserId_0) {
+        this.messagesByUserId_0 = messagesByUserId_0;
+    }
+
+    @OneToMany(mappedBy = "userByUserUserId")
+    public Collection<Rating> getRatingsByUserId() {
+        return ratingsByUserId;
+    }
+
+    public void setRatingsByUserId(Collection<Rating> ratingsByUserId) {
+        this.ratingsByUserId = ratingsByUserId;
     }
 
     @OneToMany(mappedBy = "userByReportingUserId")
@@ -206,16 +239,7 @@ public class User {
         this.reportsByUserId_0 = reportsByUserId_0;
     }
 
-    @OneToMany(mappedBy = "userByUserUserId")
-    public Collection<TeamUser> getTeamUsersByUserId() {
-        return teamUsersByUserId;
-    }
-
-    public void setTeamUsersByUserId(Collection<TeamUser> teamUsersByUserId) {
-        this.teamUsersByUserId = teamUsersByUserId;
-    }
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "Avatars_avatar_id", referencedColumnName = "avatar_id", nullable = false)
     public Avatar getAvatarByAvatarsAvatarId() {
         return avatarByAvatarsAvatarId;
@@ -225,7 +249,7 @@ public class User {
         this.avatarByAvatarsAvatarId = avatarByAvatarsAvatarId;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "Role_role_id", referencedColumnName = "role_id", nullable = false)
     public Role getRoleByRoleRoleId() {
         return roleByRoleRoleId;

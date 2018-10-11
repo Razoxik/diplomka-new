@@ -1,22 +1,23 @@
 package cz.upce.diplomovaprace.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class Role {
-
     private int roleId;
     private Timestamp created;
     private String name;
     private Collection<User> usersByRoleId;
 
     @Id
-    @Column(name = "role_id")
+    @Column(name = "role_id", nullable = false)
     public int getRoleId() {
         return roleId;
     }
@@ -26,7 +27,7 @@ public class Role {
     }
 
     @Basic
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -36,7 +37,7 @@ public class Role {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 45)
     public String getName() {
         return name;
     }
@@ -49,22 +50,16 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Role role = (Role) o;
-
-        if (roleId != role.roleId) return false;
-        if (created != null ? !created.equals(role.created) : role.created != null) return false;
-        if (name != null ? !name.equals(role.name) : role.name != null) return false;
-
-        return true;
+        return roleId == role.roleId &&
+                Objects.equals(created, role.created) &&
+                Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        int result = roleId;
-        result = 31 * result + (created != null ? created.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+
+        return Objects.hash(roleId, created, name);
     }
 
     @OneToMany(mappedBy = "roleByRoleRoleId")
@@ -74,15 +69,5 @@ public class Role {
 
     public void setUsersByRoleId(Collection<User> usersByRoleId) {
         this.usersByRoleId = usersByRoleId;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + roleId +
-                ", created=" + created +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

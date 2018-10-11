@@ -1,6 +1,5 @@
 package cz.upce.diplomovaprace.entity;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,21 +7,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
+import java.util.Objects;
 
-/**
- * Created by to068466 on 29.10.2017.
- */
 @Entity
 public class Report {
     private int reportId;
     private Timestamp created;
     private String reason;
     private String reasonText;
+    private int reportingUserId;
+    private int reportedUserId;
     private User userByReportingUserId;
     private User userByReportedUserId;
 
     @Id
-    @Column(name = "report_id")
+    @Column(name = "report_id", nullable = false)
     public int getReportId() {
         return reportId;
     }
@@ -32,7 +31,7 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "created", insertable = false)
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -42,7 +41,7 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "reason")
+    @Column(name = "reason", nullable = false, length = 45)
     public String getReason() {
         return reason;
     }
@@ -52,7 +51,7 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "reason_text")
+    @Column(name = "reason_text", nullable = true, length = 255)
     public String getReasonText() {
         return reasonText;
     }
@@ -61,28 +60,43 @@ public class Report {
         this.reasonText = reasonText;
     }
 
+    @Basic
+    @Column(name = "reporting_user_id", nullable = false,insertable = false, updatable = false)
+    public int getReportingUserId() {
+        return reportingUserId;
+    }
+
+    public void setReportingUserId(int reportingUserId) {
+        this.reportingUserId = reportingUserId;
+    }
+
+    @Basic
+    @Column(name = "reported_user_id", nullable = false,insertable = false, updatable = false)
+    public int getReportedUserId() {
+        return reportedUserId;
+    }
+
+    public void setReportedUserId(int reportedUserId) {
+        this.reportedUserId = reportedUserId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Report report = (Report) o;
-
-        if (reportId != report.reportId) return false;
-        if (created != null ? !created.equals(report.created) : report.created != null) return false;
-        if (reason != null ? !reason.equals(report.reason) : report.reason != null) return false;
-        if (reasonText != null ? !reasonText.equals(report.reasonText) : report.reasonText != null) return false;
-
-        return true;
+        return reportId == report.reportId &&
+                reportingUserId == report.reportingUserId &&
+                reportedUserId == report.reportedUserId &&
+                Objects.equals(created, report.created) &&
+                Objects.equals(reason, report.reason) &&
+                Objects.equals(reasonText, report.reasonText);
     }
 
     @Override
     public int hashCode() {
-        int result = reportId;
-        result = 31 * result + (created != null ? created.hashCode() : 0);
-        result = 31 * result + (reason != null ? reason.hashCode() : 0);
-        result = 31 * result + (reasonText != null ? reasonText.hashCode() : 0);
-        return result;
+
+        return Objects.hash(reportId, created, reason, reasonText, reportingUserId, reportedUserId);
     }
 
     @ManyToOne
