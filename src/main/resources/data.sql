@@ -6,9 +6,9 @@ INSERT INTO avatar VALUES(3, 'avatar_img_1', 'avatar_name_1', '1970-01-01 00:00:
 
 INSERT INTO role VALUES(1, '1970-01-01 00:00:01', 'USER');
 INSERT INTO role VALUES(2, '2038-01-19 03:14:07', 'ADMIN');
-
-INSERT INTO user VALUES(1, 1, '1970-01-01 00:00:01', 'mejl', 'tomas', '1970-02-02 02:02:02','bart', 'nicknameTest', 'tomas123', 1);
-INSERT INTO user VALUES(2, 1, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', 'razox', 'asd', 1);
+--https://www.dailycred.com/article/bcrypt-calculator
+INSERT INTO user VALUES(1, 1, '1970-01-01 00:00:01', 'mejl', 'tomas', '1970-02-02 02:02:02','bart', 'nicknameTest', 1,'tomas123' );
+INSERT INTO user VALUES(2, 1, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', '$2a$04$TPPTbBD7EBdOoG3wn3rCAe78Bjo1971yCWSr7ftyFc1vlVohko1M.', 1,'razox' );
 
 INSERT INTO report VALUES(1, '1970-01-01 00:00:01', 'report_reason_1', 'report_text_1', '1', '2');
 INSERT INTO report VALUES(2, '2038-01-19 03:14:07', 'report_reason_2', 'report_text_2', '2', '1');

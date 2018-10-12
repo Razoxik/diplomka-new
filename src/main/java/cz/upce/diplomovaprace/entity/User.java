@@ -17,7 +17,7 @@ public class User {
     private Timestamp created;
     private String firstName;
     private String lastName;
-    private String nickname;
+    private String username;
     private String email;
     private String password;
     private Timestamp lastLogin;
@@ -76,13 +76,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "nickname", nullable = false, length = 45)
-    public String getNickname() {
-        return nickname;
+    @Column(name = "userName", nullable = false, length = 45)
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     @Basic
@@ -146,7 +146,7 @@ public class User {
                 Objects.equals(created, user.created) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(nickname, user.nickname) &&
+                Objects.equals(username, user.username) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(lastLogin, user.lastLogin);
@@ -155,7 +155,7 @@ public class User {
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId, created, firstName, lastName, nickname, email, password, lastLogin, avatarsAvatarId, roleRoleId);
+        return Objects.hash(userId, created, firstName, lastName, username, email, password, lastLogin, avatarsAvatarId, roleRoleId);
     }
 
     @OneToMany(mappedBy = "userByChallengerUserId")

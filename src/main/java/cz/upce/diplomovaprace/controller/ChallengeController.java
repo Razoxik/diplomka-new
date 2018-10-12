@@ -1,6 +1,7 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.entity.Challenge;
+import cz.upce.diplomovaprace.enums.ActiveTabConstants;
 import cz.upce.diplomovaprace.model.ChallengeModel;
 import cz.upce.diplomovaprace.repository.ChallengeDao;
 import cz.upce.diplomovaprace.repository.GameDao;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
@@ -21,6 +23,7 @@ import java.util.Random;
 
 @Controller
 @RequestMapping("/challenge")
+@SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class ChallengeController {
 
     @Autowired
@@ -35,7 +38,7 @@ public class ChallengeController {
     @GetMapping("/create")
     public ModelAndView renderMap(@RequestParam("latCoords") String latCoords, @RequestParam("lngCoords") String lngCoords,
                                   @ModelAttribute("challengeModel") ChallengeModel challengeModel, BindingResult bindingResult, Map<String, Object> model) {
-        //model.put("activeTab", "Message");
+        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
         challengeModel.setLatCoords(latCoords);
         challengeModel.setLngCoords(lngCoords);
         model.put("games", gameDao.findAll());
@@ -45,7 +48,6 @@ public class ChallengeController {
     @PostMapping("/create")
     public ModelAndView renderMaps(@ModelAttribute("challengeModel") ChallengeModel challengeModel, BindingResult bindingResult,
                                    Map<String, Object> model) {
-        //model.put("activeTab", "Message");
         Challenge challenge = new Challenge();
         Random random = new Random();
         challenge.setChallengeId(random.nextInt(900) + 100);
