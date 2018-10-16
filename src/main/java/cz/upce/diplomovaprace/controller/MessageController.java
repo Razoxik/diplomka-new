@@ -2,10 +2,12 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.entity.Message;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
+import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.MessageModel;
 import cz.upce.diplomovaprace.repository.MessageDao;
 import cz.upce.diplomovaprace.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,10 @@ import java.util.Map;
 public class MessageController {
 
     private static final String MESSAGE_ID_PARAM = "messageId";
-    private static final String MESSAGE_MODEL= "messageModel";
+    private static final String MESSAGE_MODEL = "messageModel";
+
+    @Autowired
+    SessionManager sessionManager;
 
     @Autowired
     MessageDao messageDao;
@@ -33,9 +38,12 @@ public class MessageController {
     @Autowired
     UserDao userDao;
 
+
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('ROLE')")
     public ModelAndView messageList(Map<String, Object> model) {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MESSAGES);
+        model.put("messages", messageDao.findMessagesByToUserId(sessionManager.getUserId()));
         return new ModelAndView("message", model);
     }
 
@@ -63,10 +71,10 @@ public class MessageController {
     private void createMessageFromModel(MessageModel messageModel) throws Exception {
         Message m = new Message();
         m.setCreated(new Timestamp(2));
-        m.setFromUserId(1);
-        m.setUserByFromUserId(userDao.findById(1).orElse(null));
-        m.setToUserId(1);
-        m.setUserByToUserId(userDao.findById(1).orElseThrow(Exception::new));
+        m.setFromUserId(sessionManager.getUserId());
+        m.setUserByFromUserId(userDao.findById(sessionManager.getUserId()).orElse(null));
+        m.setToUserId(userDao.findUserByUsername(messageModel.getNickname()).getUserId());
+        m.setUserByToUserId(userDao.findUserByUsername(messageModel.getNickname()));
         m.setSubject(messageModel.getSubject());
         m.setText(messageModel.getText());
         messageDao.save(m);

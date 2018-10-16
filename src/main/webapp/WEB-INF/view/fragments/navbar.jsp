@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
     <div class="container-fluid">
@@ -47,8 +48,20 @@
                         <a class="dropdown-item" href="javascript:void(0)">Another One</a>
                     </div>
                 </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLinkLanguage"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">flag</i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="<c:url value="${pageContext.request.contextPath}?lang=cz"/>">Czech</a>
+                        <a class="dropdown-item" href="<c:url value="${pageContext.request.contextPath}?lang=en"/>">English</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLogout" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">person</i>
                         <p class="d-lg-none d-md-block">
                             Account
@@ -56,7 +69,12 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLogout">
-                        <a class="dropdown-item" href="javascript:void(0)">Sign off</a>
+                        <form name='logoutForm' action="<c:url value='/logout' />" method='POST'>
+                            <input type="submit" value="Log out"/>
+                            <input type="hidden" name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
+                        </form>
+                        <a class="dropdown-item" href="/logout">Sign off</a>
                     </div>
                 </li>
             </ul>

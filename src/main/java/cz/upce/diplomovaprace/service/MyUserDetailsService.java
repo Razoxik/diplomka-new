@@ -1,6 +1,7 @@
 package cz.upce.diplomovaprace.service;
 
 
+import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,12 +16,15 @@ import java.util.Arrays;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-// TY MOJE DAOCKA DAT JAKO REPOSITORY https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
+    // TY MOJE DAOCKA DAT JAKO REPOSITORY https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
     @Autowired
     private UserDao userRepository;
 
+    @Autowired
+    private SessionManager sessionManager;
+
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) { // name razox password razox
         String userName = userRepository.findUserByUsername(username).getUsername();
         String password = userRepository.findUserByUsername(username).getPassword();
         if (userName == null) {
@@ -29,6 +33,8 @@ public class MyUserDetailsService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE");
         UserDetails userDetails = (UserDetails) new User(userName,
                 password, Arrays.asList(authority));
+        sessionManager.setSessionAttribute("userId", userRepository.findUserByUsername(userName).getUserId());
+
         return userDetails;
         //  return new MyUserPrincipal(user);
     }

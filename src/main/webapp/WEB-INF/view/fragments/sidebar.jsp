@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--@elvariable id="activeTab" type="java.lang.String"--%>
 
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="/img/sidebar-2.jpg">
@@ -33,12 +34,14 @@
                     <p>History</p>
                 </a>
             </li>
+            <sec:authorize access="hasAnyAuthority('ROLsE','ROLE')">
             <li class="nav-item  <c:if test="${activeTab == 'MESSAGES'}">active</c:if>">
                 <a class="nav-link" href="/message/list">
                     <i class="material-icons">message</i>
                     <p>Messages</p>
                 </a>
             </li>
+            </sec:authorize>
             <li class="nav-item ">
                 <a class="nav-link" href="../theme/examples/icons.html">
                     <i class="material-icons">bubble_chart</i>

@@ -2,6 +2,7 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
 import cz.upce.diplomovaprace.repository.ActivityDao;
+import cz.upce.diplomovaprace.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,9 @@ public class MapController {
 
     @Autowired
     ActivityDao activityDao;
+
+    @Autowired
+    MyUserDetailsService myUserDetailsService;
 
     @GetMapping("/map")
     public ModelAndView renderMap(Map<String, Object> model) {

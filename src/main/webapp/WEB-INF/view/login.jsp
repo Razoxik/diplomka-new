@@ -1,78 +1,69 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page session="true"%>
-<html>
-<head>
-    <title>Login Page</title>
-    <style>
-        .error {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
-        }
+<%@ page contentType="text/html; charset=UTF-8" %>
 
-        .msg {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: #31708f;
-            background-color: #d9edf7;
-            border-color: #bce8f1;
-        }
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%--@elvariable id="message" type="cz.upce.diplomovaprace.entity.Message"--%>
+<%--@elvariable id="messages" type="java.util.List<ccz.upce.diplomovaprace.entity.Message>"--%>
 
-        #login-box {
-            width: 300px;
-            padding: 20px;
-            margin: 100px auto;
-            background: #fff;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border: 1px solid #000;
-        }
-    </style>
-</head>
-<body onload='document.loginForm.username.focus();'>
+<jsp:include page="fragments/header.jsp"/>
 
-<h1>Spring Security Login Form (Database Authentication)</h1>
 
-<div id="login-box">
+<body class="dark-edition">
+<div class="wrapper ">
+    <jsp:include page="fragments/sidebar.jsp"/>
 
-    <h2>Login with Username and Password</h2>
+    <div class="main-panel">
+        <jsp:include page="fragments/navbar.jsp"/>
 
-    <c:if test="${not empty error}">
-        <div class="error">${error}</div>
-    </c:if>
-    <c:if test="${not empty msg}">
-        <div class="msg">${msg}</div>
-    </c:if>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title ">Login Form</h4>
+                                <p class="card-category">Prosím přihlačte se pro lepší požitek</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <form name='loginForm'
+                                          action="<c:url value='/login' />" method='POST'>
 
-    <form name='loginForm'
-          action="<c:url value='/login' />" method='POST'>
+                                        <div class="form-group">
+                                            <label class="label-control">
+                                                User name                                            </label>
 
-        <table>
-            <tr>
-                <td>User:</td>
-                <td><input type='text' name='username'></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password' /></td>
-            </tr>
-            <tr>
-                <td colspan='2'><input name="submit" type="submit"
-                                       value="submit" /></td>
-            </tr>
-        </table>
+                                            <input type='text' class="form-control" name='username' value="razox"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label-control">
+                                                Password                                            </label>
 
-        <input type="hidden" name="${_csrf.parameterName}"
-               value="${_csrf.token}" />
+                                            <input type='password' class="form-control" name='password'
+                                                       value="razox"/>
+                                        </div>
 
-    </form>
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <input type="hidden" name="${_csrf.parameterName}"
+                                               value="${_csrf.token}"/>
+NEBO SE REGISTRUJTE ZDEEe XXXX
+                                        <p><spring:message code="test"/></p>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <jsp:include page="fragments/footer.jsp"/>
+    </div>
 </div>
-
+<jsp:include page="fragments/filterOnDaRightSide.jsp"/>
 </body>
+<jsp:include page="fragments/jsCommon.jsp"/>
+
 </html>
