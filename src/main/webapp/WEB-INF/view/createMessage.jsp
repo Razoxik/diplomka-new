@@ -17,20 +17,24 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-
+<!--https://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message -->
                         <form:form method="POST" action="send" modelAttribute="messageModel"><%----%>
                             <div class="form-group">
                                 <label for="playerNickname">Players nickname</label>
                                 <form:input path="nickname" type="text" id="playerNickname" cssClass="form-control"
                                             placeholder="nickname"
                                             value="${message.userByFromUserId.username}"
-                                            aria-describedby="playerNickname"/>
+                                            aria-describedby="playerNickname" required="true"
+                                            oninvalid="this.setCustomValidity('Username cannot be empty.')"
+                                            onchange="this.setCustomValidity('')" />
                             </div>
                             <div class="form-group">
                                 <label for="subject">Subject</label>
                                 <form:input path="subject" type="text" id="subject" cssClass="form-control"
                                             placeholder="subject placeholder"
-                                            aria-describedby="subject"/>
+                                            aria-describedby="subject" required="true"
+                                            oninvalid="this.setCustomValidity('Subject cannot be empty.')"
+                                            onchange="this.setCustomValidity('')" />
                             </div>
                             <div class="form-group">
                                 <label for="messageText">Message..</label>

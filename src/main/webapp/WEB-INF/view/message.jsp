@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
-<%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="message" type="cz.upce.diplomovaprace.entity.Message"--%>
+<%--@elvariable id="messages" type="java.util.List<ccz.upce.diplomovaprace.entity.Message>"--%>
 
 <jsp:include page="fragments/header.jsp"/>
 
@@ -44,27 +44,35 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <%--<c:forEach items="${challenges}" var="challenge" varStatus="status"> --%>
+                                         <c:forEach items="${messages}" var="message" varStatus="status">
                                         <tr>
                                             <td>
-                                                Razox
+                                                    ${message.userByFromUserId.username}
                                             </td>
                                             <td>
-                                                Pozdrav
-                                            <td>
-                                                Text zprávy kterej v dtočku musíš omezit max na 30 znaků třeba..
-                                            </td>
+                                                    ${message.subject}
+
+                                            <td >
+                                            <c:choose>
+                                                <c:when test = "${message.text.length() gt 100}">
+                                                    ${message.text.substring(0,100)}.....
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${message.text}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                             <td class="text-primary">
                                                 10. 4. 2018
                                             </td>
                                             <spring:url value="detail" var="detailUrl" htmlEscape="true">
-                                                <spring:param name="messageId" value="1"/>
+                                                <spring:param name="messageId" value="${message.messageId}"/>
                                             </spring:url>
                                             <td class=>
                                                 <a href="${detailUrl}">Zobrazit detail</a>
                                             </td>
                                         </tr>
-                                        <%--</c:forEach>--%>
+                                        </c:forEach>
 
                                         </tbody>
                                     </table>

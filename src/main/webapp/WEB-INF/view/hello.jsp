@@ -1,31 +1,60 @@
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<body>
-<h1>Title : ${title}</h1>
-<h1>Message : ${message}</h1>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%--@elvariable id="message" type="cz.upce.diplomovaprace.entity.Message"--%>
+<%--@elvariable id="messages" type="java.util.List<ccz.upce.diplomovaprace.entity.Message>"--%>
 
-<sec:authorize access="hasRole('ROLE_USER')">
-    <!-- For login user -->
-    <c:url value="/j_spring_security_logout" var="logoutUrl" />
-    <form action="${logoutUrl}" method="post" id="logoutForm">
-        <input type="hidden" name="${_csrf.parameterName}"
-               value="${_csrf.token}" />
-    </form>
-    <script>
-        function formSubmit() {
-            document.getElementById("logoutForm").submit();
-        }
-    </script>
-
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>
-            User : ${pageContext.request.userPrincipal.name} | <a
-                href="javascript:formSubmit()"> Logout</a>
-        </h2>
-    </c:if>
+<jsp:include page="fragments/header.jsp"/>
 
 
-</sec:authorize>
+<body class="dark-edition">
+<div class="wrapper ">
+    <jsp:include page="fragments/sidebar.jsp"/>
+
+    <div class="main-panel">
+        <jsp:include page="fragments/navbar.jsp"/>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title ">Mailbox</h4>
+                                <p class="card-category">Here are your messages</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <form name='loginForm'
+                                          action="<c:url value='/login' />" method='POST'>
+
+                                        <div class="form-group">
+                                            <label class="label-control">User name</label>
+                                            <input type='text' name='username'value="razox"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="label-control">Password</label>
+                                            <input type='password' name='password'  value="razox"/>
+                                        </div>
+
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <input type="hidden" name="${_csrf.parameterName}"
+                                               value="${_csrf.token}" />
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <jsp:include page="fragments/footer.jsp"/>
+    </div>
+</div>
+<jsp:include page="fragments/filterOnDaRightSide.jsp"/>
 </body>
+<jsp:include page="fragments/jsCommon.jsp"/>
+
 </html>
