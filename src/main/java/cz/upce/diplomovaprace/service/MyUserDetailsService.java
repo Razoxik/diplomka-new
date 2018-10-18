@@ -2,7 +2,7 @@ package cz.upce.diplomovaprace.service;
 
 
 import cz.upce.diplomovaprace.manager.SessionManager;
-import cz.upce.diplomovaprace.repository.UserDao;
+import cz.upce.diplomovaprace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class MyUserDetailsService implements UserDetailsService {
     // TY MOJE DAOCKA DAT JAKO REPOSITORY https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
     @Autowired
-    private UserDao userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private SessionManager sessionManager;

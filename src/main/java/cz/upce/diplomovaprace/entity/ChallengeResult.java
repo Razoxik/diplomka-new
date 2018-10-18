@@ -14,7 +14,7 @@ import java.util.Objects;
 @Table//(name = "challenge_result", schema = "leagueofchallenges", catalog = "")
 public class ChallengeResult {
     private int challengeResultId;
-    private int challengesChallengeId;
+
     private String score;
     private String description;
     private Timestamp created;
@@ -32,15 +32,7 @@ public class ChallengeResult {
         this.challengeResultId = challengeResultId;
     }
 
-    @Basic
-    @Column(name = "Challenges_challenge_id", nullable = false,insertable = false, updatable = false)
-    public int getChallengesChallengeId() {
-        return challengesChallengeId;
-    }
 
-    public void setChallengesChallengeId(int challengesChallengeId) {
-        this.challengesChallengeId = challengesChallengeId;
-    }
 
     @Basic
     @Column(name = "score", nullable = false, length = 45)
@@ -98,8 +90,7 @@ public class ChallengeResult {
         if (o == null || getClass() != o.getClass()) return false;
         ChallengeResult that = (ChallengeResult) o;
         return challengeResultId == that.challengeResultId &&
-                challengesChallengeId == that.challengesChallengeId &&
-                winnerTeamId == that.winnerTeamId &&
+                 winnerTeamId == that.winnerTeamId &&
                 Objects.equals(score, that.score) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(created, that.created) &&
@@ -109,7 +100,7 @@ public class ChallengeResult {
     @Override
     public int hashCode() {
 
-        return Objects.hash(challengeResultId, challengesChallengeId, score, description, created, winnerTeamId, draw);
+        return Objects.hash(challengeResultId , score, description, created, winnerTeamId, draw);
     }
 
     @ManyToOne

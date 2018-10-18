@@ -13,16 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
-    @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
-    public ModelAndView defaultPage() {
 
-        ModelAndView model = new ModelAndView();
-        model.addObject("title", "Spring Security Login Form - Database Authentication");
-        model.addObject("message", "This is default page!");
-        model.setViewName("hello");
-        return model;
-
-    }
 
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
     public ModelAndView adminPage() {
@@ -35,7 +26,7 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = {"/", "/login"})
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
                               @RequestParam(value = "logout", required = false) String logout) {
 
@@ -52,7 +43,17 @@ public class MainController {
         return model;
 
     }
-
+    /* Ukazka kodu kterej dela vlastne to sami co v configu springbootu tohle: .logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+    // Napsat něco o CSRF tokenech  https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+    }
+    */
     //for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {

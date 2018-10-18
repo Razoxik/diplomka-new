@@ -31,6 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).clearAuthentication(true).permitAll();
+        // SECURITY PRO H2 CONSOLI, ABY SME SE TAM DOSTALI JE NUTNY VYPNOUT CSRF PORTOZE v tom LOGIN INPUTU ZADNY csrf tokeny neposíláš žejo
+        //https://stackoverflow.com/questions/41961270/h2-console-and-spring-security-permitall-not-working
+        //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
+        http.authorizeRequests().antMatchers("/").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
+                .and()
+                .headers().frameOptions().disable()
+                .and()
+                .csrf().ignoringAntMatchers("/h2-console/**")
+                .and()
+                .cors().disable();
+        // SECURITY PRO H2 END
     }
 
     @Autowired

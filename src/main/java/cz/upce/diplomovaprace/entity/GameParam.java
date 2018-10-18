@@ -16,7 +16,7 @@ public class GameParam {
     private String name;
     private Timestamp created;
     private String value;
-    private int gameGameId;
+
     private Game gameByGameGameId;
 
     @Id
@@ -59,15 +59,6 @@ public class GameParam {
         this.value = value;
     }
 
-    @Basic
-    @Column(name = "Game_game_id", nullable = false,insertable = false, updatable = false)
-    public int getGameGameId() {
-        return gameGameId;
-    }
-
-    public void setGameGameId(int gameGameId) {
-        this.gameGameId = gameGameId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -75,8 +66,7 @@ public class GameParam {
         if (o == null || getClass() != o.getClass()) return false;
         GameParam gameParam = (GameParam) o;
         return gameParamId == gameParam.gameParamId &&
-                gameGameId == gameParam.gameGameId &&
-                Objects.equals(name, gameParam.name) &&
+                 Objects.equals(name, gameParam.name) &&
                 Objects.equals(created, gameParam.created) &&
                 Objects.equals(value, gameParam.value);
     }
@@ -84,7 +74,7 @@ public class GameParam {
     @Override
     public int hashCode() {
 
-        return Objects.hash(gameParamId, name, created, value, gameGameId);
+        return Objects.hash(gameParamId, name, created, value );
     }
 
     @ManyToOne

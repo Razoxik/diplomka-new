@@ -2,10 +2,11 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
+import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.ChallengeModel;
-import cz.upce.diplomovaprace.repository.ChallengeDao;
-import cz.upce.diplomovaprace.repository.GameDao;
-import cz.upce.diplomovaprace.repository.UserDao;
+import cz.upce.diplomovaprace.repository.ChallengeRepository;
+import cz.upce.diplomovaprace.repository.GameRepository;
+import cz.upce.diplomovaprace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,13 +28,16 @@ import java.util.Random;
 public class ChallengeController {
 
     @Autowired
-    ChallengeDao challengeDao;
+    ChallengeRepository challengeRepository;
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Autowired
-    GameDao gameDao;
+    GameRepository gameRepository;
+
+    @Autowired
+    SessionManager sessionManager;
 
     @GetMapping("/create")
     public ModelAndView renderMap(@RequestParam("latCoords") String latCoords, @RequestParam("lngCoords") String lngCoords,
@@ -41,24 +45,24 @@ public class ChallengeController {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
         challengeModel.setLatCoords(latCoords);
         challengeModel.setLngCoords(lngCoords);
-        model.put("games", gameDao.findAll());
+        model.put("games", gameRepository.findAll());
         return new ModelAndView("createChallenge", model);
     }
 
     @PostMapping("/create")
     public ModelAndView renderMaps(@ModelAttribute("challengeModel") ChallengeModel challengeModel, BindingResult bindingResult,
-                                   Map<String, Object> model) {
+                                   Map<String, Object> model) throws Exception {
         Challenge challenge = new Challenge();
         Random random = new Random();
-        challenge.setChallengeId(random.nextInt(900) + 100);
+       // challenge.setChallengeId(random.nextInt(900) + 100);
         challenge.setChallengeStart(Timestamp.valueOf("1992-04-10 10:10:11"));
         challenge.setChallengeEnd(Timestamp.valueOf("1992-04-10 10:10:11"));
         challenge.setCoordsLat(challengeModel.getLatCoords());
         challenge.setCoordsLng(challengeModel.getLngCoords());
-        challenge.setUserByChallengerUserId(userDao.findById(1).get());
-        challenge.setUserByOponnentUserId(userDao.findById(1).get());
+        challenge.setUserByChallengerUserId(userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new));
+        challenge.setGameByGameGameId(gameRepository.findById(challengeModel.getGameId()).orElseThrow(Exception::new));
         challenge.setText("asd");
-        challengeDao.save(challenge);
+        challengeRepository.save(challenge);
         return new ModelAndView("redirect:/map", model);
     }
 }

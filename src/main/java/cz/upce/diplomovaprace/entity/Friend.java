@@ -13,8 +13,7 @@ import java.util.Objects;
 public class Friend {
     private int friendId;
     private Timestamp created;
-    private int userFriendId;
-    private int userId;
+
     private User userByUserFriendId;
     private User userByUserId;
 
@@ -38,25 +37,7 @@ public class Friend {
         this.created = created;
     }
 
-    @Basic
-    @Column(name = "user_friend_id", nullable = false,insertable = false, updatable = false)
-    public int getUserFriendId() {
-        return userFriendId;
-    }
 
-    public void setUserFriendId(int userFriendId) {
-        this.userFriendId = userFriendId;
-    }
-
-    @Basic
-    @Column(name = "user_id", nullable = false,insertable = false, updatable = false)
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -64,15 +45,13 @@ public class Friend {
         if (o == null || getClass() != o.getClass()) return false;
         Friend friend = (Friend) o;
         return friendId == friend.friendId &&
-                userFriendId == friend.userFriendId &&
-                userId == friend.userId &&
-                Objects.equals(created, friend.created);
+                 Objects.equals(created, friend.created);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(friendId, created, userFriendId, userId);
+        return Objects.hash(friendId, created  );
     }
 
     @ManyToOne

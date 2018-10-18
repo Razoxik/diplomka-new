@@ -1,11 +1,12 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.entity.Message;
+import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
 import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.MessageModel;
-import cz.upce.diplomovaprace.repository.MessageDao;
-import cz.upce.diplomovaprace.repository.UserDao;
+import cz.upce.diplomovaprace.repository.MessageRepository;
+import cz.upce.diplomovaprace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -33,23 +34,24 @@ public class MessageController {
     SessionManager sessionManager;
 
     @Autowired
-    MessageDao messageDao;
+    MessageRepository messageRepository;
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('ROLE')")
-    public ModelAndView messageList(Map<String, Object> model) {
+    public ModelAndView messageList(Map<String, Object> model) throws Exception {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MESSAGES);
-        model.put("messages", messageDao.findMessagesByToUserId(sessionManager.getUserId()));
+        User user =  userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
+        model.put("messages", messageRepository.findMessagesByUserByToUserId(user));
         return new ModelAndView("message", model);
     }
 
     @GetMapping("/detail")
     public ModelAndView messageDetail(@RequestParam(MESSAGE_ID_PARAM) Integer messageId, Map<String, Object> model) {
-        model.put("message", messageDao.findById(messageId));
+        model.put("message", messageRepository.findById(messageId));
         return new ModelAndView("messageDetail", model);
     }
 
@@ -57,7 +59,7 @@ public class MessageController {
     public ModelAndView messageReply(@RequestParam(MESSAGE_ID_PARAM) Integer messageId,
                                      @ModelAttribute(MESSAGE_MODEL) MessageModel messageModel, BindingResult bindingResult,
                                      Map<String, Object> model) throws Exception {
-        model.put("message", messageDao.findById(messageId).orElseThrow(Exception::new));
+        model.put("message", messageRepository.findById(messageId).orElseThrow(Exception::new));
         return new ModelAndView("createMessage", model);
     }
 
@@ -71,12 +73,12 @@ public class MessageController {
     private void createMessageFromModel(MessageModel messageModel) throws Exception {
         Message m = new Message();
         m.setCreated(new Timestamp(2));
-        m.setFromUserId(sessionManager.getUserId());
-        m.setUserByFromUserId(userDao.findById(sessionManager.getUserId()).orElse(null));
-        m.setToUserId(userDao.findUserByUsername(messageModel.getNickname()).getUserId());
-        m.setUserByToUserId(userDao.findUserByUsername(messageModel.getNickname()));
+       // m.setFromUserId(sessionManager.getUserId());
+        m.setUserByFromUserId(userRepository.findById(sessionManager.getUserId()).orElse(null));
+       // m.setToUserId(userRepository.findUserByUsername(messageModel.getNickname()).getUserId());
+        m.setUserByToUserId(userRepository.findUserByUsername(messageModel.getNickname()));
         m.setSubject(messageModel.getSubject());
         m.setText(messageModel.getText());
-        messageDao.save(m);
+        messageRepository.save(m);
     }
 }

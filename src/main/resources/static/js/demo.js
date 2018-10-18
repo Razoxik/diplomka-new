@@ -182,9 +182,9 @@ demo = {
                     var linkText = document.createTextNode("CREATE CHALLENGE");
                     a.appendChild(linkText);
                     a.style.color = "black";
-                    a.href = "/challenge/create?latCoords=" + latitude + "&lngCoords=" + longitude ;
+                    a.href = "/challenge/create?latCoords=" + latitude + "&lngCoords=" + longitude;
                     document.body.appendChild(a);
-                   // const createChallengeLink = "<b><a href='/challenge/create?latCoords='  style='color:black'>VYTVOŘIT VÝZVU</a></b>";
+                    // const createChallengeLink = "<b><a href='/challenge/create?latCoords='  style='color:black'>VYTVOŘIT VÝZVU</a></b>";
                     createChallengeWindow.setContent(a);
                     createChallengeWindow.setPosition({lat: latitude, lng: longitude});
                     createChallengeWindow.open(map);
@@ -216,14 +216,14 @@ demo = {
                 for (let i = 0; i < challenges.length; i++) {
                     // game icon
                     var icon = {
-                        url: "/img/activities/football.png",//+ challenges[i][9] + ".png", // url
+                        url: "/img/activities/" + challenges[i][9] + ".png",//+ challenges[i][9] + ".png", // url
                         scaledSize: new google.maps.Size(50, 50), // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(0, 0) // anchor
                     };
 
                     marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(challenges[i][2], challenges[i][3]),
+                        position: new google.maps.LatLng(challenges[i][0], challenges[i][1]),
                         map: map,
                         icon: icon
                     });
@@ -231,12 +231,14 @@ demo = {
                     // Vyskakovaci okno vyzvy(markeru), kdyz na ni klikneme.
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                         return function () {
-                            var linkToChallenge = "linkToChallenge";//<b><a href='/user/challengeDetail?challengeId=" + challenges[i][8] + "'><spring:message code="map.linkToChallenge"/></a></b>";
+                            const linkToChallenge = "linkToChallenge";//<b><a href='/user/challengeDetail?challengeId=" + challenges[i][8] + "'><spring:message code="map.linkToChallenge"/></a></b>";
                             infowindow.setContent(
-                                '<b><spring:message code="map.team"/></b> ' + challenges[i][0] + "<br/>" +
-                                //       '<b><spring:message code="map.startTime"/></b> ' + challenges[i][2] + "<br/>" +
-                                '<b><spring:message code="map.endTime"/></b> ' + challenges[i][3] + "<br/>" +
-                                challenges[i][1] + "<br/>" + linkToChallenge
+                                challenges[i][2] + "<br/>" +
+                                challenges[i][3] + "<br/>" +
+                                challenges[i][4] + "<br/>" +
+                                challenges[i][5] + "<br/>" +
+                                challenges[i][6] + "<br/>" + "<br/>" +
+                                '<a style="color:black" href=/challengeDetail?challengeId=' + challenges[i][8] + '>' + challenges[i][7] + '</a>'
                             );
                             infowindow.open(map, marker);
                         }

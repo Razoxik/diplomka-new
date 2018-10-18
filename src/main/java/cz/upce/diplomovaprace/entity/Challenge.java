@@ -3,6 +3,8 @@ package cz.upce.diplomovaprace.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,10 +21,6 @@ public class Challenge {
     private String text;
     private String coordsLat;
     private String coordsLng;
-    @Column(insertable = false, updatable = false)
-    private int gameGameId;
-    private int challengerUserId;
-    private int oponnentUserId;
     private String password;
     @Column(insertable = false, updatable = false)
     private Game gameByGameGameId;
@@ -31,6 +29,7 @@ public class Challenge {
     private Collection<ChallengeResult> challengeResultsByChallengeId;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "challenge_id", nullable = false)
     public int getChallengeId() {
         return challengeId;
@@ -90,38 +89,10 @@ public class Challenge {
         this.coordsLng = coordsLng;
     }
 
-    @Basic
-    @Column(name = "Game_game_id", nullable = false,insertable = false, updatable = false)
-    public int getGameGameId() {
-        return gameGameId;
-    }
 
-    public void setGameGameId(int gameGameId) {
-        this.gameGameId = gameGameId;
-    }
 
     @Basic
-    @Column(name = "challenger_user_id", nullable = false,insertable = false, updatable = false)
-    public int getChallengerUserId() {
-        return challengerUserId;
-    }
-
-    public void setChallengerUserId(int challengerUserId) {
-        this.challengerUserId = challengerUserId;
-    }
-
-    @Basic
-    @Column(name = "oponnent_user_id", nullable = false,insertable = false, updatable = false)
-    public int getOponnentUserId() {
-        return oponnentUserId;
-    }
-
-    public void setOponnentUserId(int oponnentUserId) {
-        this.oponnentUserId = oponnentUserId;
-    }
-
-    @Basic
-    @Column(name = "password", nullable = true, length = 45)
+    @Column(name = "password", length = 45)
     public String getPassword() {
         return password;
     }
@@ -136,9 +107,7 @@ public class Challenge {
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
         return challengeId == challenge.challengeId &&
-                gameGameId == challenge.gameGameId &&
-                challengerUserId == challenge.challengerUserId &&
-                oponnentUserId == challenge.oponnentUserId &&
+
                 Objects.equals(challengeStart, challenge.challengeStart) &&
                 Objects.equals(challengeEnd, challenge.challengeEnd) &&
                 Objects.equals(text, challenge.text) &&
@@ -150,7 +119,7 @@ public class Challenge {
     @Override
     public int hashCode() {
 
-        return Objects.hash(challengeId, challengeStart, challengeEnd, text, coordsLat, coordsLng, gameGameId, challengerUserId, oponnentUserId, password);
+        return Objects.hash(challengeId, challengeStart, challengeEnd, text, coordsLat, coordsLng,      password);
     }
 
     @ManyToOne
@@ -174,7 +143,7 @@ public class Challenge {
     }
 
     @ManyToOne
-    @JoinColumn(name = "oponnent_user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "oponnent_user_id", referencedColumnName = "user_id")
     public User getUserByOponnentUserId() {
         return userByOponnentUserId;
     }
@@ -192,3 +161,10 @@ public class Challenge {
         this.challengeResultsByChallengeId = challengeResultsByChallengeId;
     }
 }
+
+/*
+You shouldn't reference other entities by their ID, but by a direct reference to the entity.
+ Remove the customerId field, it's useless. And do the same for productId. If you want the customer ID of a sale, you just need to do this:
+ sale.getCustomer().getId()
+https://stackoverflow.com/questions/15076463/another-repeated-column-in-mapping-for-entity-error/15076546
+ */

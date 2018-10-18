@@ -17,8 +17,8 @@ public class Message {
     private Timestamp created;
     private String text;
     private String subject;
-    private int fromUserId;
-    private int toUserId;
+
+
     private User userByFromUserId;
     private User userByToUserId;
 
@@ -44,7 +44,7 @@ public class Message {
     }
 
     @Basic
-    @Column(name = "text", nullable = false, length = 200)
+    @Column(name = "text", nullable = false, length = 500)
     public String getText() {
         return text;
     }
@@ -63,25 +63,6 @@ public class Message {
         this.subject = subject;
     }
 
-    @Basic
-    @Column(name = "from_user_id", nullable = false,insertable = false, updatable = false)
-    public int getFromUserId() {
-        return fromUserId;
-    }
-
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
-    }
-
-    @Basic
-    @Column(name = "to_user_id", nullable = false,insertable = false, updatable = false)
-    public int getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(int toUserId) {
-        this.toUserId = toUserId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -89,8 +70,7 @@ public class Message {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
         return messageId == message.messageId &&
-                fromUserId == message.fromUserId &&
-                toUserId == message.toUserId &&
+
                 Objects.equals(created, message.created) &&
                 Objects.equals(text, message.text) &&
                 Objects.equals(subject, message.subject);
@@ -99,7 +79,7 @@ public class Message {
     @Override
     public int hashCode() {
 
-        return Objects.hash(messageId, created, text, subject, fromUserId, toUserId);
+        return Objects.hash(messageId, created, text, subject );
     }
 
     @ManyToOne

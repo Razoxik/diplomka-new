@@ -10,13 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.util.Locale;
+
 @Configuration
 public class LocalizationConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-//      sessionLocaleResolver.setDefaultLocale(new Locale("cz"));
+       sessionLocaleResolver.setDefaultLocale(new Locale("cz"));
         return sessionLocaleResolver;
     }
 
@@ -37,6 +39,7 @@ public class LocalizationConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(10); //reload messages every 10 seconds
         return messageSource;
     }

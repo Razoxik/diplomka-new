@@ -15,8 +15,7 @@ public class Report {
     private Timestamp created;
     private String reason;
     private String reasonText;
-    private int reportingUserId;
-    private int reportedUserId;
+
     private User userByReportingUserId;
     private User userByReportedUserId;
 
@@ -60,25 +59,6 @@ public class Report {
         this.reasonText = reasonText;
     }
 
-    @Basic
-    @Column(name = "reporting_user_id", nullable = false,insertable = false, updatable = false)
-    public int getReportingUserId() {
-        return reportingUserId;
-    }
-
-    public void setReportingUserId(int reportingUserId) {
-        this.reportingUserId = reportingUserId;
-    }
-
-    @Basic
-    @Column(name = "reported_user_id", nullable = false,insertable = false, updatable = false)
-    public int getReportedUserId() {
-        return reportedUserId;
-    }
-
-    public void setReportedUserId(int reportedUserId) {
-        this.reportedUserId = reportedUserId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -86,9 +66,7 @@ public class Report {
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
         return reportId == report.reportId &&
-                reportingUserId == report.reportingUserId &&
-                reportedUserId == report.reportedUserId &&
-                Objects.equals(created, report.created) &&
+              Objects.equals(created, report.created) &&
                 Objects.equals(reason, report.reason) &&
                 Objects.equals(reasonText, report.reasonText);
     }
@@ -96,7 +74,7 @@ public class Report {
     @Override
     public int hashCode() {
 
-        return Objects.hash(reportId, created, reason, reasonText, reportingUserId, reportedUserId);
+        return Objects.hash(reportId, created, reason, reasonText );
     }
 
     @ManyToOne

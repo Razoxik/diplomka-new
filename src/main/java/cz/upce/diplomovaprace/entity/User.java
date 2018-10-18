@@ -21,8 +21,7 @@ public class User {
     private String email;
     private String password;
     private Timestamp lastLogin;
-    private int avatarsAvatarId;
-    private int roleRoleId;
+
     private Collection<Challenge> challengesByUserId;
     private Collection<Challenge> challengesByUserId_0;
     private Collection<Friend> friendsByUserId;
@@ -115,25 +114,7 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    @Basic
-    @Column(name = "Avatars_avatar_id", nullable = false,insertable = false, updatable = false)
-    public int getAvatarsAvatarId() {
-        return avatarsAvatarId;
-    }
 
-    public void setAvatarsAvatarId(int avatarsAvatarId) {
-        this.avatarsAvatarId = avatarsAvatarId;
-    }
-
-    @Basic
-    @Column(name = "Role_role_id", nullable = false,insertable = false, updatable = false)
-    public int getRoleRoleId() {
-        return roleRoleId;
-    }
-
-    public void setRoleRoleId(int roleRoleId) {
-        this.roleRoleId = roleRoleId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -141,9 +122,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return userId == user.userId &&
-                avatarsAvatarId == user.avatarsAvatarId &&
-                roleRoleId == user.roleRoleId &&
-                Objects.equals(created, user.created) &&
+                 Objects.equals(created, user.created) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(username, user.username) &&
@@ -155,7 +134,7 @@ public class User {
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId, created, firstName, lastName, username, email, password, lastLogin, avatarsAvatarId, roleRoleId);
+        return Objects.hash(userId, created, firstName, lastName, username, email, password, lastLogin    );
     }
 
     @OneToMany(mappedBy = "userByChallengerUserId")

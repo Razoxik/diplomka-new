@@ -15,7 +15,7 @@
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="/js/material-dashboard.js?v=2.1.0"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="/js/demo.js"></script>
+<script type="text/javascript" charset="UTF-8"  src="/js/demo.js"></script>
 <script>
     $(document).ready(function () {
         $().ready(function () {

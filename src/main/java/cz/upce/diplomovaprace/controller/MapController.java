@@ -1,7 +1,8 @@
 package cz.upce.diplomovaprace.controller;
 
+import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
-import cz.upce.diplomovaprace.repository.ActivityDao;
+import cz.upce.diplomovaprace.repository.ChallengeRepository;
 import cz.upce.diplomovaprace.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,15 +17,16 @@ import java.util.Map;
 public class MapController {
 
     @Autowired
-    ActivityDao activityDao;
+    ChallengeRepository challengeRepository;
 
     @Autowired
     MyUserDetailsService myUserDetailsService;
 
     @GetMapping("/map")
     public ModelAndView renderMap(Map<String, Object> model) {
-        model.put("activities", activityDao.findAll());
+        model.put("challenges", challengeRepository.findAll());
         model.put("activeTab", ActiveTabConstants.MAP);
+        Challenge c = challengeRepository.findById(1).get();
         return new ModelAndView("map", model);
     }
 }

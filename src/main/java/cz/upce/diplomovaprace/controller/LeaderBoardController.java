@@ -2,7 +2,7 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
 import cz.upce.diplomovaprace.model.ChallengeModel;
-import cz.upce.diplomovaprace.repository.GameDao;
+import cz.upce.diplomovaprace.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +16,12 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class LeaderBoardController {
     @Autowired
-    GameDao gameDao;
+    GameRepository gameRepository;
 
     @GetMapping("/leaderBoard")
     public ModelAndView renderMap(@ModelAttribute("challengeModel") ChallengeModel challengeModel, Map<String, Object> model) {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.LEADERBOARD);
-        model.put("games", gameDao.findAll());
+        model.put("games", gameRepository.findAll());
         return new ModelAndView("leaderBoard", model);
     }
 }
