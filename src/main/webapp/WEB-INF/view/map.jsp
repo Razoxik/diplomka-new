@@ -4,7 +4,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
-<%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="challenges" type="java.util.List<cz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="challengesDto" type="java.util.List<cz.upce.diplomovaprace.dto.ChallengeDto>"--%>
+<%--@elvariable id="challengeDto" type="cz.upce.diplomovaprace.dto.ChallengeDto"--%>
+
 <%--@elvariable id="r" type="cz.upce.diplomovaprace.entity.Rating"--%>
 
 <jsp:include page="fragments/header.jsp"/>
@@ -21,21 +24,24 @@
 
 </div>
 <%--<jsp:include page="fragments/filterOnDaRightSide.jsp"/> UDELAT Z CHALLENGES MAPU<<--%>
+<%--${challenge.challengeResultsById.stream().filter(challengeResult -> challengeResult.getChallengeByChallengeId().getId()==challenge.id).findFirst().orElse(null).userByUserId.ratingsById.stream().filter(rating -> rating.getGameByGameId().getId()==challenge.gameByGameId.id).findFirst().orElse(null).rating}
+--%>
 <jsp:include page="fragments/jsCommon.jsp"/>
 <script>
     var challenges = [
-        <c:forEach items="${challenges}" var="challenge" varStatus="status">
+        <c:forEach items="${challengesDto}" var="challengeDto" varStatus="status">
         [
-            '${challenge.coordsLat}', // Name - [i][0]
-            '${challenge.coordsLng}', // Name - [i][0]
-            '<b><spring:message code="map.challenge.game"/></b> ${challenge.gameByGameGameId.gameName}', // Name - [i][0]
-            '<b><spring:message code="map.challenge.challengerName"/></b> ${challenge.userByChallengerUserId.username}', // Name - [i][0]
-            '<b><spring:message code="map.challenge.rating"/></b> ${challenge.userByChallengerUserId.ratingsByUserId.stream().filter(r -> r.gameByGameGameId.gameId==challenge.gameByGameGameId.gameId).findFirst().orElse(null).rating}', // Name - [i][0]
-            '<b><spring:message code="map.challenge.start"/></b> ${challenge.challengeStart}', // Name - [i][0]
-            '<b><spring:message code="map.challenge.end"/></b> ${challenge.challengeEnd}',
+            '${challengeDto.challenge.coordsLat}', // Name - [i][0]
+            '${challengeDto.challenge.coordsLng}', // Name - [i][0]
+            '<b><spring:message code="map.challenge.game"/></b> <spring:message code="global.game.${challengeDto.game.name}"/>', // Name - [i][0]
+            '<b><spring:message code="map.challenge.challengerName"/></b>  ${challengeDto.host.userName}', // Name - [i][0]
+            '<b><spring:message code="map.challenge.rating"/></b> ${challengeDto.rating}', // Name - [i][0]
+            '<b><spring:message code="map.challenge.start"/></b> ${challengeDto.start}', // Name - [i][0]
+            '<b><spring:message code="map.challenge.end"/></b> ${challengeDto.end}',
+            '<b><spring:message code="map.challenge.players"/></b> ${challengeDto.listOfPlayers.size()} / ${challengeDto.maxPlayers}',
             '<b><spring:message code="map.challenge.challengeDetail"/></b>',
-            '${challenge.challengeId}',
-            '${challenge.gameByGameGameId.gameName}',
+            '${challengeDto.challenge.id}',
+            '${challengeDto.game.name}',
         ]
         <c:if test="${!status.last}">
         ,

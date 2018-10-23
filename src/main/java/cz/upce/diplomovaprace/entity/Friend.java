@@ -11,20 +11,19 @@ import java.util.Objects;
 
 @Entity
 public class Friend {
-    private int friendId;
+    private Integer id;
     private Timestamp created;
-
-    private User userByUserFriendId;
-    private User userByUserId;
+    private User userByFromUserId;
+    private User userByToUserId;
 
     @Id
-    @Column(name = "friend_id", nullable = false)
-    public int getFriendId() {
-        return friendId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setFriendId(int friendId) {
-        this.friendId = friendId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
@@ -37,40 +36,39 @@ public class Friend {
         this.created = created;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Friend friend = (Friend) o;
-        return friendId == friend.friendId &&
-                 Objects.equals(created, friend.created);
+        return Objects.equals(id, friend.id) &&
+
+                Objects.equals(created, friend.created);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(friendId, created  );
+        return Objects.hash(id, created);
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_friend_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByUserFriendId() {
-        return userByUserFriendId;
+    @JoinColumn(name = "fromUserId", referencedColumnName = "id", nullable = false)
+    public User getUserByFromUserId() {
+        return userByFromUserId;
     }
 
-    public void setUserByUserFriendId(User userByUserFriendId) {
-        this.userByUserFriendId = userByUserFriendId;
+    public void setUserByFromUserId(User userByFromUserId) {
+        this.userByFromUserId = userByFromUserId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByUserId() {
-        return userByUserId;
+    @JoinColumn(name = "toUserId", referencedColumnName = "id", nullable = false)
+    public User getUserByToUserId() {
+        return userByToUserId;
     }
 
-    public void setUserByUserId(User userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUserByToUserId(User userByToUserId) {
+        this.userByToUserId = userByToUserId;
     }
 }

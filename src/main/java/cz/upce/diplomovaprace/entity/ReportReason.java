@@ -9,10 +9,10 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Role {
+public class ReportReason {
     private Integer id;
-    private String role;
-    private Collection<User> usersById;
+    private String reason;
+    private Collection<Report> reportsById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -25,36 +25,36 @@ public class Role {
     }
 
     @Basic
-    @Column(name = "role", nullable = false, length = 45)
-    public String getRole() {
-        return role;
+    @Column(name = "reason", nullable = false, length = 45)
+    public String getReason() {
+        return reason;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role1 = (Role) o;
-        return Objects.equals(id, role1.id) &&
-                Objects.equals(role, role1.role);
+        ReportReason that = (ReportReason) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(reason, that.reason);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, role);
+        return Objects.hash(id, reason);
     }
 
-    @OneToMany(mappedBy = "roleByRoleId")
-    public Collection<User> getUsersById() {
-        return usersById;
+    @OneToMany(mappedBy = "reportReasonByReportReasonId")
+    public Collection<Report> getReportsById() {
+        return reportsById;
     }
 
-    public void setUsersById(Collection<User> usersById) {
-        this.usersById = usersById;
+    public void setReportsById(Collection<Report> reportsById) {
+        this.reportsById = reportsById;
     }
 }

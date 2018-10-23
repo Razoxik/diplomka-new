@@ -3,59 +3,39 @@ package cz.upce.diplomovaprace.entity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table//(name = "challenge_result", schema = "leagueofchallenges", catalog = "")
 public class ChallengeResult {
-    private int challengeResultId;
-
-    private String score;
-    private String description;
+    private Integer id;
     private Timestamp created;
-    private int winnerTeamId;
-    private Byte draw;
-    private Challenge challengeByChallengesChallengeId;
+    private Integer scoreWinner;
+    private Integer scoreDefeated;
+    private String description;
+    private Challenge challengeByChallengeId;
+    private User userByUserId;
+    private ResultState resultStateByResultStateId;
 
     @Id
-    @Column(name = "challenge_result_id", nullable = false)
-    public int getChallengeResultId() {
-        return challengeResultId;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    public Integer getId() {
+        return id;
     }
 
-    public void setChallengeResultId(int challengeResultId) {
-        this.challengeResultId = challengeResultId;
+    public void setId(Integer id) {
+        this.id = id;
     }
-
 
 
     @Basic
-    @Column(name = "score", nullable = false, length = 45)
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    @Basic
-    @Column(name = "description", nullable = true, length = 45)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column(name = "created", nullable = true)
+    @Column(name = "created", nullable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -65,23 +45,33 @@ public class ChallengeResult {
     }
 
     @Basic
-    @Column(name = "winner_team_id", nullable = false,insertable = false, updatable = false)
-    public int getWinnerTeamId() {
-        return winnerTeamId;
+    @Column(name = "scoreWinner", nullable = true)
+    public Integer getScoreWinner() {
+        return scoreWinner;
     }
 
-    public void setWinnerTeamId(int winnerTeamId) {
-        this.winnerTeamId = winnerTeamId;
+    public void setScoreWinner(Integer scoreWinner) {
+        this.scoreWinner = scoreWinner;
     }
 
     @Basic
-    @Column(name = "draw", nullable = true)
-    public Byte getDraw() {
-        return draw;
+    @Column(name = "scoreDefeated", nullable = true)
+    public Integer getScoreDefeated() {
+        return scoreDefeated;
     }
 
-    public void setDraw(Byte draw) {
-        this.draw = draw;
+    public void setScoreDefeated(Integer scoreDefeated) {
+        this.scoreDefeated = scoreDefeated;
+    }
+
+    @Basic
+    @Column(name = "description", nullable = true, length = 255)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -89,27 +79,47 @@ public class ChallengeResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChallengeResult that = (ChallengeResult) o;
-        return challengeResultId == that.challengeResultId &&
-                 winnerTeamId == that.winnerTeamId &&
-                Objects.equals(score, that.score) &&
-                Objects.equals(description, that.description) &&
+        return Objects.equals(id, that.id) &&
+
                 Objects.equals(created, that.created) &&
-                Objects.equals(draw, that.draw);
+                Objects.equals(scoreWinner, that.scoreWinner) &&
+                Objects.equals(scoreDefeated, that.scoreDefeated) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(challengeResultId , score, description, created, winnerTeamId, draw);
+        return Objects.hash(id,  created, scoreWinner, scoreDefeated, description);
     }
 
     @ManyToOne
-    @JoinColumn(name = "Challenges_challenge_id", referencedColumnName = "challenge_id", nullable = false)
-    public Challenge getChallengeByChallengesChallengeId() {
-        return challengeByChallengesChallengeId;
+    @JoinColumn(name = "challengeId", referencedColumnName = "id", nullable = false)
+    public Challenge getChallengeByChallengeId() {
+        return challengeByChallengeId;
     }
 
-    public void setChallengeByChallengesChallengeId(Challenge challengeByChallengesChallengeId) {
-        this.challengeByChallengesChallengeId = challengeByChallengesChallengeId;
+    public void setChallengeByChallengeId(Challenge challengeByChallengeId) {
+        this.challengeByChallengeId = challengeByChallengeId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    public User getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "resultStateId", referencedColumnName = "id", nullable = false)
+    public ResultState getResultStateByResultStateId() {
+        return resultStateByResultStateId;
+    }
+
+    public void setResultStateByResultStateId(ResultState resultStateByResultStateId) {
+        this.resultStateByResultStateId = resultStateByResultStateId;
     }
 }

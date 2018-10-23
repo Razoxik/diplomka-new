@@ -5,46 +5,58 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Game {
-    private int gameId;
-    private String gameName;
-    private String gameDescription;
-    private Collection<Challenge> challengesByGameId;
-    private Collection<GameParam> gameParamsByGameId;
-    private Collection<Rating> ratingsByGameId;
+    private Integer id;
+    private Timestamp created;
+    private String name;
+    private String description;
+    private Collection<Challenge> challengesById;
+    private Collection<GameParam> gameParamsById;
+    private Collection<Rating> ratingsById;
 
     @Id
-    @Column(name = "game_id", nullable = false)
-    public int getGameId() {
-        return gameId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
-    @Basic
-    @Column(name = "game_name", nullable = false, length = 45)
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
-    @Column(name = "game_description", nullable = false, length = 100)
-    public String getGameDescription() {
-        return gameDescription;
+    @Column(name = "created", nullable = false)
+    public Timestamp getCreated() {
+        return created;
     }
 
-    public void setGameDescription(String gameDescription) {
-        this.gameDescription = gameDescription;
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    @Basic
+    @Column(name = "name", nullable = false, length = 45)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "description", nullable = true, length = 255)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -52,41 +64,42 @@ public class Game {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return gameId == game.gameId &&
-                Objects.equals(gameName, game.gameName) &&
-                Objects.equals(gameDescription, game.gameDescription);
+        return Objects.equals(id, game.id) &&
+                Objects.equals(created, game.created) &&
+                Objects.equals(name, game.name) &&
+                Objects.equals(description, game.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(gameId, gameName, gameDescription);
+        return Objects.hash(id, created, name, description);
     }
 
-    @OneToMany(mappedBy = "gameByGameGameId")
-    public Collection<Challenge> getChallengesByGameId() {
-        return challengesByGameId;
+    @OneToMany(mappedBy = "gameByGameId")
+    public Collection<Challenge> getChallengesById() {
+        return challengesById;
     }
 
-    public void setChallengesByGameId(Collection<Challenge> challengesByGameId) {
-        this.challengesByGameId = challengesByGameId;
+    public void setChallengesById(Collection<Challenge> challengesById) {
+        this.challengesById = challengesById;
     }
 
-    @OneToMany(mappedBy = "gameByGameGameId")
-    public Collection<GameParam> getGameParamsByGameId() {
-        return gameParamsByGameId;
+    @OneToMany(mappedBy = "gameByGameId")
+    public Collection<GameParam> getGameParamsById() {
+        return gameParamsById;
     }
 
-    public void setGameParamsByGameId(Collection<GameParam> gameParamsByGameId) {
-        this.gameParamsByGameId = gameParamsByGameId;
+    public void setGameParamsById(Collection<GameParam> gameParamsById) {
+        this.gameParamsById = gameParamsById;
     }
 
-    @OneToMany(mappedBy = "gameByGameGameId")
-    public Collection<Rating> getRatingsByGameId() {
-        return ratingsByGameId;
+    @OneToMany(mappedBy = "gameByGameId")
+    public Collection<Rating> getRatingsById() {
+        return ratingsById;
     }
 
-    public void setRatingsByGameId(Collection<Rating> ratingsByGameId) {
-        this.ratingsByGameId = ratingsByGameId;
+    public void setRatingsById(Collection<Rating> ratingsById) {
+        this.ratingsById = ratingsById;
     }
 }

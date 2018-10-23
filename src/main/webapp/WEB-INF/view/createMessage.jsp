@@ -23,7 +23,7 @@
                                 <label for="playerNickname">Players nickname</label>
                                 <form:input path="nickname" type="text" id="playerNickname" cssClass="form-control"
                                             placeholder="nickname"
-                                            value="${message.userByFromUserId.username}"
+                                            value="${message.userByFromUserId.userName}"
                                             aria-describedby="playerNickname" required="true"
                                             oninvalid="this.setCustomValidity('Username cannot be empty.')"
                                             onchange="this.setCustomValidity('')" />

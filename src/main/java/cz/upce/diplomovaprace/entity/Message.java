@@ -13,24 +13,22 @@ import java.util.Objects;
 
 @Entity
 public class Message {
-    private int messageId;
+    private Integer id;
     private Timestamp created;
-    private String text;
     private String subject;
-
-
+    private String text;
     private User userByFromUserId;
     private User userByToUserId;
 
     @Id
-    @Column(name = "message_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getMessageId() {
-        return messageId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
@@ -44,16 +42,6 @@ public class Message {
     }
 
     @Basic
-    @Column(name = "text", nullable = false, length = 500)
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @Basic
     @Column(name = "subject", nullable = false, length = 45)
     public String getSubject() {
         return subject;
@@ -63,27 +51,36 @@ public class Message {
         this.subject = subject;
     }
 
+    @Basic
+    @Column(name = "text", nullable = true, length = 255)
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return messageId == message.messageId &&
+        return Objects.equals(id, message.id) &&
 
                 Objects.equals(created, message.created) &&
-                Objects.equals(text, message.text) &&
-                Objects.equals(subject, message.subject);
+                Objects.equals(subject, message.subject) &&
+                Objects.equals(text, message.text);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(messageId, created, text, subject );
+        return Objects.hash(id, created, subject, text);
     }
 
     @ManyToOne
-    @JoinColumn(name = "from_user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "fromUserId", referencedColumnName = "id", nullable = false)
     public User getUserByFromUserId() {
         return userByFromUserId;
     }
@@ -93,7 +90,7 @@ public class Message {
     }
 
     @ManyToOne
-    @JoinColumn(name = "to_user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "toUserId", referencedColumnName = "id", nullable = false)
     public User getUserByToUserId() {
         return userByToUserId;
     }

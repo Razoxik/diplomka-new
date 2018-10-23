@@ -58,7 +58,7 @@
 
                                 <form:select path="gameId" cssClass="form-control selectpicker" id="exampleFormControlSelect1">
                                     <c:forEach items="${games}" var="game" varStatus="status">
-                                        <form:option value="${game.gameId}" cssStyle="color:black">${game.gameName}</form:option>
+                                        <form:option value="${game.id}" cssStyle="color:black">${game.name}</form:option>
                                     </c:forEach>
                                 </form:select>
                             </div>

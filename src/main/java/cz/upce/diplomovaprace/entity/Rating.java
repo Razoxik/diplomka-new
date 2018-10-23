@@ -6,28 +6,41 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Rating {
-    private int ratingId;
-    private Integer rating;
+    private Integer id;
 
-    private User userByUserUserId;
-    private Game gameByGameGameId;
+    private Timestamp created;
+    private Integer rating;
+    private User userByUserId;
+    private Game gameByGameId;
 
     @Id
-    @Column(name = "rating_id", nullable = false)
-    public int getRatingId() {
-        return ratingId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setRatingId(int ratingId) {
-        this.ratingId = ratingId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+
+    @Basic
+    @Column(name = "created", nullable = false)
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     @Basic
-    @Column(name = "rating", nullable = true)
+    @Column(name = "rating", nullable = false)
     public Integer getRating() {
         return rating;
     }
@@ -36,41 +49,40 @@ public class Rating {
         this.rating = rating;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rating rating1 = (Rating) o;
-        return ratingId == rating1.ratingId &&
+        return Objects.equals(id, rating1.id) &&
 
+                Objects.equals(created, rating1.created) &&
                 Objects.equals(rating, rating1.rating);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(ratingId, rating );
+        return Objects.hash(id, created, rating);
     }
 
     @ManyToOne
-    @JoinColumn(name = "User_user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByUserUserId() {
-        return userByUserUserId;
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    public User getUserByUserId() {
+        return userByUserId;
     }
 
-    public void setUserByUserUserId(User userByUserUserId) {
-        this.userByUserUserId = userByUserUserId;
+    public void setUserByUserId(User userByUserId) {
+        this.userByUserId = userByUserId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Game_game_id", referencedColumnName = "game_id", nullable = false)
-    public Game getGameByGameGameId() {
-        return gameByGameGameId;
+    @JoinColumn(name = "gameId", referencedColumnName = "id", nullable = false)
+    public Game getGameByGameId() {
+        return gameByGameId;
     }
 
-    public void setGameByGameGameId(Game gameByGameGameId) {
-        this.gameByGameGameId = gameByGameGameId;
+    public void setGameByGameId(Game gameByGameId) {
+        this.gameByGameId = gameByGameId;
     }
 }

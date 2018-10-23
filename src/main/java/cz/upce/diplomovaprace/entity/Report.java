@@ -11,22 +11,21 @@ import java.util.Objects;
 
 @Entity
 public class Report {
-    private int reportId;
+    private Integer id;
     private Timestamp created;
-    private String reason;
-    private String reasonText;
-
-    private User userByReportingUserId;
-    private User userByReportedUserId;
+    private String description;
+    private User userByFromUserId;
+    private User userByToUserId;
+    private ReportReason reportReasonByReportReasonId;
 
     @Id
-    @Column(name = "report_id", nullable = false)
-    public int getReportId() {
-        return reportId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
@@ -40,60 +39,59 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "reason", nullable = false, length = 45)
-    public String getReason() {
-        return reason;
+    @Column(name = "description", nullable = true, length = 255)
+    public String getDescription() {
+        return description;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-    @Basic
-    @Column(name = "reason_text", nullable = true, length = 255)
-    public String getReasonText() {
-        return reasonText;
-    }
-
-    public void setReasonText(String reasonText) {
-        this.reasonText = reasonText;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
-        return reportId == report.reportId &&
-              Objects.equals(created, report.created) &&
-                Objects.equals(reason, report.reason) &&
-                Objects.equals(reasonText, report.reasonText);
+        return Objects.equals(id, report.id) &&
+
+                Objects.equals(created, report.created) &&
+                Objects.equals(description, report.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(reportId, created, reason, reasonText );
+        return Objects.hash(id, created, description);
     }
 
     @ManyToOne
-    @JoinColumn(name = "reporting_user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByReportingUserId() {
-        return userByReportingUserId;
+    @JoinColumn(name = "fromUserId", referencedColumnName = "id", nullable = false)
+    public User getUserByFromUserId() {
+        return userByFromUserId;
     }
 
-    public void setUserByReportingUserId(User userByReportingUserId) {
-        this.userByReportingUserId = userByReportingUserId;
+    public void setUserByFromUserId(User userByFromUserId) {
+        this.userByFromUserId = userByFromUserId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "reported_user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByReportedUserId() {
-        return userByReportedUserId;
+    @JoinColumn(name = "toUserId", referencedColumnName = "id", nullable = false)
+    public User getUserByToUserId() {
+        return userByToUserId;
     }
 
-    public void setUserByReportedUserId(User userByReportedUserId) {
-        this.userByReportedUserId = userByReportedUserId;
+    public void setUserByToUserId(User userByToUserId) {
+        this.userByToUserId = userByToUserId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "reportReasonId", referencedColumnName = "id", nullable = false)
+    public ReportReason getReportReasonByReportReasonId() {
+        return reportReasonByReportReasonId;
+    }
+
+    public void setReportReasonByReportReasonId(ReportReason reportReasonByReportReasonId) {
+        this.reportReasonByReportReasonId = reportReasonByReportReasonId;
     }
 }

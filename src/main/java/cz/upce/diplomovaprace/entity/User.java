@@ -13,35 +13,33 @@ import java.util.Objects;
 
 @Entity
 public class User {
-    private int userId;
+    private Integer id;
     private Timestamp created;
+    private String userName;
+    private String password;
+    private String email;
     private String firstName;
     private String lastName;
-    private String username;
-    private String email;
-    private String password;
     private Timestamp lastLogin;
-
-    private Collection<Challenge> challengesByUserId;
-    private Collection<Challenge> challengesByUserId_0;
-    private Collection<Friend> friendsByUserId;
-    private Collection<Friend> friendsByUserId_0;
-    private Collection<Message> messagesByUserId;
-    private Collection<Message> messagesByUserId_0;
-    private Collection<Rating> ratingsByUserId;
-    private Collection<Report> reportsByUserId;
-    private Collection<Report> reportsByUserId_0;
-    private Avatar avatarByAvatarsAvatarId;
-    private Role roleByRoleRoleId;
+    private Collection<ChallengeResult> challengeResultsById;
+    private Collection<Friend> friendsByFromUserId;
+    private Collection<Friend> friendsByToUserId;
+    private Collection<Message> messagesByFromUserId;
+    private Collection<Message> messagesByToUserId;
+    private Collection<Rating> ratingsById;
+    private Collection<Report> reportsByFromUserId;
+    private Collection<Report> reportsByToUserId;
+    private Avatar avatarByAvatarId;
+    private Role roleByRoleId;
 
     @Id
-    @Column(name = "user_id", nullable = false)
-    public int getUserId() {
-        return userId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
@@ -52,6 +50,36 @@ public class User {
 
     public void setCreated(Timestamp created) {
         this.created = created;
+    }
+
+    @Basic
+    @Column(name = "userName", nullable = false, length = 45)
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Basic
+    @Column(name = "password", nullable = false, length = 255)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Basic
+    @Column(name = "email", nullable = false, length = 45)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
@@ -75,37 +103,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "userName", nullable = false, length = 45)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String userName) {
-        this.username = userName;
-    }
-
-    @Basic
-    @Column(name = "email", nullable = false, length = 45)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Basic
-    @Column(name = "password", nullable = false, length = 255)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Basic
-    @Column(name = "last_login", nullable = false)
+    @Column(name = "last_login", nullable = true)
     public Timestamp getLastLogin() {
         return lastLogin;
     }
@@ -114,127 +112,117 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId &&
-                 Objects.equals(created, user.created) &&
+        return Objects.equals(id, user.id) &&
+
+                Objects.equals(created, user.created) &&
+                Objects.equals(userName, user.userName) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
                 Objects.equals(lastLogin, user.lastLogin);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(userId, created, firstName, lastName, username, email, password, lastLogin    );
-    }
-
-    @OneToMany(mappedBy = "userByChallengerUserId")
-    public Collection<Challenge> getChallengesByUserId() {
-        return challengesByUserId;
-    }
-
-    public void setChallengesByUserId(Collection<Challenge> challengesByUserId) {
-        this.challengesByUserId = challengesByUserId;
-    }
-
-    @OneToMany(mappedBy = "userByOponnentUserId")
-    public Collection<Challenge> getChallengesByUserId_0() {
-        return challengesByUserId_0;
-    }
-
-    public void setChallengesByUserId_0(Collection<Challenge> challengesByUserId_0) {
-        this.challengesByUserId_0 = challengesByUserId_0;
-    }
-
-    @OneToMany(mappedBy = "userByUserFriendId")
-    public Collection<Friend> getFriendsByUserId() {
-        return friendsByUserId;
-    }
-
-    public void setFriendsByUserId(Collection<Friend> friendsByUserId) {
-        this.friendsByUserId = friendsByUserId;
+        return Objects.hash(id, created, userName, password, email, firstName, lastName, lastLogin);
     }
 
     @OneToMany(mappedBy = "userByUserId")
-    public Collection<Friend> getFriendsByUserId_0() {
-        return friendsByUserId_0;
+    public Collection<ChallengeResult> getChallengeResultsById() {
+        return challengeResultsById;
     }
 
-    public void setFriendsByUserId_0(Collection<Friend> friendsByUserId_0) {
-        this.friendsByUserId_0 = friendsByUserId_0;
+    public void setChallengeResultsById(Collection<ChallengeResult> challengeResultsById) {
+        this.challengeResultsById = challengeResultsById;
     }
 
     @OneToMany(mappedBy = "userByFromUserId")
-    public Collection<Message> getMessagesByUserId() {
-        return messagesByUserId;
+    public Collection<Friend> getFriendsByFromUserId() {
+        return friendsByFromUserId;
     }
 
-    public void setMessagesByUserId(Collection<Message> messagesByUserId) {
-        this.messagesByUserId = messagesByUserId;
+    public void setFriendsByFromUserId(Collection<Friend> friendsByFromUserId) {
+        this.friendsByFromUserId = friendsByFromUserId;
     }
 
     @OneToMany(mappedBy = "userByToUserId")
-    public Collection<Message> getMessagesByUserId_0() {
-        return messagesByUserId_0;
+    public Collection<Friend> getFriendsByToUserId() {
+        return friendsByToUserId;
     }
 
-    public void setMessagesByUserId_0(Collection<Message> messagesByUserId_0) {
-        this.messagesByUserId_0 = messagesByUserId_0;
+    public void setFriendsByToUserId(Collection<Friend> friendsByToUserId) {
+        this.friendsByToUserId = friendsByToUserId;
     }
 
-    @OneToMany(mappedBy = "userByUserUserId")
-    public Collection<Rating> getRatingsByUserId() {
-        return ratingsByUserId;
+    @OneToMany(mappedBy = "userByFromUserId")
+    public Collection<Message> getMessagesByFromUserId() {
+        return messagesByFromUserId;
     }
 
-    public void setRatingsByUserId(Collection<Rating> ratingsByUserId) {
-        this.ratingsByUserId = ratingsByUserId;
+    public void setMessagesByFromUserId(Collection<Message> messagesByFromUserId) {
+        this.messagesByFromUserId = messagesByFromUserId;
     }
 
-    @OneToMany(mappedBy = "userByReportingUserId")
-    public Collection<Report> getReportsByUserId() {
-        return reportsByUserId;
+    @OneToMany(mappedBy = "userByToUserId")
+    public Collection<Message> getMessagesByToUserId() {
+        return messagesByToUserId;
     }
 
-    public void setReportsByUserId(Collection<Report> reportsByUserId) {
-        this.reportsByUserId = reportsByUserId;
+    public void setMessagesByToUserId(Collection<Message> messagesByToUserId) {
+        this.messagesByToUserId = messagesByToUserId;
     }
 
-    @OneToMany(mappedBy = "userByReportedUserId")
-    public Collection<Report> getReportsByUserId_0() {
-        return reportsByUserId_0;
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<Rating> getRatingsById() {
+        return ratingsById;
     }
 
-    public void setReportsByUserId_0(Collection<Report> reportsByUserId_0) {
-        this.reportsByUserId_0 = reportsByUserId_0;
+    public void setRatingsById(Collection<Rating> ratingsById) {
+        this.ratingsById = ratingsById;
+    }
+
+    @OneToMany(mappedBy = "userByFromUserId")
+    public Collection<Report> getReportsByFromUserId() {
+        return reportsByFromUserId;
+    }
+
+    public void setReportsByFromUserId(Collection<Report> reportsByFromUserId) {
+        this.reportsByFromUserId = reportsByFromUserId;
+    }
+
+    @OneToMany(mappedBy = "userByToUserId")
+    public Collection<Report> getReportsByToUserId() {
+        return reportsByToUserId;
+    }
+
+    public void setReportsByToUserId(Collection<Report> reportsByToUserId) {
+        this.reportsByToUserId = reportsByToUserId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Avatars_avatar_id", referencedColumnName = "avatar_id", nullable = false)
-    public Avatar getAvatarByAvatarsAvatarId() {
-        return avatarByAvatarsAvatarId;
+    @JoinColumn(name = "avatarId", referencedColumnName = "id", nullable = false)
+    public Avatar getAvatarByAvatarId() {
+        return avatarByAvatarId;
     }
 
-    public void setAvatarByAvatarsAvatarId(Avatar avatarByAvatarsAvatarId) {
-        this.avatarByAvatarsAvatarId = avatarByAvatarsAvatarId;
+    public void setAvatarByAvatarId(Avatar avatarByAvatarId) {
+        this.avatarByAvatarId = avatarByAvatarId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Role_role_id", referencedColumnName = "role_id", nullable = false)
-    public Role getRoleByRoleRoleId() {
-        return roleByRoleRoleId;
+    @JoinColumn(name = "roleId", referencedColumnName = "id", nullable = false)
+    public Role getRoleByRoleId() {
+        return roleByRoleId;
     }
 
-    public void setRoleByRoleRoleId(Role roleByRoleRoleId) {
-        this.roleByRoleRoleId = roleByRoleRoleId;
+    public void setRoleByRoleId(Role roleByRoleId) {
+        this.roleByRoleId = roleByRoleId;
     }
 }

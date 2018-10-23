@@ -47,7 +47,7 @@
                                          <c:forEach items="${messages}" var="message" varStatus="status">
                                         <tr>
                                             <td>
-                                                    ${message.userByFromUserId.username}
+                                                    ${message.userByFromUserId.userName}
                                             </td>
                                             <td>
                                                     ${message.subject}
@@ -66,7 +66,7 @@
                                                 10. 4. 2018
                                             </td>
                                             <spring:url value="detail" var="detailUrl" htmlEscape="true">
-                                                <spring:param name="messageId" value="${message.messageId}"/>
+                                                <spring:param name="messageId" value="${message.id}"/>
                                             </spring:url>
                                             <td class=>
                                                 <a href="${detailUrl}">Zobrazit detail</a>

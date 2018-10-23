@@ -32,7 +32,7 @@ public class MainController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "Invalid username and password!");
+            model.addObject("error", "Invalid userName and password!");
         }
 
         if (logout != null) {
@@ -64,7 +64,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            model.addObject("username", userDetail.getUsername());
+            model.addObject("userName", userDetail.getUsername());
         }
 
         model.setViewName("403");

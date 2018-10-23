@@ -15,62 +15,61 @@ import java.util.Objects;
 
 @Entity
 public class Challenge {
-    private int challengeId;
-    private Timestamp challengeStart;
-    private Timestamp challengeEnd;
-    private String text;
+    private Integer id;
+    private Timestamp created;
+    private Timestamp start;
+    private Timestamp end;
     private String coordsLat;
     private String coordsLng;
+    private String description;
     private String password;
-    @Column(insertable = false, updatable = false)
-    private Game gameByGameGameId;
-    private User userByChallengerUserId;
-    private User userByOponnentUserId;
-    private Collection<ChallengeResult> challengeResultsByChallengeId;
+    private Game gameByGameId;
+    private ChallengeState challengeStateByChallengeStateId;
+    private Collection<ChallengeResult> challengeResultsById;
 
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "challenge_id", nullable = false)
-    public int getChallengeId() {
-        return challengeId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setChallengeId(int challengeId) {
-        this.challengeId = challengeId;
-    }
-
-    @Basic
-    @Column(name = "Challenge_start", nullable = false)
-    public Timestamp getChallengeStart() {
-        return challengeStart;
-    }
-
-    public void setChallengeStart(Timestamp challengeStart) {
-        this.challengeStart = challengeStart;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
-    @Column(name = "Challenge_end", nullable = false)
-    public Timestamp getChallengeEnd() {
-        return challengeEnd;
+    @Column(name = "created", nullable = false)
+    public Timestamp getCreated() {
+        return created;
     }
 
-    public void setChallengeEnd(Timestamp challengeEnd) {
-        this.challengeEnd = challengeEnd;
-    }
-
-    @Basic
-    @Column(name = "Text", nullable = true, length = 45)
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     @Basic
-    @Column(name = "CoordsLat", nullable = false, length = 255)
+    @Column(name = "start", nullable = false)
+    public Timestamp getStart() {
+        return start;
+    }
+
+    public void setStart(Timestamp start) {
+        this.start = start;
+    }
+
+    @Basic
+    @Column(name = "end", nullable = false)
+    public Timestamp getEnd() {
+        return end;
+    }
+
+    public void setEnd(Timestamp end) {
+        this.end = end;
+    }
+
+    @Basic
+    @Column(name = "coordsLat", nullable = false, length = 255)
     public String getCoordsLat() {
         return coordsLat;
     }
@@ -80,7 +79,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "CoordsLng", nullable = false, length = 255)
+    @Column(name = "coordsLng", nullable = false, length = 255)
     public String getCoordsLng() {
         return coordsLng;
     }
@@ -89,10 +88,18 @@ public class Challenge {
         this.coordsLng = coordsLng;
     }
 
+    @Basic
+    @Column(name = "description", nullable = true, length = 255)
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Basic
-    @Column(name = "password", length = 45)
+    @Column(name = "password", nullable = true, length = 45)
     public String getPassword() {
         return password;
     }
@@ -106,65 +113,49 @@ public class Challenge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
-        return challengeId == challenge.challengeId &&
+        return Objects.equals(id, challenge.id) &&
 
-                Objects.equals(challengeStart, challenge.challengeStart) &&
-                Objects.equals(challengeEnd, challenge.challengeEnd) &&
-                Objects.equals(text, challenge.text) &&
+                Objects.equals(created, challenge.created) &&
+                Objects.equals(start, challenge.start) &&
+                Objects.equals(end, challenge.end) &&
                 Objects.equals(coordsLat, challenge.coordsLat) &&
                 Objects.equals(coordsLng, challenge.coordsLng) &&
+                Objects.equals(description, challenge.description) &&
                 Objects.equals(password, challenge.password);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(challengeId, challengeStart, challengeEnd, text, coordsLat, coordsLng,      password);
+        return Objects.hash(id, created, start, end, coordsLat, coordsLng, description, password);
     }
 
     @ManyToOne
-    @JoinColumn(name = "Game_game_id", referencedColumnName = "game_id", nullable = false)
-    public Game getGameByGameGameId() {
-        return gameByGameGameId;
+    @JoinColumn(name = "gameId", referencedColumnName = "id", nullable = false)
+    public Game getGameByGameId() {
+        return gameByGameId;
     }
 
-    public void setGameByGameGameId(Game gameByGameGameId) {
-        this.gameByGameGameId = gameByGameGameId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "challenger_user_id", referencedColumnName = "user_id", nullable = false)
-    public User getUserByChallengerUserId() {
-        return userByChallengerUserId;
-    }
-
-    public void setUserByChallengerUserId(User userByChallengerUserId) {
-        this.userByChallengerUserId = userByChallengerUserId;
+    public void setGameByGameId(Game gameByGameId) {
+        this.gameByGameId = gameByGameId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "oponnent_user_id", referencedColumnName = "user_id")
-    public User getUserByOponnentUserId() {
-        return userByOponnentUserId;
+    @JoinColumn(name = "challengeStateId", referencedColumnName = "id", nullable = false)
+    public ChallengeState getChallengeStateByChallengeStateId() {
+        return challengeStateByChallengeStateId;
     }
 
-    public void setUserByOponnentUserId(User userByOponnentUserId) {
-        this.userByOponnentUserId = userByOponnentUserId;
+    public void setChallengeStateByChallengeStateId(ChallengeState challengeStateByChallengeStateId) {
+        this.challengeStateByChallengeStateId = challengeStateByChallengeStateId;
     }
 
-    @OneToMany(mappedBy = "challengeByChallengesChallengeId")
-    public Collection<ChallengeResult> getChallengeResultsByChallengeId() {
-        return challengeResultsByChallengeId;
+    @OneToMany(mappedBy = "challengeByChallengeId")
+    public Collection<ChallengeResult> getChallengeResultsById() {
+        return challengeResultsById;
     }
 
-    public void setChallengeResultsByChallengeId(Collection<ChallengeResult> challengeResultsByChallengeId) {
-        this.challengeResultsByChallengeId = challengeResultsByChallengeId;
+    public void setChallengeResultsById(Collection<ChallengeResult> challengeResultsById) {
+        this.challengeResultsById = challengeResultsById;
     }
 }
-
-/*
-You shouldn't reference other entities by their ID, but by a direct reference to the entity.
- Remove the customerId field, it's useless. And do the same for productId. If you want the customer ID of a sale, you just need to do this:
- sale.getCustomer().getId()
-https://stackoverflow.com/questions/15076463/another-repeated-column-in-mapping-for-entity-error/15076546
- */

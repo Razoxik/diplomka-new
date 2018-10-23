@@ -11,20 +11,20 @@ import java.util.Objects;
 
 @Entity
 public class Avatar {
-    private int avatarId;
+    private Integer id;
     private Timestamp created;
-    private String avatarImage;
-    private String avatarName;
-    private Collection<User> usersByAvatarId;
+    private String imageUrl;
+    private String name;
+    private Collection<User> usersById;
 
     @Id
-    @Column(name = "avatar_id", nullable = false)
-    public int getAvatarId() {
-        return avatarId;
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
+        return id;
     }
 
-    public void setAvatarId(int avatarId) {
-        this.avatarId = avatarId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Basic
@@ -38,23 +38,23 @@ public class Avatar {
     }
 
     @Basic
-    @Column(name = "avatar_image", nullable = false, length = 45)
-    public String getAvatarImage() {
-        return avatarImage;
+    @Column(name = "imageUrl", nullable = false, length = 255)
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setAvatarImage(String avatarImage) {
-        this.avatarImage = avatarImage;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Basic
-    @Column(name = "avatar_name", nullable = false, length = 45)
-    public String getAvatarName() {
-        return avatarName;
+    @Column(name = "name", nullable = false, length = 45)
+    public String getName() {
+        return name;
     }
 
-    public void setAvatarName(String avatarName) {
-        this.avatarName = avatarName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -62,24 +62,24 @@ public class Avatar {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return avatarId == avatar.avatarId &&
+        return Objects.equals(id, avatar.id) &&
                 Objects.equals(created, avatar.created) &&
-                Objects.equals(avatarImage, avatar.avatarImage) &&
-                Objects.equals(avatarName, avatar.avatarName);
+                Objects.equals(imageUrl, avatar.imageUrl) &&
+                Objects.equals(name, avatar.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(avatarId, created, avatarImage, avatarName);
+        return Objects.hash(id, created, imageUrl, name);
     }
 
-    @OneToMany(mappedBy = "avatarByAvatarsAvatarId")
-    public Collection<User> getUsersByAvatarId() {
-        return usersByAvatarId;
+    @OneToMany(mappedBy = "avatarByAvatarId")
+    public Collection<User> getUsersById() {
+        return usersById;
     }
 
-    public void setUsersByAvatarId(Collection<User> usersByAvatarId) {
-        this.usersByAvatarId = usersByAvatarId;
+    public void setUsersById(Collection<User> usersById) {
+        this.usersById = usersById;
     }
 }

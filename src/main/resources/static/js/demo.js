@@ -41,7 +41,7 @@ demo = {
                 };
                 var myLatlng = new google.maps.LatLng(pos.lat, pos.lng);
                 var mapOptions = {
-                    zoom: 16,
+                    zoom: 9,//16,
                     center: myLatlng,
                     scrollwheel: true, //we disable de scroll over the map, it is a really annoing when you scroll through page
                     styles: [
@@ -216,7 +216,7 @@ demo = {
                 for (let i = 0; i < challenges.length; i++) {
                     // game icon
                     var icon = {
-                        url: "/img/activities/" + challenges[i][9] + ".png",//+ challenges[i][9] + ".png", // url
+                        url: "/img/activities/" + challenges[i][10] + ".png",//+ challenges[i][9] + ".png", // url
                         scaledSize: new google.maps.Size(50, 50), // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(0, 0) // anchor
@@ -237,8 +237,9 @@ demo = {
                                 challenges[i][3] + "<br/>" +
                                 challenges[i][4] + "<br/>" +
                                 challenges[i][5] + "<br/>" +
-                                challenges[i][6] + "<br/>" + "<br/>" +
-                                '<a style="color:black" href=/challengeDetail?challengeId=' + challenges[i][8] + '>' + challenges[i][7] + '</a>'
+                                challenges[i][6] + "<br/>" +
+                                challenges[i][7] + "<br/>" + "<br/>" +
+                                '<a style="color:black" href=/challenge/detail?challengeId=' + challenges[i][9] + '>' + challenges[i][8] + '</a>'
                             );
                             infowindow.open(map, marker);
                         }

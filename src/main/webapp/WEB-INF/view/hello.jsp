@@ -29,7 +29,7 @@
 
                                         <div class="form-group">
                                             <label class="label-control">User name</label>
-                                            <input type='text' name='username'value="razox"/>
+                                            <input type='text' name='userName'value="razox"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="label-control">Password</label>

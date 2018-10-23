@@ -76,7 +76,7 @@ public class MessageController {
        // m.setFromUserId(sessionManager.getUserId());
         m.setUserByFromUserId(userRepository.findById(sessionManager.getUserId()).orElse(null));
        // m.setToUserId(userRepository.findUserByUsername(messageModel.getNickname()).getUserId());
-        m.setUserByToUserId(userRepository.findUserByUsername(messageModel.getNickname()));
+        m.setUserByToUserId(userRepository.findUserByUserName(messageModel.getNickname()));
         m.setSubject(messageModel.getSubject());
         m.setText(messageModel.getText());
         messageRepository.save(m);
