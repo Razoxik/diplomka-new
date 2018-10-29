@@ -1,12 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
 <%--@elvariable id="player" type="cz.upce.diplomovaprace.entity.User"--%>
 <%--@elvariable id="players" type="java.util.List<cz.upce.diplomovaprace.entity.User>"--%>
 <%--@elvariable id="challengeDetailDto" type="cz.upce.diplomovaprace.dto.ChallengeDetailDto"--%>
-
+<%--@elvariable id="isUserAlreadyInChallenge" type="java.lang.Boolean"--%>
 
 <jsp:include page="fragments/header.jsp"/>
 
@@ -62,7 +63,7 @@
                                                 Ties
                                             </th>
                                             <th>
-                                               Result
+                                                Result
                                             </th>
                                             <th>
                                                 <%--TH PRO TLACITKA --%>
@@ -92,9 +93,25 @@
                                                 <td>
                                                         ${userDto.numberOfTies}
                                                 </td>
-                                                <td>
-                                                        ${userDto.result}
-
+                                                <c:set var="scoreColor" value=""/>
+                                                <c:if test="${userDto.winningUserScore gt  userDto.lossingUserScore}">
+                                                    <c:set var="scoreColor" value="color:green"/>
+                                                </c:if>
+                                                <c:if test="${userDto.winningUserScore lt  userDto.lossingUserScore}">
+                                                    <c:set var="scoreColor" value="color:red"/>
+                                                </c:if>
+                                                <c:if test="${userDto.winningUserScore eq  userDto.lossingUserScore and !userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                    <c:set var="scoreColor" value="color:yellow"/>
+                                                </c:if>
+                                                <td style="${scoreColor}">
+                                                    <c:choose>
+                                                        <c:when test="${userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                            N/A
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${userDto.winningUserScore}:${userDto.lossingUserScore}
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </td>
                                                 <td style="text-align: right">
 
@@ -186,8 +203,25 @@
                                                 <td>
                                                         ${userDto.numberOfTies}
                                                 </td>
-                                                <td>
-                                                        ${userDto.result}
+                                                <c:set var="scoreColor" value=""/>
+                                                <c:if test="${userDto.winningUserScore gt  userDto.lossingUserScore}">
+                                                    <c:set var="scoreColor" value="color:green"/>
+                                                </c:if>
+                                                <c:if test="${userDto.winningUserScore lt  userDto.lossingUserScore}">
+                                                    <c:set var="scoreColor" value="color:red"/>
+                                                </c:if>
+                                                <c:if test="${userDto.winningUserScore eq  userDto.lossingUserScore and !userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                    <c:set var="scoreColor" value="color:yellow"/>
+                                                </c:if>
+                                                <td style="${scoreColor}">
+                                                    <c:choose>
+                                                        <c:when test="${userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                            N/A
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${userDto.winningUserScore}:${userDto.lossingUserScore}
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </td>
                                                 <td style="text-align: right">
 
@@ -208,12 +242,28 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/challenge/enterResult?challengeId=${challenge.id}" class="btn btn-primary " role="button"
+                        <a href="/challenge/enterResult?challengeId=${challenge.id}" class="btn btn-primary "
+                           role="button"
                            aria-disabled="true">Zadat výsledek</a>
-                        <%-- IF MUYES SE PRIPOJIT? JSI UZ PRIPOJENEJ?</p>--%>
-                        <a href="/challenge/join?challengeId=${challenge.id}" class="btn btn-primary " role="button"
-                           aria-disabled="true">Připojit se k výzvě</a>
-                        <%-- ELSE tlacitko odhlasit?</p>--%>
+
+                        <c:choose>
+                            <c:when test="${isUserAlreadyInChallenge}">
+                                <spring:url value="logout" var="logoutUrl" htmlEscape="true">
+                                    <spring:param name="challengeId" value="${challenge.id}"/>
+                                </spring:url>
+                                <a href="${logoutUrl}" class="btn btn-primary " role="button" aria-disabled="true">
+                                    Odhlásit se
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <spring:url value="join" var="joinUrl" htmlEscape="true">
+                                    <spring:param name="challengeId" value="${challenge.id}"/>
+                                </spring:url>
+                                <a href="${joinUrl}" class="btn btn-primary" role="button" aria-disabled="true">
+                                    Připojit se k výzvě
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>

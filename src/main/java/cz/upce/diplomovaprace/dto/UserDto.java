@@ -8,7 +8,36 @@ public class UserDto {
     private int numberOfWins;
     private int numberOfLosses;
     private int numberOfTies;
-    private String result;
+    private int winningUserScore;
+    private int lossingUserScore;
+
+    public String getChallengeResultState() {
+        return challengeResultState;
+    }
+
+    public void setChallengeResultState(String challengeResultState) {
+        this.challengeResultState = challengeResultState;
+    }
+
+    private String challengeResultState;
+
+
+
+    public int getWinningUserScore() {
+        return winningUserScore;
+    }
+
+    public void setWinningUserScore(int winningUserScore) {
+        this.winningUserScore = winningUserScore;
+    }
+
+    public int getLossingUserScore() {
+        return lossingUserScore;
+    }
+
+    public void setLossingUserScore(int lossingUserScore) {
+        this.lossingUserScore = lossingUserScore;
+    }
 
     public int getId() {
         return id;
@@ -66,11 +95,5 @@ public class UserDto {
         this.numberOfTies = numberOfTies;
     }
 
-    public String getResult() {
-        return result;
-    }
 
-    public void setResult(String result) {
-        this.result = result;
-    }
 }

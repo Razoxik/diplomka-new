@@ -9,6 +9,9 @@ INSERT INTO role VALUES(2,   'ADMIN');
 --https://www.dailycred.com/article/bcrypt-calculator
 INSERT INTO user VALUES(1, '1970-01-01 00:00:01', 'mejl', 'tomas', '1970-02-02 02:02:02','bart', 'nicknameTest', 'tomas123',1,1 );
 INSERT INTO user VALUES(2, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', '$2a$04$TPPTbBD7EBdOoG3wn3rCAe78Bjo1971yCWSr7ftyFc1vlVohko1M.', 'razox', 1,1  );
+INSERT INTO user VALUES(3, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', '$2a$04$TPPTbBD7EBdOoG3wn3rCAe78Bjo1971yCWSr7ftyFc1vlVohko1M.', 'razox1', 1,1  );
+INSERT INTO user VALUES(4, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', '$2a$04$TPPTbBD7EBdOoG3wn3rCAe78Bjo1971yCWSr7ftyFc1vlVohko1M.', 'razox2', 1,1  );
+INSERT INTO user VALUES(5, '1970-01-01 00:00:01', 'asd@praise.sun', 'pepa', '1970-02-02 02:02:02','bart', '$2a$04$TPPTbBD7EBdOoG3wn3rCAe78Bjo1971yCWSr7ftyFc1vlVohko1M.', 'razox3', 1,1  );
 
 INSERT INTO report_reason VALUES (1,   'feed');
 INSERT INTO report_reason VALUES(2,   'DONT_COME');

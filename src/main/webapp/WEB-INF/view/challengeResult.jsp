@@ -36,13 +36,13 @@
 
 
                             <div class="form-group">
-                                <label class="label-control">Skóre Hráč/Team1[Pepa, Fanda, Lama, Klepmr]</label>
+                                <label class="label-control">your score: Skóre Hráč/Team1[Pepa, Fanda, Lama, Klepmr]</label>
                                 <form:input path="scoreTeam1" type="text" class="form-control datetimepicker"
                                             value="12"/>
                                 <form:errors path="scoreTeam1" cssClass="error"/>
                             </div>
                             <div class="form-group">
-                                <label class="label-control">Skóre Hráč/Team2[Pepa, Fanda, Lama, Klepmr]</label>
+                                <label class="label-control">oponnent sore: Skóre Hráč/Team2[Pepa, Fanda, Lama, Klepmr]</label>
                                 <form:input path="scoreTeam2" type="text" class="form-control datetimepicker"
                                             value="2"/>
                                 <form:errors path="scoreTeam2" cssClass="error"/>
