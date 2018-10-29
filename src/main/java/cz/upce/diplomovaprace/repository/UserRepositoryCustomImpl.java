@@ -21,7 +21,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     @Override
     public List<User> findAllChallengeUsersByChallengeId(int challengeId) throws Exception {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(Exception::new);
-        List<ChallengeResult> challengeResults = challengeResultRepository.findChallengeResultsByChallengeByChallengeId(challenge);
+        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
 
         return challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
     }

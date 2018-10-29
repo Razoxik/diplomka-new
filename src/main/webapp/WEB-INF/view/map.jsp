@@ -4,8 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
-<%--@elvariable id="challenges" type="java.util.List<cz.upce.diplomovaprace.entity.Challenge>"--%>
-<%--@elvariable id="challengesDto" type="java.util.List<cz.upce.diplomovaprace.dto.ChallengeDto>"--%>
+<%--@elvariable id="challengeDtos" type="java.util.List<cz.upce.diplomovaprace.dto.ChallengeDto>"--%>
 <%--@elvariable id="challengeDto" type="cz.upce.diplomovaprace.dto.ChallengeDto"--%>
 
 <%--@elvariable id="r" type="cz.upce.diplomovaprace.entity.Rating"--%>
@@ -29,7 +28,7 @@
 <jsp:include page="fragments/jsCommon.jsp"/>
 <script>
     var challenges = [
-        <c:forEach items="${challengesDto}" var="challengeDto" varStatus="status">
+        <c:forEach items="${challengeDtos}" var="challengeDto" varStatus="status">
         [
             '${challengeDto.challenge.coordsLat}', // Name - [i][0]
             '${challengeDto.challenge.coordsLng}', // Name - [i][0]

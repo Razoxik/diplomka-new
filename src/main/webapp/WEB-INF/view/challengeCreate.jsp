@@ -30,35 +30,40 @@
                             <!-- input with datetimepicker -->
                             <div class="form-group">
                                 <label class="label-control">Challenge start</label>
-                                <input type="text" class="form-control datetimepicker" value="10/05/2016"/>
+                                <form:input type="datetime-local" path="start" cssClass="form-control datetimepicker"
+                                            value="2018-04-12T09:30"/>
+                                <form:errors path="start" cssClass="error"/>
                             </div>
                             <div class="form-group">
                                 <label class="label-control">Challenge end</label>
-                                <input type="text" class="form-control datetimepicker" value="10/05/2016"/>
+                                <form:input type="datetime-local" path="end" cssClass="form-control datetimepicker"
+                                            value="2018-12-12T19:30"/>
+                                <form:errors path="end" cssClass="error"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="label-control">Coords[Lat;Lng]</label>
-                            <div class="row">
-                                <div class="col">
-                                    <form:input path="latCoords" cssClass="form-control" placeholder="Lat"
-                                                value="${challengeModel.latCoords}"/>
-                                    <form:errors path="latCoords" cssClass="error"/>
+                                <div class="row">
+                                    <div class="col">
+                                        <form:input path="latCoords" cssClass="form-control" placeholder="Lat"
+                                                    value="${challengeModel.latCoords}"/>
+                                        <form:errors path="latCoords" cssClass="error"/>
+                                    </div>
+                                    <div class="col">
+                                        <form:input path="lngCoords" cssClass="form-control" placeholder="Lng"
+                                                    value="${challengeModel.lngCoords}"/>
+                                        <form:errors path="lngCoords" cssClass="error"/>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <form:input path="lngCoords" cssClass="form-control" placeholder="Lng"
-                                                value="${challengeModel.lngCoords}"/>
-                                    <form:errors path="lngCoords" cssClass="error"/>
-                                </div>
-                            </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Game</label>
-
-                                <form:select path="gameId" cssClass="form-control selectpicker" id="exampleFormControlSelect1">
+                                <form:select path="gameId" cssClass="form-control selectpicker"
+                                             id="exampleFormControlSelect1">
                                     <c:forEach items="${games}" var="game" varStatus="status">
-                                        <form:option value="${game.id}" cssStyle="color:black">${game.name}</form:option>
+                                        <form:option value="${game.id}"
+                                                     cssStyle="color:black">${game.name}</form:option>
                                     </c:forEach>
                                 </form:select>
                             </div>

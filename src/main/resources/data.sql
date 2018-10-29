@@ -34,6 +34,8 @@ INSERT INTO game_param VALUES(3,'2038-01-19 03:14:07',   'game_param_name_2',  '
 INSERT INTO game_param VALUES(4,'2038-01-19 03:14:07',   'game_param_name_3',  'game_param_value_1',1 );
 
 INSERT INTO challenge_state VALUES(1,'CREATED' );
+INSERT INTO challenge_state VALUES(2,'IN_PROGRESS' );
+INSERT INTO challenge_state VALUES(3,'FINISHED' );
 
 
 INSERT INTO challenge VALUES(1, '49.902238', '16.439289', '1970-01-01 00:00:01','challenge_text_1',  '2038-01-19 03:14:07',  'pass',  '1970-01-01 00:00:01' ,1, 1);

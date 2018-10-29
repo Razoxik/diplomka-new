@@ -25,15 +25,15 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) { // name razox password razox
-        String userName = userRepository.findUserByUserName(username).getUserName();
-        String password = userRepository.findUserByUserName(username).getPassword();
+        String userName = userRepository.findByUserName(username).getUserName();
+        String password = userRepository.findByUserName(username).getPassword();
         if (userName == null) {
             throw new UsernameNotFoundException(username);
         }
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE");
         UserDetails userDetails = (UserDetails) new User(userName,
                 password, Arrays.asList(authority));
-        sessionManager.setSessionAttribute("userId", userRepository.findUserByUserName(userName).getId());
+        sessionManager.setSessionAttribute("userId", userRepository.findByUserName(userName).getId());
 
         return userDetails;
         //  return new MyUserPrincipal(user);

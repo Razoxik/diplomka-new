@@ -32,7 +32,6 @@ public class ChallengeDto {
         this.challenge = challenge;
     }
 
-
     public Game getGame() {
         return game;
     }

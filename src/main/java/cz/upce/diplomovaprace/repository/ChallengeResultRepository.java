@@ -9,9 +9,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ChallengeResultRepository extends CrudRepository<ChallengeResult, Integer> {
-    List<ChallengeResult> findChallengeResultsByChallengeByChallengeId(Challenge challenge);
+    List<ChallengeResult> findByChallengeByChallengeId(Challenge challenge);
 
-    List<ChallengeResult> findChallengeResultsByUserByUserIdAndResultStateByResultStateId(User user, ResultState resultState);
+    List<ChallengeResult> findByUserByUserIdAndResultStateByResultStateId(User user, ResultState resultState);
 
-    ChallengeResult findChallengeResultByUserByUserIdAndChallengeByChallengeId(User user, Challenge challenge);
+    ChallengeResult findByUserByUserIdAndChallengeByChallengeId(User user, Challenge challenge);
 }

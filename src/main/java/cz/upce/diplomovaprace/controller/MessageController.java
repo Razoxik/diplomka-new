@@ -45,7 +45,7 @@ public class MessageController {
     public ModelAndView messageList(Map<String, Object> model) throws Exception {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MESSAGES);
         User user =  userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
-        model.put("messages", messageRepository.findMessagesByUserByToUserId(user));
+        model.put("messages", messageRepository.findByUserByToUserId(user));
         return new ModelAndView("message", model);
     }
 
@@ -75,8 +75,8 @@ public class MessageController {
         m.setCreated(new Timestamp(2));
        // m.setFromUserId(sessionManager.getUserId());
         m.setUserByFromUserId(userRepository.findById(sessionManager.getUserId()).orElse(null));
-       // m.setToUserId(userRepository.findUserByUsername(messageModel.getNickname()).getUserId());
-        m.setUserByToUserId(userRepository.findUserByUserName(messageModel.getNickname()));
+       // m.setToUserId(userRepository.findByUserName(messageModel.getNickname()).getUserId());
+        m.setUserByToUserId(userRepository.findByUserName(messageModel.getNickname()));
         m.setSubject(messageModel.getSubject());
         m.setText(messageModel.getText());
         messageRepository.save(m);

@@ -5,9 +5,9 @@
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
 <%--@elvariable id="player" type="cz.upce.diplomovaprace.entity.User"--%>
-<%--@elvariable id="players" type="java.util.List<cz.upce.diplomovaprace.entity.User>"--%>
 <%--@elvariable id="challengeDetailDto" type="cz.upce.diplomovaprace.dto.ChallengeDetailDto"--%>
 <%--@elvariable id="isUserAlreadyInChallenge" type="java.lang.Boolean"--%>
+<%--@elvariable id="isChallengeFinished" type="java.lang.Boolean"--%>
 
 <jsp:include page="fragments/header.jsp"/>
 
@@ -114,7 +114,15 @@
                                                     </c:choose>
                                                 </td>
                                                 <td style="text-align: right">
-
+                                                    <c:if test="${ isChallengeFinished }">
+                                                        <%-- ROLE ADMIN -- PRISTUP DO H2-CONSOLE A MENIT DATA NAPRIMO V DB --%>
+                                                        <%-- ROLE OPERATOR -- Uprava tech spornych challenge --%>
+                                                        <%--AND IF ROLE OPERATOR CO TOHLE MUZE TVORIT AZUROVA BARVA, PRO ROLI OPERATORA --%>
+                                                        <a href="/challenge/enterResult?challengeId=${challenge.id}"
+                                                           class="btn  btn-info btn-sm "
+                                                           role="button"
+                                                           aria-disabled="true">Opravit výsledek</a>
+                                                    </c:if>
                                                     <a href="reply?messageId=1" class="btn  btn-primary btn-sm "
                                                        role="button"
                                                        aria-disabled="true">Přidat do přátel</a>
@@ -224,7 +232,12 @@
                                                     </c:choose>
                                                 </td>
                                                 <td style="text-align: right">
-
+                                                    <c:if test="${ isChallengeFinished }"> <%--AND IF ROLE OPERATOR CO TOHLE MUZE TVORIT --%>
+                                                        <a href="/challenge/enterResult?challengeId=${challenge.id}"
+                                                           class="btn btn-info btn-sm "
+                                                           role="button"
+                                                           aria-disabled="true">Opravit výsledek</a>
+                                                    </c:if>
                                                     <a href="reply?messageId=1" class="btn  btn-primary btn-sm "
                                                        role="button"
                                                        aria-disabled="true">Přidat do přátel</a>
@@ -242,28 +255,28 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/challenge/enterResult?challengeId=${challenge.id}" class="btn btn-primary "
-                           role="button"
-                           aria-disabled="true">Zadat výsledek</a>
+                        <c:if test="${not isChallengeFinished and isUserAlreadyInChallenge}">
+                            <a href="/challenge/enterResult?challengeId=${challenge.id}" class="btn btn-primary "
+                               role="button"
+                               aria-disabled="true">Zadat výsledek</a>
+                        </c:if>
 
-                        <c:choose>
-                            <c:when test="${isUserAlreadyInChallenge}">
-                                <spring:url value="logout" var="logoutUrl" htmlEscape="true">
-                                    <spring:param name="challengeId" value="${challenge.id}"/>
-                                </spring:url>
-                                <a href="${logoutUrl}" class="btn btn-primary " role="button" aria-disabled="true">
-                                    Odhlásit se
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <spring:url value="join" var="joinUrl" htmlEscape="true">
-                                    <spring:param name="challengeId" value="${challenge.id}"/>
-                                </spring:url>
-                                <a href="${joinUrl}" class="btn btn-primary" role="button" aria-disabled="true">
-                                    Připojit se k výzvě
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${not isChallengeFinished and isUserAlreadyInChallenge}">
+                            <spring:url value="logout" var="logoutUrl" htmlEscape="true">
+                                <spring:param name="challengeId" value="${challenge.id}"/>
+                            </spring:url>
+                            <a href="${logoutUrl}" class="btn btn-primary " role="button" aria-disabled="true">
+                                Odhlásit se
+                            </a>
+                        </c:if>
+                        <c:if test="${not isChallengeFinished and not isUserAlreadyInChallenge}">
+                            <spring:url value="join" var="joinUrl" htmlEscape="true">
+                                <spring:param name="challengeId" value="${challenge.id}"/>
+                            </spring:url>
+                            <a href="${joinUrl}" class="btn btn-primary" role="button" aria-disabled="true">
+                                Připojit se k výzvě
+                            </a>
+                        </c:if>
                     </div>
                 </div>
             </div>

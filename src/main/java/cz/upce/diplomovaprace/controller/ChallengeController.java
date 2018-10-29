@@ -4,18 +4,22 @@ import cz.upce.diplomovaprace.dto.ChallengeDetailDto;
 import cz.upce.diplomovaprace.dto.UserDto;
 import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.entity.ChallengeResult;
+import cz.upce.diplomovaprace.entity.ChallengeState;
 import cz.upce.diplomovaprace.entity.Game;
-import cz.upce.diplomovaprace.entity.GameParam;
 import cz.upce.diplomovaprace.entity.ResultState;
 import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
+import cz.upce.diplomovaprace.enums.ChallengeStateConstants;
+import cz.upce.diplomovaprace.enums.GameParamConstants;
 import cz.upce.diplomovaprace.enums.ResultStateConstants;
+import cz.upce.diplomovaprace.exception.EntityNotFoundException;
 import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.ChallengeModel;
 import cz.upce.diplomovaprace.model.ChallengeResultModel;
 import cz.upce.diplomovaprace.repository.ChallengeRepository;
 import cz.upce.diplomovaprace.repository.ChallengeResultRepository;
 import cz.upce.diplomovaprace.repository.ChallengeStateRepository;
+import cz.upce.diplomovaprace.repository.GameParamRepository;
 import cz.upce.diplomovaprace.repository.GameRepository;
 import cz.upce.diplomovaprace.repository.RatingRepository;
 import cz.upce.diplomovaprace.repository.ResultStateRepository;
@@ -36,7 +40,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,24 @@ import java.util.stream.Collectors;
 @RequestMapping("/challenge")
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class ChallengeController {
+
+    private static final String CHALLENGE_ID_REQUEST_PARAM = "challengeId";
+    private static final String LAT_COORDS_REQUEST_PARAM = "latCoords";
+    private static final String LNG_COORDS_REQUEST_PARAM = "lngCoords";
+
+    private static final String CHALLENGE_MODEL_ATTRIBUTE = "challengeModel";
+    private static final String CHALLENGE_RESULT_MODEL_ATTRIBUTE = "challengeResultModel";
+
+    private static final String CHALLENGE_MODEL_KEY = "challenge";
+    private static final String GAMES_MODEL_KEY = "games";
+    private static final String CHALLENGE_DETAIL_DTO_MODEL_KEY = "challengeDetailDto";
+
+    private static final String CHALLENGE_RESULT_VIEW_NAME = "challengeResult";
+    private static final String CHALLENGE_DETAIL_VIEW_NAME = "challengeDetail";
+    private static final String CHALLENGE_CREATE_VIEW_NAME = "challengeCreate";
+
+    private static final String IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY = "isUserAlreadyInChallenge";
+    private static final String IS_CHALLENGE_FINISHED_MODEL_KEY = "isChallengeFinished";
 
     @Autowired
     ChallengeRepository challengeRepository;
@@ -72,51 +93,63 @@ public class ChallengeController {
     RatingRepository ratingRepository;
 
     @Autowired
+    GameParamRepository gameParamRepository;
+
+    @Autowired
     ChallengeService challengeService;
 
-    private static final String IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY = "isUserAlreadyInChallenge";
-    private static final String CHALLENGE_ID_REQUEST_PARAM = "challengeId";
 
     @GetMapping("/create")
-    public ModelAndView renderMap(@RequestParam("latCoords") String latCoords, @RequestParam("lngCoords") String lngCoords,
-                                  @ModelAttribute("challengeModel") ChallengeModel challengeModel, BindingResult bindingResult, Map<String, Object> model) {
-        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
+    public ModelAndView challengeCreate(@RequestParam(LAT_COORDS_REQUEST_PARAM) String latCoords,
+                                        @RequestParam(LNG_COORDS_REQUEST_PARAM) String lngCoords,
+                                        @ModelAttribute(CHALLENGE_MODEL_ATTRIBUTE) ChallengeModel challengeModel,
+                                        Map<String, Object> model) {
         challengeModel.setLatCoords(latCoords);
         challengeModel.setLngCoords(lngCoords);
-        model.put("games", gameRepository.findAll());
-        return new ModelAndView("createChallenge", model);
+
+        Iterable<Game> games = gameRepository.findAll();
+        model.put(GAMES_MODEL_KEY, games);
+        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
+
+        return new ModelAndView(CHALLENGE_CREATE_VIEW_NAME, model);
     }
 
     @GetMapping("/detail")
-    public ModelAndView challengeDetail(@RequestParam("challengeId") int challengeId, Map<String, Object> model) throws Exception {
-        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
-        Challenge c = challengeRepository.findById(Integer.valueOf(challengeId)).orElseThrow(Exception::new);
-        List<ChallengeResult> challengeResults = challengeResultRepository.findChallengeResultsByChallengeByChallengeId(c);
+    public ModelAndView challengeDetail(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
+                                        Map<String, Object> model) throws Exception {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
         // Prepare teams
-        List<User> players = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
-        Game game = c.getGameByGameId();
+        List<User> users = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
+        Game game = challenge.getGameByGameId();
 
         List<UserDto> userDtos = new ArrayList<>();
-        for (User user : players) {
-            UserDto userDto = new UserDto();
+        for (User user : users) {
             int userId = user.getId();
-            userDto.setId(userId);
-            userDto.setRating(ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating());
-            userDto.setUserName(user.getUserName());
-            int numberOfWins = challengeResultRepository.findChallengeResultsByUserByUserIdAndResultStateByResultStateId(user, resultStateRepository.findById(1).orElseThrow(Exception::new)).size();
-            int numberOfLosses = challengeResultRepository.findChallengeResultsByUserByUserIdAndResultStateByResultStateId(user, resultStateRepository.findById(2).orElseThrow(Exception::new)).size();
-            int numberOfTies = challengeResultRepository.findChallengeResultsByUserByUserIdAndResultStateByResultStateId(user, resultStateRepository.findById(3).orElseThrow(Exception::new)).size();
+            int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
+            String userName = user.getUserName();
+            int numberOfWins = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
+                    user, resultStateRepository.findByState(ResultStateConstants.WINNER)).size();
+            int numberOfLosses = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
+                    user, resultStateRepository.findByState(ResultStateConstants.DEFEATED)).size();
+            int numberOfTies = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
+                    user, resultStateRepository.findByState(ResultStateConstants.TIE)).size();
             int totalNumberOfGames = numberOfWins + numberOfLosses + numberOfTies;
+            ChallengeResult result = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
+
+            UserDto userDto = new UserDto();
+            userDto.setId(userId);
+            userDto.setRating(rating);
+            userDto.setUserName(userName);
             userDto.setNumberOfWins(numberOfWins);
             userDto.setNumberOfLosses(numberOfLosses);
             userDto.setNumberOfTies(numberOfTies);
             userDto.setNumberOfGames(totalNumberOfGames);
-            ChallengeResult result = challengeResultRepository.findChallengeResultByUserByUserIdAndChallengeByChallengeId(user, c);
-            if (!"IN_PROGRESS".equals(result.getResultStateByResultStateId().getState())) {
+            if (!ResultStateConstants.IN_PROGRESS.equals(result.getResultStateByResultStateId().getState())) {
                 userDto.setWinningUserScore(result.getScoreWinner());
                 userDto.setLossingUserScore(result.getScoreDefeated());
             } else {
-                userDto.setChallengeResultState("IN_PROGRESS");
+                userDto.setChallengeResultState(ResultStateConstants.IN_PROGRESS);
             }
             userDtos.add(userDto);
         }
@@ -137,95 +170,120 @@ public class ChallengeController {
         challengeDetailDto.setUserDtos(userDtos);
         challengeDetailDto.setFirstTeam(firstTeam);
         challengeDetailDto.setSecondTeam(secondTeam);
-        Collection<GameParam> gameParams = game.getGameParamsById();
-        challengeDetailDto.setMaxPlayers(Integer.parseInt(gameParams.stream().filter(gameParam -> gameParam.getName().equals("number_of_players")).findFirst().orElseThrow(Exception::new).getValue()));
+        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                game, GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        challengeDetailDto.setMaxPlayers(maxPlayers);
 
-
-        model.put("challengeDetailDto", challengeDetailDto);
-        model.put("players", players);
-        model.put("challenge", c);
-
+        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
+        model.put(CHALLENGE_DETAIL_DTO_MODEL_KEY, challengeDetailDto);
+        model.put(CHALLENGE_MODEL_KEY, challenge);
         model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, challengeService.isUserAlreadyInChallenge(challengeId));
-        return new ModelAndView("challengeDetail", model);
+        model.put(IS_CHALLENGE_FINISHED_MODEL_KEY, challengeService.isChallengeFinished(challenge));
+
+        return new ModelAndView(CHALLENGE_DETAIL_VIEW_NAME, model);
     }
 
 
     @GetMapping("/enterResult")
-    public ModelAndView challengeEnterResult(@RequestParam("challengeId") Integer challengeId,
-                                             @ModelAttribute("challengeResultModel") ChallengeResultModel challengeResultModel,
-                                             BindingResult bindingResult, Map<String, Object> model) throws Exception {
-        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
-        model.put("challenge", challengeRepository.findById(challengeId).orElseThrow(Exception::new));
-        return new ModelAndView("challengeResult", model);
+    public ModelAndView challengeEnterResult(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
+                                             @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) ChallengeResultModel challengeResultModel,
+                                             Map<String, Object> model) throws EntityNotFoundException {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        model.put(CHALLENGE_MODEL_KEY, challenge);
+        return new ModelAndView(CHALLENGE_RESULT_VIEW_NAME, model);
     }
 
     @PostMapping("/submitResult")
-    public ModelAndView challengeSubmitResult(@RequestParam("challengeId") String challengeId,
-                                              @ModelAttribute("challengeResultModel") ChallengeResultModel challengeResultModel,
-                                              BindingResult bindingResult, Map<String, Object> model) throws Exception {
-        Challenge challenge = challengeRepository.findById(Integer.valueOf(challengeId)).orElseThrow(Exception::new);
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
-        ChallengeResult challengeResult = challengeResultRepository.findChallengeResultByUserByUserIdAndChallengeByChallengeId(user, challenge);
-        int winnerScore;
-        int looserScore;
-        int resultStateId;
+    public ModelAndView challengeSubmitResult(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
+                                              @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) ChallengeResultModel challengeResultModel,
+                                              BindingResult bindingResult, RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        if (bindingResult.hasErrors()) {
+            // TODO: Validation
+        }
+
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
+
+        String resultState = null;
+        int winnerScore = challengeResultModel.getScoreTeam1();
+        int looserScore = challengeResultModel.getScoreTeam2();
         switch (challengeResultModel.getResultState()) {
             case "WINNER":
-                resultStateId = 1;
+                resultState = ResultStateConstants.WINNER;
                 winnerScore = challengeResultModel.getScoreTeam1();
                 looserScore = challengeResultModel.getScoreTeam2();
                 break;
             case "DEFEATED":
-                resultStateId = 2;
+                resultState = ResultStateConstants.DEFEATED;
                 winnerScore = challengeResultModel.getScoreTeam2();
                 looserScore = challengeResultModel.getScoreTeam1();
                 break;
             case "TIE":
-                resultStateId = 3;
-                winnerScore = challengeResultModel.getScoreTeam1();
-                looserScore = challengeResultModel.getScoreTeam2();
+                resultState = ResultStateConstants.TIE;
                 break;
             default:
-                throw new Exception();
+                break;
         }
 
-        challengeResult.setResultStateByResultStateId(resultStateRepository.findById(resultStateId).orElseThrow(Exception::new));
+        challengeResult.setResultStateByResultStateId(resultStateRepository.findByState(resultState));
         challengeResult.setScoreWinner(winnerScore);
         challengeResult.setScoreDefeated(looserScore);
         challengeResultRepository.save(challengeResult);
 
-        return new ModelAndView("redirect:/challenge/detail?challengeId=" + challengeId, model);
+        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        if (challengeResultRepository.findByChallengeByChallengeId(challenge)
+                .stream().filter(challengeResult1 -> !challengeResult1.getResultStateByResultStateId().getState()
+                        .equals(ResultStateConstants.IN_PROGRESS)).count() == maxPlayers) {
+            challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findByState(ChallengeStateConstants.FINISHED));
+            challengeRepository.save(challenge);
+        }
+// ROLE OPERATOR, BUDE PAK ROZHODOVAT SPORNY CHALLENGE POPR. NATO SRAT A POUZE POSILAT A BANOVAT LIDI CO MAJ HODNE REPORTU?
+        // bude mit zas link na detajl challenge a tam bude moct zmenit skore lidem, tlacitko vedle pridat do pratel na zadat vysledek a upravit to, to zni fajn
+
+        return redirectToChallengeDetail(challengeId, redirectAttributes);
     }
 
     @PostMapping("/create")
-    public ModelAndView renderMaps(@ModelAttribute("challengeModel") ChallengeModel challengeModel, BindingResult bindingResult,
-                                   Map<String, Object> model) throws Exception {
+    public ModelAndView challengeCreate(@ModelAttribute(CHALLENGE_MODEL_ATTRIBUTE) ChallengeModel challengeModel,
+                                        BindingResult bindingResult) throws EntityNotFoundException {
+        if (bindingResult.hasErrors()) {
+            // TODO: Validation
+        }
+
         Challenge challenge = new Challenge();
-        challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findById(1).orElseThrow(Exception::new));
-        challenge.setGameByGameId(gameRepository.findById(challengeModel.getGameId()).orElseThrow(Exception::new));
-        challenge.setCreated(Timestamp.valueOf("1992-04-10 10:10:11"));
-        challenge.setStart(Timestamp.valueOf("1992-04-10 10:10:11"));
-        challenge.setEnd(Timestamp.valueOf("1992-04-10 10:10:11"));
+        ChallengeState challengeState = challengeStateRepository.findByState(ChallengeStateConstants.CREATED);
+        Game game = gameRepository.findById(challengeModel.getGameId()).orElseThrow(() -> new EntityNotFoundException("Game does not found"));
+
+        challenge.setChallengeStateByChallengeStateId(challengeState);
+        challenge.setGameByGameId(game);
+        challenge.setStart(Timestamp.valueOf(challengeModel.getStart()));
+        challenge.setEnd(Timestamp.valueOf(challengeModel.getEnd()));
         challenge.setCoordsLat(challengeModel.getLatCoords());
         challenge.setCoordsLng(challengeModel.getLngCoords());
-        challenge.setDescription("Description");
-        challenge.setPassword("pass");
+        challenge.setDescription(challengeModel.getDescription());
+        challenge.setPassword(challengeModel.getPassword());
         challengeRepository.save(challenge);
+
         ChallengeResult challengeResult = new ChallengeResult();
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        ResultState resultState = resultStateRepository.findByState(ResultStateConstants.IN_PROGRESS);
+
         challengeResult.setChallengeByChallengeId(challenge);
-        challengeResult.setUserByUserId(userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new));
-        challengeResult.setResultStateByResultStateId(resultStateRepository.findById(4).orElseThrow(Exception::new));
-        challengeResult.setCreated(Timestamp.valueOf("1992-04-10 10:10:11"));
+        challengeResult.setUserByUserId(user);
+        challengeResult.setResultStateByResultStateId(resultState);
         challengeResultRepository.save(challengeResult);
-        return new ModelAndView("redirect:/map", model);
+
+        return new ModelAndView("redirect:/map");
     }
 
     @GetMapping("/join")
     public ModelAndView challengeJoin(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
-                                      RedirectAttributes redirectAttributes) throws Exception {
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(Exception::new);
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
-        ResultState resultState = resultStateRepository.findResultStateByState(ResultStateConstants.IN_PROGRESS);
+                                      RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        ResultState resultState = resultStateRepository.findByState(ResultStateConstants.IN_PROGRESS);
 
         ChallengeResult challengeResult = new ChallengeResult();
         challengeResult.setChallengeByChallengeId(challenge);
@@ -238,10 +296,11 @@ public class ChallengeController {
 
     @GetMapping("/logout")
     public ModelAndView challengeLogout(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
-                                        RedirectAttributes redirectAttributes) throws Exception {
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(Exception::new);
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
-        ChallengeResult challengeResult = challengeResultRepository.findChallengeResultByUserByUserIdAndChallengeByChallengeId(user, challenge);
+                                        RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+
+        ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
         challengeResultRepository.delete(challengeResult);
 
         return redirectToChallengeDetail(challengeId, redirectAttributes);

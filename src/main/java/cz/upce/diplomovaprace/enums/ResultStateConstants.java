@@ -8,6 +8,5 @@ public class ResultStateConstants {
     public static final String IN_PROGRESS = "IN_PROGRESS";
 
     private ResultStateConstants() {
-
     }
 }

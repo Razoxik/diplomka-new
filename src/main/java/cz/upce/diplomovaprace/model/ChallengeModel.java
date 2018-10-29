@@ -1,16 +1,35 @@
 package cz.upce.diplomovaprace.model;
 
-public class ChallengeModel {
-    String latCoords;
-    String lngCoords;
-    int gameId;
+import org.springframework.format.annotation.DateTimeFormat;
 
-    public int getGameId() {
-        return gameId;
+import java.time.LocalDateTime;
+
+public class ChallengeModel {
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime start;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime end;
+    private String latCoords;
+    private String lngCoords;
+    private int gameId;
+    private String description;
+    private String password;
+
+    public LocalDateTime getStart() {
+        return start;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 
     public String getLatCoords() {
@@ -27,5 +46,29 @@ public class ChallengeModel {
 
     public void setLngCoords(String lngCoords) {
         this.lngCoords = lngCoords;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

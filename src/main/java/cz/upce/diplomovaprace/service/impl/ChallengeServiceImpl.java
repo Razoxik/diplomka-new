@@ -1,6 +1,8 @@
 package cz.upce.diplomovaprace.service.impl;
 
+import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.entity.User;
+import cz.upce.diplomovaprace.enums.ChallengeStateConstants;
 import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.repository.UserRepositoryCustom;
@@ -25,4 +27,10 @@ public class ChallengeServiceImpl implements ChallengeService {
         User user = userRepository.findById(sessionManager.getUserId()).orElse(null);
         return user != null && userRepositoryCustom.findAllChallengeUsersByChallengeId(challengeId).contains(user);
     }
+
+    @Override
+    public boolean isChallengeFinished(Challenge challenge) {
+        return ChallengeStateConstants.FINISHED.equals(challenge.getChallengeStateByChallengeStateId().getState());
+    }
+
 }

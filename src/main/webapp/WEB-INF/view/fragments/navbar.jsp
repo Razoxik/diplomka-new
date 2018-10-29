@@ -55,7 +55,7 @@
                         <i class="material-icons">flag</i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="<c:url value="${pageContext.request.contextPath}?lang=cz"/>">Czech</a>
+                        <a class="dropdown-item" href="/?lang=cz"/>Czech</a>
                         <a class="dropdown-item" href="<c:url value="${pageContext.request.contextPath}?lang=en"/>">English</a>
                     </div>
                 </li>
