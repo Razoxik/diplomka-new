@@ -1,5 +1,7 @@
 package cz.upce.diplomovaprace.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +35,7 @@ public class Message {
 
     @Basic
     @Column(name = "created", nullable = false)
+    @CreationTimestamp
     public Timestamp getCreated() {
         return created;
     }
