@@ -6,6 +6,7 @@ import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.entity.ChallengeResult;
 import cz.upce.diplomovaprace.entity.ChallengeState;
 import cz.upce.diplomovaprace.entity.Game;
+import cz.upce.diplomovaprace.entity.Rating;
 import cz.upce.diplomovaprace.entity.ResultState;
 import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.enums.ActiveTabConstants;
@@ -26,6 +27,7 @@ import cz.upce.diplomovaprace.repository.ResultStateRepository;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.service.ChallengeService;
 import io.micrometer.core.lang.NonNull;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -39,8 +41,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -114,71 +114,22 @@ public class ChallengeController {
         return new ModelAndView(CHALLENGE_CREATE_VIEW_NAME, model);
     }
 
+    //Controller calls service. Service returns an object (be it a DTO, domain model or something else)
     @GetMapping("/detail")
     public ModelAndView challengeDetail(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
-                                        Map<String, Object> model) throws Exception {
+                                        Map<String, Object> model) throws EntityNotFoundException {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
-        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
-        // Prepare teams
-        List<User> users = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
-        Game game = challenge.getGameByGameId();
 
-        List<UserDto> userDtos = new ArrayList<>();
-        for (User user : users) {
-            int userId = user.getId();
-            int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
-            String userName = user.getUserName();
-            int numberOfWins = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
-                    user, resultStateRepository.findByState(ResultStateConstants.WINNER)).size();
-            int numberOfLosses = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
-                    user, resultStateRepository.findByState(ResultStateConstants.DEFEATED)).size();
-            int numberOfTies = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
-                    user, resultStateRepository.findByState(ResultStateConstants.TIE)).size();
-            int totalNumberOfGames = numberOfWins + numberOfLosses + numberOfTies;
-            ChallengeResult result = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
-
-            UserDto userDto = new UserDto();
-            userDto.setId(userId);
-            userDto.setRating(rating);
-            userDto.setUserName(userName);
-            userDto.setNumberOfWins(numberOfWins);
-            userDto.setNumberOfLosses(numberOfLosses);
-            userDto.setNumberOfTies(numberOfTies);
-            userDto.setNumberOfGames(totalNumberOfGames);
-            if (!ResultStateConstants.IN_PROGRESS.equals(result.getResultStateByResultStateId().getState())) {
-                userDto.setWinningUserScore(result.getScoreWinner());
-                userDto.setLossingUserScore(result.getScoreDefeated());
-            } else {
-                userDto.setChallengeResultState(ResultStateConstants.IN_PROGRESS);
-            }
-            userDtos.add(userDto);
-        }
-        // sort by rating
-        userDtos.sort(Comparator.comparingInt(UserDto::getRating).reversed());
-        // calculate teams
-        List<UserDto> firstTeam = new ArrayList<>();
-        List<UserDto> secondTeam = new ArrayList<>();
-        for (int i = 0; i < userDtos.size(); i++) {
-            if (i % 2 == 0) {
-                firstTeam.add(userDtos.get(i));
-            } else {
-                secondTeam.add(userDtos.get(i));
-            }
-        }
-        // set ChallengeDetailDto
-        ChallengeDetailDto challengeDetailDto = new ChallengeDetailDto();
-        challengeDetailDto.setUserDtos(userDtos);
-        challengeDetailDto.setFirstTeam(firstTeam);
-        challengeDetailDto.setSecondTeam(secondTeam);
-        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
-                game, GameParamConstants.NUMBER_OF_PLAYERS).getValue());
-        challengeDetailDto.setMaxPlayers(maxPlayers);
+        ChallengeDetailDto challengeDetailDto = prepareChallengeDetailDto(challenge);
+        boolean isUserAlreadyInChallenge = challengeService.isUserAlreadyInChallenge(challenge);
+        boolean isChallengeFinished = challengeService.isChallengeFinished(challenge);
 
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
         model.put(CHALLENGE_DETAIL_DTO_MODEL_KEY, challengeDetailDto);
         model.put(CHALLENGE_MODEL_KEY, challenge);
-        model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, challengeService.isUserAlreadyInChallenge(challengeId));
-        model.put(IS_CHALLENGE_FINISHED_MODEL_KEY, challengeService.isChallengeFinished(challenge));
+        model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, isUserAlreadyInChallenge);
+        model.put(IS_CHALLENGE_FINISHED_MODEL_KEY, isChallengeFinished);
+        // AND CHALLENGE IS NOT FULL!!! NA JOIN/ODHLASIT SE!!!
 
         return new ModelAndView(CHALLENGE_DETAIL_VIEW_NAME, model);
     }
@@ -205,26 +156,44 @@ public class ChallengeController {
         User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
         ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
 
+        // RECALCULATE RATING OF EVERY PLAYER IN CHALLENGE
+        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
+        List<User> users = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
+        Game game = challenge.getGameByGameId();
+        int firstTeamRating = 0;
+        int secondTeamRating = 0;
+        for (int i = 0; i < users.size(); i++) {
+            if (i % 2 == 0) {
+                firstTeamRating += ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
+            } else {
+                secondTeamRating += ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
+            }
+        }
         String resultState = null;
         int winnerScore = challengeResultModel.getScoreTeam1();
         int looserScore = challengeResultModel.getScoreTeam2();
+        Rating rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game);
         switch (challengeResultModel.getResultState()) {
             case "WINNER":
                 resultState = ResultStateConstants.WINNER;
                 winnerScore = challengeResultModel.getScoreTeam1();
                 looserScore = challengeResultModel.getScoreTeam2();
+                rating.setRating(rating.getRating() + Math.abs((rating.getRating() - secondTeamRating - 18))); // magic constant
                 break;
             case "DEFEATED":
                 resultState = ResultStateConstants.DEFEATED;
                 winnerScore = challengeResultModel.getScoreTeam2();
                 looserScore = challengeResultModel.getScoreTeam1();
+                rating.setRating(rating.getRating() - Math.abs((rating.getRating() - secondTeamRating - 18))); // magic constant
                 break;
             case "TIE":
                 resultState = ResultStateConstants.TIE;
+                // rating.setRating(rating.getRating() - Math.abs((rating.getRating() - secondTeamRating)));
                 break;
             default:
                 break;
         }
+        ratingRepository.save(rating);
 
         challengeResult.setResultStateByResultStateId(resultStateRepository.findByState(resultState));
         challengeResult.setScoreWinner(winnerScore);
@@ -238,6 +207,7 @@ public class ChallengeController {
                         .equals(ResultStateConstants.IN_PROGRESS)).count() == maxPlayers) {
             challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findByState(ChallengeStateConstants.FINISHED));
             challengeRepository.save(challenge);
+            // RECALCULATE RATING OF EVERY PLAYER IN CHALLENGE
         }
 // ROLE OPERATOR, BUDE PAK ROZHODOVAT SPORNY CHALLENGE POPR. NATO SRAT A POUZE POSILAT A BANOVAT LIDI CO MAJ HODNE REPORTU?
         // bude mit zas link na detajl challenge a tam bude moct zmenit skore lidem, tlacitko vedle pridat do pratel na zadat vysledek a upravit to, to zni fajn
@@ -309,5 +279,19 @@ public class ChallengeController {
     private ModelAndView redirectToChallengeDetail(@NonNull int challengeId, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute(CHALLENGE_ID_REQUEST_PARAM, challengeId);
         return new ModelAndView("redirect:/challenge/detail");
+    }
+
+    private ChallengeDetailDto prepareChallengeDetailDto(Challenge challenge) {
+        Game game = challenge.getGameByGameId();
+
+        ChallengeDetailDto challengeDetailDto = new ChallengeDetailDto();
+        Pair<List<UserDto>, List<UserDto>> teamsDtos = challengeService.prepareTeamsDtos(challenge);
+        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                game, GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        challengeDetailDto.setFirstTeam(teamsDtos.getKey());
+        challengeDetailDto.setSecondTeam(teamsDtos.getValue());
+        challengeDetailDto.setMaxPlayers(maxPlayers);
+
+        return challengeDetailDto;
     }
 }

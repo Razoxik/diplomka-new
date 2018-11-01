@@ -19,6 +19,7 @@ public class ChallengeResult {
     private Timestamp created;
     private Integer scoreWinner;
     private Integer scoreDefeated;
+    private Integer teamNumber; // UPRAVIT DATA MODEL!
     private String description;
     private Challenge challengeByChallengeId;
     private User userByUserId;
@@ -55,6 +56,16 @@ public class ChallengeResult {
 
     public void setScoreWinner(Integer scoreWinner) {
         this.scoreWinner = scoreWinner;
+    }
+
+    @Basic
+    @Column(name = "teamNumber", nullable = true)
+    public Integer getTeamNumber() {
+        return teamNumber;
+    }
+
+    public void setTeamNumber(Integer teamNumber) {
+        this.teamNumber = teamNumber;
     }
 
     @Basic

@@ -26,28 +26,22 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <form name='loginForm'
-                                          action="<c:url value='/login' />" method='POST'>
-
+                                    <form name='loginForm' action="<c:url value='/login' />" method='POST'>
                                         <div class="form-group">
                                             <label class="label-control">
-                                                User name                                            </label>
-
-                                            <input type='text' class="form-control" name='username' value="razox"/>
+                                                User name </label>
+                                            <input type='text' class="form-control" name='username' value="admin"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="label-control">
-                                                Password                                            </label>
-
+                                                Password </label>
                                             <input type='password' class="form-control" name='password'
-                                                       value="razox"/>
+                                                   value="admin"/>
                                         </div>
-
-
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                         <input type="hidden" name="${_csrf.parameterName}"
                                                value="${_csrf.token}"/>
-NEBO SE REGISTRUJTE ZDEEe XXXX
+                                        NEBO SE REGISTRUJTE ZDEEe XXXX
                                         <p><spring:message code="test"/></p>
 
                                     </form>
@@ -55,7 +49,6 @@ NEBO SE REGISTRUJTE ZDEEe XXXX
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -34,7 +34,7 @@
                     <p>History</p>
                 </a>
             </li>
-            <sec:authorize access="hasAnyAuthority('ROLsE','ROLE')">
+            <sec:authorize access="hasAnyAuthority('ADMIN','ROLE')">
             <li class="nav-item  <c:if test="${activeTab == 'MESSAGES'}">active</c:if>">
                 <a class="nav-link" href="/message/list">
                     <i class="material-icons">message</i>

@@ -15,12 +15,12 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Autowired
     ChallengeRepository challengeRepository;
+
     @Autowired
     ChallengeResultRepository challengeResultRepository;
 
     @Override
-    public List<User> findAllChallengeUsersByChallengeId(int challengeId) throws Exception {
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(Exception::new);
+    public List<User> findAllChallengeUsersByChallenge(Challenge challenge) {
         List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
 
         return challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());

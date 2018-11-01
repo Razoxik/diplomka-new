@@ -41,7 +41,7 @@ public class MessageController {
 
 
     @GetMapping("/list")
-    @PreAuthorize("hasAnyAuthority('ROLE')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView messageList(Map<String, Object> model) throws Exception {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MESSAGES);
         User user =  userRepository.findById(sessionManager.getUserId()).orElseThrow(Exception::new);
