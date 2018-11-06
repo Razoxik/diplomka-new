@@ -2,7 +2,6 @@ package cz.upce.diplomovaprace.service;
 
 
 import cz.upce.diplomovaprace.entity.User;
-import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,13 +18,9 @@ import java.util.Collections;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    private static final String USER_ID_SESSION_ATTRIBUTE = "userId";
     // TY MOJE DAOCKA DAT JAKO REPOSITORY https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private SessionManager sessionManager;
 
     /**
      * This method is overriden
@@ -40,8 +35,8 @@ public class MyUserDetailsService implements UserDetailsService {
     //https://www.ekiras.com/2016/04/authenticate-user-with-custom-user-details-service-in-spring-security.html
     @Override
     public UserDetails loadUserByUsername(String username) {
-        username = username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase();
-        User user = userRepository.findByUserName(username);
+        // First letter in uppercase, rest in lower or fuck it a prostě to bude case sensitive?
+        User user = userRepository.findByUserName(username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase());
         String userName = user.getUserName();
         String password = user.getPassword();
         if (userName == null) {
@@ -49,12 +44,9 @@ public class MyUserDetailsService implements UserDetailsService {
         }
 
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRoleByRoleId().getRole());
-        UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(userName, password, Collections.singletonList(authority));
 
-        sessionManager.setSessionAttribute(USER_ID_SESSION_ATTRIBUTE, userRepository.findByUserName(userName).getId());
 
-        return userDetails;
+        return new org.springframework.security.core.userdetails.User(userName, password, Collections.singletonList(authority));
     }
 
     // TOHLE BUDE POTREBA POUZE POKUD SE ROZHODNES MIT PRO UZIVATELE VICE ROLI NEZ JEDNU, ASI TO BUDE NAKONEC ROZUMNY NO

@@ -1,7 +1,9 @@
 package cz.upce.diplomovaprace;
 
+import cz.upce.diplomovaprace.handler.LoginHandlerCustom;
 import cz.upce.diplomovaprace.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,17 +19,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myAppUserDetailsService;
 
+   // @Autowired
+  //  private LoginHandlerCustom loginHandlerCustom;
+   @Bean
+   public LoginHandlerCustom myLoginHandlerCustom(){
+       return new LoginHandlerCustom();
+   }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/index").permitAll()
+                //.antMatchers("/css/**", "/index").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/message/**").authenticated()
                 .antMatchers("/challenge/**").authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/message/list")
+                .loginPage("/login").failureUrl("/login?error").successHandler(myLoginHandlerCustom())
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).clearAuthentication(true).permitAll();
