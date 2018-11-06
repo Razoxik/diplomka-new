@@ -27,7 +27,8 @@ import cz.upce.diplomovaprace.repository.ResultStateRepository;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.service.ChallengeService;
 import io.micrometer.core.lang.NonNull;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -288,8 +289,8 @@ public class ChallengeController {
         Pair<List<UserDto>, List<UserDto>> teamsDtos = challengeService.prepareTeamsDtos(challenge);
         int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
                 game, GameParamConstants.NUMBER_OF_PLAYERS).getValue());
-        challengeDetailDto.setFirstTeam(teamsDtos.getKey());
-        challengeDetailDto.setSecondTeam(teamsDtos.getValue());
+        challengeDetailDto.setFirstTeam(teamsDtos.getLeft());
+        challengeDetailDto.setSecondTeam(teamsDtos.getRight());
         challengeDetailDto.setMaxPlayers(maxPlayers);
 
         return challengeDetailDto;

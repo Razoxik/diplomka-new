@@ -14,7 +14,7 @@ import cz.upce.diplomovaprace.repository.ResultStateRepository;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.repository.UserRepositoryCustom;
 import cz.upce.diplomovaprace.service.ChallengeService;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +64,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         List<Pair<User, Integer>> usersWithRatings = new ArrayList<>();
         for (User user : users) {
             int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
-            Pair<User, Integer> userWithRating = new Pair<>(user, rating);
+            Pair<User, Integer> userWithRating = Pair.of(user, rating);
             usersWithRatings.add(userWithRating);
         }
         usersWithRatings.sort(Comparator.comparingInt(Pair::getValue));
@@ -97,7 +97,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         List<User> firstTeamUsers = firstTeamChallengeResult.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
         List<User> secondTeamUsers = secondTeamChallengeResult.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
 
-        return new Pair<>(firstTeamUsers, secondTeamUsers);
+        return Pair.of(firstTeamUsers, secondTeamUsers);
     }
 
     /**
@@ -162,6 +162,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         List<UserDto> firstTeam = prepareTeamDtos(challenge, teamsUsers.getKey());
         List<UserDto> secondTeam = prepareTeamDtos(challenge, teamsUsers.getValue());
 
-        return new Pair<>(firstTeam, secondTeam);
+        return Pair.of(firstTeam, secondTeam);
     }
 }

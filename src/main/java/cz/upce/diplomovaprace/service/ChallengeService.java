@@ -4,13 +4,13 @@ package cz.upce.diplomovaprace.service;
 import cz.upce.diplomovaprace.dto.UserDto;
 import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.entity.User;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
 public interface ChallengeService {
 
-    boolean isUserAlreadyInChallenge(Challenge challenge) ;
+    boolean isUserAlreadyInChallenge(Challenge challenge);
 
     boolean isChallengeFinished(Challenge challenge);
 
