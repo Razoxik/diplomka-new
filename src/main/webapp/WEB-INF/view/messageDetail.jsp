@@ -4,15 +4,7 @@
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
 
-<jsp:include page="fragments/header.jsp"/>
-
-
-<body class="dark-edition">
-<div class="wrapper ">
-    <jsp:include page="fragments/sidebar.jsp"/>
-
-    <div class="main-panel">
-        <jsp:include page="fragments/navbar.jsp"/>
+<%@ include file="common/header.jsp" %>
 
         <div class="content">
             <div class="container-fluid">
@@ -87,11 +79,4 @@
 
             </div>
         </div>
-        <jsp:include page="fragments/footer.jsp"/>
-    </div>
-</div>
-<jsp:include page="fragments/filterOnDaRightSide.jsp"/>
-</body>
-<jsp:include page="fragments/jsCommon.jsp"/>
-
-</html>
+<%@ include file="common/footer.jsp" %>

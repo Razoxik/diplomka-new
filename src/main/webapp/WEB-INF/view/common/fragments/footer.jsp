@@ -1,27 +1,34 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <footer class="footer">
     <div class="container-fluid">
         <nav class="float-left">
             <ul>
                 <li>
-                    <a href="https://www.creative-tim.com">
-                        Lets Go
+                    <a href="https://letsplayfolks.herokuapp.com/">
+                        Let's play folks
                     </a>
                 </li>
                 <li>
-                    <a href="https://creative-tim.com/presentation">
+                    <a href="https://www.tomasbartosek.com">
                         About Us
                     </a>
                 </li>
                 <li>
-                    <a href="http://blog.creative-tim.com">
+                    <a href="https://www.tomasbartosek.com">
                         Blog
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/TomasBartosek">
+                        GitHub
                     </a>
                 </li>
             </ul>
         </nav>
         <div class="copyright float-right" id="date">
             , made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Tom Bart</a> for a better world.
+            <a href="https://www.tomasbartosek.com" target="_blank">Tomáš Bartošek</a>
         </div>
     </div>
 </footer>

@@ -47,9 +47,11 @@ public class LoginHandlerCustom implements AuthenticationSuccessHandler {
     protected String determineTargetUrl(Authentication authentication) {
         Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (authorities.contains("ADMIN")) {
-            return "/admin.htm";
+            return "/map";
+            // return "/admin.htm";
         } else if (authorities.contains("OPERATOR")) {
-            return "/user.htm";
+            return "/map";
+            // return "/user.htm";
         } else if (authorities.contains("USER")) {
             return "/map";
         } else {

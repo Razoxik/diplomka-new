@@ -43,7 +43,7 @@
             </li>
             </sec:authorize>
             <li class="nav-item ">
-                <a class="nav-link" href="../theme/examples/icons.html">
+                <a class="nav-link" href="../../theme/examples/icons.html">
                     <i class="material-icons">bubble_chart</i>
                     <p>Statistics</p>
                 </a>
@@ -55,7 +55,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="../theme/examples/notifications.html">
+                <a class="nav-link" href="../../theme/examples/notifications.html">
                     <i class="material-icons">notifications</i>
                     <p>Notifications</p>
                 </a>

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class MySiteMeshFilter extends ConfigurableSiteMeshFilter {
     @Override
     protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
-       // builder.addDecoratorPath("/*", "/WEB-INF/view/fragments/header.jsp");
+       // builder.addDecoratorPath("/*", "/WEB-INF/view/fragments/meta.jsp");
       //  builder. addExcludedPath("/WEB-INF/view/fragments/*");
         /*
         // Map default decorator. This shall be applied to all paths if no other paths match.

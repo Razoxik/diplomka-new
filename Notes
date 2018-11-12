@@ -1,0 +1,43 @@
+Kapitoly:
+    - SpringBoot
+    - Spring
+    - Spring Security (LoginHandlerCustom)
+        - Crsf token
+    - Configurační soubory
+    - Maven
+    - H2 DB
+    - Application properties
+    - JSP
+    - Javascript
+    - GoogleMapsApi
+    - MVC návrh
+        - Entity
+        - Repository
+        - Service
+        - Controller
+        - JSP
+    - Resource bundle - localizace
+    - Heroku
+    - Swagger
+    - Generování entit z databáze v idee
+    - Sonar Lint
+    - Git
+    - Jira
+    - Confluence?
+    - Bootstrap - vzhledem k tomu, že nejsem koder, ale programator byla vyuzita bootstrapova sablona
+
+TODO:
+    - Admin bude moct schvalovat novy hry
+        - nova hra, formular na jmeno a pocet hracu
+    - Rozvalit swaggera
+    - Theme:
+        - Admin - červený tlačítko - přimo H2 console
+                - schvalovani novych her
+        - Operator - Tyrkysový - spravuje výzvy, který nemají jednotné skore
+        - User/Nepřihlášen - Fialový
+    - Nějaký custom anotace?
+
+https://stackoverflow.com/questions/37499821/good-jsp-code-structure-for-header-and-footer
+Use <%@include> because it is static include and <jsp:include> is dynamic include.
+When you use <jsp:include> the file will be included at runtime.
+When you use <%@include> file will be included at compile time.

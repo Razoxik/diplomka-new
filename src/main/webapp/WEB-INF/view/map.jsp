@@ -9,23 +9,13 @@
 
 <%--@elvariable id="r" type="cz.upce.diplomovaprace.entity.Rating"--%>
 
-<jsp:include page="fragments/header.jsp"/>
-
-<body class="dark-edition">
-<div class="wrapper ">
-    <jsp:include page="fragments/sidebar.jsp"/>
+<jsp:include page="common/map/header.jsp"/>
 
 
-    <div class="main-panel">
-        <jsp:include page="fragments/navbar.jsp"/>
-        <div id="map"></div>
-    </div>
-
-</div>
 <%--<jsp:include page="fragments/filterOnDaRightSide.jsp"/> UDELAT Z CHALLENGES MAPU<<--%>
 <%--${challenge.challengeResultsById.stream().filter(challengeResult -> challengeResult.getChallengeByChallengeId().getId()==challenge.id).findFirst().orElse(null).userByUserId.ratingsById.stream().filter(rating -> rating.getGameByGameId().getId()==challenge.gameByGameId.id).findFirst().orElse(null).rating}
 --%>
-<jsp:include page="fragments/jsCommon.jsp"/>
+
 <script>
     var challenges = [
         <c:forEach items="${challengeDtos}" var="challengeDto" varStatus="status">
@@ -52,6 +42,4 @@
         demo.initGoogleMaps();
     });
 </script>
-</body>
-
-</html>
+<%@ include file="common/map/footer.jsp" %>
