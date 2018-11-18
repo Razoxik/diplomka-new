@@ -28,7 +28,6 @@ import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.service.ChallengeService;
 import io.micrometer.core.lang.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -138,10 +137,12 @@ public class ChallengeController {
 
     @GetMapping("/enterResult")
     public ModelAndView challengeEnterResult(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
+                                             @RequestParam(value = "challengeUserId", required = false) Integer challengeUserId,
                                              @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) ChallengeResultModel challengeResultModel,
                                              Map<String, Object> model) throws EntityNotFoundException {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
         model.put(CHALLENGE_MODEL_KEY, challenge);
+        model.put("challengeUserId", challengeUserId);
         return new ModelAndView(CHALLENGE_RESULT_VIEW_NAME, model);
     }
 
@@ -154,7 +155,8 @@ public class ChallengeController {
         }
 
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        int userId = challengeResultModel.getChallengeUserId() == null ? sessionManager.getUserId() : challengeResultModel.getChallengeUserId();
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
 
         // RECALCULATE RATING OF EVERY PLAYER IN CHALLENGE
@@ -195,6 +197,10 @@ public class ChallengeController {
                 break;
         }
         ratingRepository.save(rating);
+        // ten rating počítat až všichni zadaj STEJNY výsledek do té doby ne! To nějak vymyslet, to bude mít na starosti operátor
+        // if every challenge result have same score return true, else false
+        // if true, set rating; else nothing
+        // operator uvidi ty kde ta metoda vrati false a bude tam moct rucne zadat vysledky a finishnout challenge
 
         challengeResult.setResultStateByResultStateId(resultStateRepository.findByState(resultState));
         challengeResult.setScoreWinner(winnerScore);

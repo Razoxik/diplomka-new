@@ -63,6 +63,12 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <spring:url value="/createGame" var="enterResultUrl">
+                            </spring:url>
+                            <a href="${enterResultUrl}"
+                               class="btn   btn-primary "
+                               role="button"
+                               aria-disabled="true">Nová hra</a>
                         </form:form>
                     </div>
                 </div>

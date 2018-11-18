@@ -17,6 +17,7 @@ public class Game {
     private Timestamp created;
     private String name;
     private String description;
+    private Integer approved;
     private Collection<Challenge> challengesById;
     private Collection<GameParam> gameParamsById;
     private Collection<Rating> ratingsById;
@@ -60,6 +61,16 @@ public class Game {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+// TODO: add to diagram
+    @Basic
+    @Column(name = "approved", nullable = true)
+    public Integer getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Integer approved) {
+        this.approved = approved;
     }
 
     @Override

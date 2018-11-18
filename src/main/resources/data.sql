@@ -45,11 +45,11 @@ INSERT INTO message VALUES(2, '2038-01-19 03:14:07',   'message_text_2', 'messag
 
 -- Table 'game'
 -- Columns [id; created; game description; game name]
-INSERT INTO game VALUES(1, '2018-11-01 23:29:48', 'Chess game description for mock data'      , 'chess'     ); -- 2
-INSERT INTO game VALUES(2, '2018-11-01 23:29:48', 'Football game description for mock data'  , 'football'  ); -- 8
-INSERT INTO game VALUES(3, '2018-11-01 23:29:48', 'Badminton game description for mock data'  , 'badminton' ); -- 4
-INSERT INTO game VALUES(4, '2018-11-01 23:29:48', 'Hockey ball game description for mock data', 'hockeyball'); -- 6
-INSERT INTO game VALUES(5, '2018-11-01 23:29:48', 'Checkers game description for mock data'   , 'checkers'  ); --2
+INSERT INTO game VALUES(1, 1,'2018-11-01 23:29:48', 'Chess game description for mock data'      , 'chess'     ); -- 2
+ INSERT INTO game VALUES(2,1, '2018-11-01 23:29:48', 'Football game description for mock data'  , 'football'  ); -- 8
+ INSERT INTO game VALUES(3,0, '2018-11-01 23:29:48', 'Badminton game description for mock data'  , 'badminton' ); -- 4
+ INSERT INTO game VALUES(4,0, '2018-11-01 23:29:48', 'Hockey ball game description for mock data', 'hockeyball'); -- 6
+ INSERT INTO game VALUES(5,0, '2018-11-01 23:29:48', 'Checkers game description for mock data'   , 'checkers'  ); --2
 
 -- Table 'game_param'
 -- Columns [id; created; parameter name; parameter value; game id]

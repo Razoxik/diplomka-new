@@ -4,6 +4,7 @@ public class ChallengeResultModel {
     private String resultState;
     private int scoreTeam1;
     private int scoreTeam2;
+    private Integer challengeUserId;
 
     public int getScoreTeam1() {
         return scoreTeam1;
@@ -27,5 +28,13 @@ public class ChallengeResultModel {
 
     public void setResultState(String resultState) {
         this.resultState = resultState;
+    }
+
+    public Integer getChallengeUserId() {
+        return challengeUserId;
+    }
+
+    public void setChallengeUserId(Integer challengeUserId) {
+        this.challengeUserId = challengeUserId;
     }
 }

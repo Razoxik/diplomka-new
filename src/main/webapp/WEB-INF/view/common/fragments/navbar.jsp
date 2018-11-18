@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
@@ -67,15 +69,17 @@
                             Account
                         </p>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="<c:url value="/login"/>">Login</a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLogout">
-                        <form name='logoutForm' action="<c:url value='/logout' />" method='POST'>
-                            <input type="submit" value="Log out"/>
-                            <input type="hidden" name="${_csrf.parameterName}"
-                                   value="${_csrf.token}"/>
+                        <form id="logoutForm" name='logoutForm' action="<c:url value='/logout'/>" method='POST'>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
-                        <a class="dropdown-item" href="/logout">Sign off</a>
+                        <a class="dropdown-item" href="javascript:{}"
+                           onclick="document.getElementById('logoutForm').submit();">Logout
+                        </a>
                     </div>
+
                 </li>
             </ul>
         </div>

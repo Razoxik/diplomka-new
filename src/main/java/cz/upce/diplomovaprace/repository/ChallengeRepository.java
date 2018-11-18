@@ -10,5 +10,4 @@ public interface ChallengeRepository extends CrudRepository<Challenge, Integer> 
 
     //TODO opravit preklep v opoNNent      oponnentUserId;
    // List<Challenge> findChallengesByOponnentUserId(int id);
-
 }

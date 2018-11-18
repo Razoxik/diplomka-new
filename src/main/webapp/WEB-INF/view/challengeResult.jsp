@@ -5,6 +5,7 @@
 
 <%--@elvariable id="challengeResultModel" type="cz.upce.diplomovaprace.model.ChallengeResultModel"--%>
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
+<%--@elvariable id="challengeUserId" type="java.lang.Integer"--%>
 
 <%@ include file="common/header.jsp" %>
 
@@ -14,8 +15,12 @@
             <div class="col-md-12">
                 <spring:url value="submitResult" var="submitResultUrl" htmlEscape="true">
                     <spring:param name="challengeId" value="${challenge.id}"/>
+
                 </spring:url>
                 <form:form method="POST" action="${submitResultUrl}" modelAttribute="challengeResultModel">
+                    <c:if test="${not empty challengeUserId}">
+                      <form:input path="challengeUserId" type="hidden" value="${  challengeUserId}"/>
+                    </c:if>
                     <div class="form-group">
                         <label class="label-control">How do you end?</label>
                         <form:select path="resultState" cssClass="form-control selectpicker"
