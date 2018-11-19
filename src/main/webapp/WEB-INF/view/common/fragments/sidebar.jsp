@@ -59,7 +59,7 @@
             </li>
             <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
                 <li class="nav-item <c:if test="${activeTab eq 'HISTORY'}">active</c:if>">
-                    <spring:url value="/history" var="historyUrl"/>
+                    <spring:url value="/history/list" var="historyUrl"/>
                     <a class="nav-link" href="${historyUrl}">
                         <i class="material-icons">content_paste</i>
                         <p><spring:message code="sidebar.user.history"/></p>

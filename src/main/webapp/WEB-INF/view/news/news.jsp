@@ -4,6 +4,7 @@
 
 <%--@elvariable id="fromLogout" type="java.lang.Boolean"--%>
 <%--@elvariable id="fromLogin" type="java.lang.Boolean"--%>
+<%--@elvariable id="lang" type="java.lang.String"--%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">
@@ -19,6 +20,14 @@
         <c:if test="${fromLogin}">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Příhlášení</strong> proběhlo úspěšně.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </c:if>
+        <c:if test="${not empty lang}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Jazyk úspěšně změnen
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

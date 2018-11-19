@@ -54,7 +54,7 @@ public class MessageController {
     MessageRepository messageRepository;
 
     @GetMapping("/list")
-    public ModelAndView renderMessageList(@RequestParam(value = MESSAGE_SENT_PARAM, required = false) boolean messageSent,
+    public ModelAndView messageList(@RequestParam(value = MESSAGE_SENT_PARAM, required = false) boolean messageSent,
                                           Map<String, Object> model) throws EntityNotFoundException {
         User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
         List<Message> messages = messageRepository.findByUserByToUserId(user);
@@ -77,7 +77,7 @@ public class MessageController {
     }
 
     @GetMapping("/create")
-    public ModelAndView messageReply(@RequestParam(value = USER_NOT_FOUND_PARAM, required = false) boolean userNotFound,
+    public ModelAndView messageCreate(@RequestParam(value = USER_NOT_FOUND_PARAM, required = false) boolean userNotFound,
                                      @RequestParam(value = MESSAGE_ID_PARAM, required = false) Integer messageId,
                                      @ModelAttribute(MESSAGE_MODEL_KEY) MessageModel messageModel,
                                      Map<String, Object> model) throws EntityNotFoundException {
@@ -92,7 +92,7 @@ public class MessageController {
     }
 
     @PostMapping("/send")
-    public ModelAndView sendMessage(@ModelAttribute(MESSAGE_MODEL_KEY) MessageModel messageModel,
+    public ModelAndView messageSend(@ModelAttribute(MESSAGE_MODEL_KEY) MessageModel messageModel,
                                     Map<String, Object> model, RedirectAttributes redirectAttributes) {
         try {
             createMessageFromModel(messageModel);
