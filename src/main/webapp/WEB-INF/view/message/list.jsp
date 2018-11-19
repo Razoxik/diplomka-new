@@ -80,6 +80,10 @@
                                 </tbody>
                             </table>
                         </div>
+                        <spring:url value="create" var="createUrl"/>
+                        <a href="${createUrl}" class="btn btn-primary" role="button" aria-disabled="true">
+                            <spring:message code="message.list.create"/>
+                        </a>
                     </div>
                 </div>
             </div>
