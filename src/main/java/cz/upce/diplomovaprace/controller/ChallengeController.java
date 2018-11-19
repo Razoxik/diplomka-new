@@ -1,5 +1,9 @@
 package cz.upce.diplomovaprace.controller;
 
+import cz.upce.diplomovaprace.constants.ActiveTabConstants;
+import cz.upce.diplomovaprace.constants.ChallengeStateConstants;
+import cz.upce.diplomovaprace.constants.GameParamConstants;
+import cz.upce.diplomovaprace.constants.ResultStateConstants;
 import cz.upce.diplomovaprace.dto.ChallengeDetailDto;
 import cz.upce.diplomovaprace.dto.UserDto;
 import cz.upce.diplomovaprace.entity.Challenge;
@@ -9,10 +13,6 @@ import cz.upce.diplomovaprace.entity.Game;
 import cz.upce.diplomovaprace.entity.Rating;
 import cz.upce.diplomovaprace.entity.ResultState;
 import cz.upce.diplomovaprace.entity.User;
-import cz.upce.diplomovaprace.enums.ActiveTabConstants;
-import cz.upce.diplomovaprace.enums.ChallengeStateConstants;
-import cz.upce.diplomovaprace.enums.GameParamConstants;
-import cz.upce.diplomovaprace.enums.ResultStateConstants;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
 import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.ChallengeModel;
@@ -124,7 +124,6 @@ public class ChallengeController {
         boolean isUserAlreadyInChallenge = challengeService.isUserAlreadyInChallenge(challenge);
         boolean isChallengeFinished = challengeService.isChallengeFinished(challenge);
 
-        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
         model.put(CHALLENGE_DETAIL_DTO_MODEL_KEY, challengeDetailDto);
         model.put(CHALLENGE_MODEL_KEY, challenge);
         model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, isUserAlreadyInChallenge);

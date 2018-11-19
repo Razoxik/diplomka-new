@@ -91,8 +91,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <spring:url value="/h2-console" var="h2ConsoleUrl"/>
-                    <a class="nav-link danger-link" href="${h2ConsoleUrl}">
+                    <spring:url value="/admin/console" var="consoleUrl"/>
+                    <a class="nav-link danger-link" href="${consoleUrl}">
                         <i class="material-icons">verified_user</i>
                         <p><spring:message code="sidebar.admin.console"/></p>
                     </a>
@@ -101,13 +101,13 @@
         </ul>
     </div>
 </div>
-<%--   <li class="nav-item ">
+<%--   <li class="nav-item">
                <a class="nav-link" href="../../theme/examples/icons.html">
                    <i class="material-icons">bubble_chart</i>
                    <p>Statistics</p>
                </a>
            </li>--%>
-<%--  <li class="nav-item ">
+<%--  <li class="nav-item">
       <a class="nav-link" href="../../theme/examples/notifications.html">
           <i class="material-icons">notifications</i>
           <p>Notifications</p>

@@ -1,6 +1,6 @@
 package cz.upce.diplomovaprace.controller;
 
-import cz.upce.diplomovaprace.enums.ActiveTabConstants;
+import cz.upce.diplomovaprace.constants.ActiveTabConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;

@@ -1,4 +1,4 @@
-package cz.upce.diplomovaprace.enums;
+package cz.upce.diplomovaprace.constants;
 
 public class GameParamConstants {
 

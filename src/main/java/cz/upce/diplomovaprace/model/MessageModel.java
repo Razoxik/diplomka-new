@@ -1,16 +1,33 @@
 package cz.upce.diplomovaprace.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
 public class MessageModel {
-    private String nickname;
+
+    private Integer id;
+    private String author;
     private String subject;
     private String text;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime sentDate;
+    private String formattedSentDate;
 
-    public String getNickname() {
-        return nickname;
+    public Integer getId() {
+        return id;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getSubject() {
@@ -27,5 +44,21 @@ public class MessageModel {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public LocalDateTime getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(LocalDateTime sentDate) {
+        this.sentDate = sentDate;
+    }
+
+    public String getFormattedSentDate() {
+        return formattedSentDate;
+    }
+
+    public void setFormattedSentDate(String formattedSentDate) {
+        this.formattedSentDate = formattedSentDate;
     }
 }

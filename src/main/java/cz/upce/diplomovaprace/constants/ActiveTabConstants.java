@@ -1,4 +1,4 @@
-package cz.upce.diplomovaprace.enums;
+package cz.upce.diplomovaprace.constants;
 
 public class ActiveTabConstants {
 
@@ -6,6 +6,7 @@ public class ActiveTabConstants {
     public static final String MAP = "MAP";
     public static final String MESSAGES = "MESSAGES";
     public static final String USER_PROFILE = "USER PROFILE";
+    public static final String FRIENDS = "FRIENDS";
     public static final String NEWS = "NEWS";
     public static final String HISTORY = "HISTORY";
     public static final String LEADERBOARD = "LEADERBOARD";

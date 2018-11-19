@@ -1,18 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--@elvariable id="game" type="cz.upce.diplomovaprace.entity.Game"--%>
 <%--@elvariable id="games" type="java.util.List<ccz.upce.diplomovaprace.entity.Game>"--%>
 
 <%@ include file="../common/header.jsp" %>
-
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="card  ">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Simple Table</h4>
-                        <p class="card-category"> Here is a subtitle for this table</p>
+                        <h4 class="card-title ">Schvalování her</h4>
+                        <p class="card-category">Zde můžete schválit návrhy hráčů</p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -26,13 +27,10 @@
                                         Name
                                     </th>
                                     <th>
-                                        Country
+                                        Created
                                     </th>
                                     <th>
-                                        City
-                                    </th>
-                                    <th>
-                                        Salary
+                                        Popis
                                     </th>
                                     <th>
                                     </th>
@@ -42,16 +40,16 @@
                                 <c:forEach items="${games}" var="game" varStatus="status">
                                     <tr>
                                         <td>
+                                                ${game.id}
+                                        </td>
+                                        <td>
                                                 ${game.name}
                                         </td>
                                         <td>
-                                                ${game.id} </td>
+                                                ${game.created}
+                                        </td>
                                         <td>
-                                                ${game.created} </td>
-                                        <td>
-                                                ${game.description} </td>
-                                        <td class="text-primary">
-                                            $36,738
+                                                ${game.description}
                                         </td>
                                         <td class=>
                                             <spring:url value="/createGame" var="createGame">

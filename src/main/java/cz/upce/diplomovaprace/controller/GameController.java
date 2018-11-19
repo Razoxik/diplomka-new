@@ -1,8 +1,8 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.entity.Game;
-import cz.upce.diplomovaprace.enums.ActiveTabConstants;
-import cz.upce.diplomovaprace.enums.GameParamConstants;
+import cz.upce.diplomovaprace.constants.ActiveTabConstants;
+import cz.upce.diplomovaprace.constants.GameParamConstants;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
 import cz.upce.diplomovaprace.model.GameModel;
 import cz.upce.diplomovaprace.repository.GameParamRepository;

@@ -10,12 +10,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.tomasbartosek.com">
+                    <a href="https://www.tomasbartosek.cz">
                         About Us
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.tomasbartosek.com">
+                    <a href="https://www.tomasbartosek.cz">
                         Blog
                     </a>
                 </li>
@@ -28,7 +28,7 @@
         </nav>
         <div class="copyright float-right" id="date">
             , made with <i class="material-icons">favorite</i> by
-            <a href="https://www.tomasbartosek.com" target="_blank">Tomáš Bartošek</a>
+            <a href="https://www.tomasbartosek.cz" target="_blank">Tomáš Bartošek</a>
         </div>
     </div>
 </footer>

@@ -31,14 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //.antMatchers("/css/**", "/index").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
+                // .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/user/**").authenticated()
                 .antMatchers("/message/**").authenticated()
                 .antMatchers("/challenge/**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").failureUrl("/login?error").successHandler(myLoginHandlerCustom())
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/news?fromLogout=true").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).clearAuthentication(true).permitAll();
         // SECURITY PRO H2 CONSOLI, ABY SME SE TAM DOSTALI JE NUTNY VYPNOUT CSRF PORTOZE v tom LOGIN INPUTU ZADNY csrf tokeny neposíláš žejo
         //https://stackoverflow.com/questions/41961270/h2-console-and-spring-security-permitall-not-working

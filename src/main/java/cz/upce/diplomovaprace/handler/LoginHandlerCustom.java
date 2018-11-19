@@ -47,15 +47,15 @@ public class LoginHandlerCustom implements AuthenticationSuccessHandler {
     protected String determineTargetUrl(Authentication authentication) {
         Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (authorities.contains("ADMIN")) {
-            return "/map";
+            return "/news?fromLogin=true";
             // return "/admin.htm";
         } else if (authorities.contains("OPERATOR")) {
-            return "/map";
+            return "/news?fromLogin=true";
             // return "/user.htm";
         } else if (authorities.contains("USER")) {
-            return "/map";
+            return "/news?fromLogin=true";
         } else {
-            return "/map";
+            return "/news?fromLogin=true";
 //            throw new IllegalStateException();
         }
     }

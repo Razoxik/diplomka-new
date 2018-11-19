@@ -40,11 +40,15 @@ INSERT INTO report VALUES(2, '2038-01-19 03:14:07',   'report_text_2', 2,'2', '1
 INSERT INTO friend VALUES(1, '1970-01-01 00:00:01', '1', '2');
 INSERT INTO friend VALUES(2, '2038-01-19 03:14:07', '2', '1');
 
-INSERT INTO message VALUES(1, '1970-01-01 00:00:01',   'message_text_1', 'message_subject_1',  '2',1);
-INSERT INTO message VALUES(2, '2038-01-19 03:14:07',   'message_text_2', 'message_subject_2',  '1',2);
+-- Table 'message'
+-- Columns [id; created; message_subject; message_text; user_from; user_to]
+INSERT INTO message VALUES(1, '2018-11-19 16:31:12','message_subject_1', 'message_text_1', 2, 1);
+INSERT INTO message VALUES(2, '2038-01-19 03:14:07','message_subject_2', 'message_text_2', 1, 2);
+INSERT INTO message VALUES(3, '2038-01-19 03:14:07','message_subject_3', ' Duis elementum convallis augue malesuada fermentum. Aliquam dictum,
+                                        lacus eu iaculis semper.', 5, 1);
 
 -- Table 'game'
--- Columns [id; created; game description; game name]
+-- Columns [id; created; game_description; game_name]
 INSERT INTO game VALUES(1, 1,'2018-11-01 23:29:48', 'Chess game description for mock data'      , 'chess'     ); -- 2
  INSERT INTO game VALUES(2,1, '2018-11-01 23:29:48', 'Football game description for mock data'  , 'football'  ); -- 8
  INSERT INTO game VALUES(3,0, '2018-11-01 23:29:48', 'Badminton game description for mock data'  , 'badminton' ); -- 4
