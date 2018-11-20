@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li class="nav-item <c:if test="${activeTab eq 'FRIENDS'}">active</c:if>">
-                    <spring:url value="/friends" var="friendsUrl"/>
+                    <spring:url value="/friend/list" var="friendsUrl"/>
                     <a class="nav-link" href="${friendsUrl}">
                         <i class="material-icons">people</i>
                         <p><spring:message code="sidebar.user.friends"/></p>
@@ -67,7 +67,7 @@
                 </li>
             </sec:authorize>
             <li class="nav-item <c:if test="${activeTab eq 'LEADERBOARD' }">active</c:if>">
-                <spring:url value="/leaderboard" var="leaderboardUrl"/>
+                <spring:url value="/leaderboard/list" var="leaderboardUrl"/>
                 <a class="nav-link" href="${leaderboardUrl}">
                     <i class="material-icons">dashboard</i>
                     <p><spring:message code="sidebar.user.leaderboard"/></p>

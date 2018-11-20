@@ -16,4 +16,6 @@ public interface RatingRepository extends CrudRepository<Rating, Integer> {
 
     Rating findByUserByUserIdAndGameByGameId(User user, Game game);
 
+    List<Rating> findByGameByGameId(Game game);
+
 }

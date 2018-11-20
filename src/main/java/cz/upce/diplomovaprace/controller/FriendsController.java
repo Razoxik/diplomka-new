@@ -1,39 +1,38 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.constants.ActiveTabConstants;
-import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
-import cz.upce.diplomovaprace.manager.SessionManager;
-import cz.upce.diplomovaprace.repository.FriendRepository;
-import cz.upce.diplomovaprace.repository.UserRepository;
+import cz.upce.diplomovaprace.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
 @Controller
+@RequestMapping("/friend")
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
+@PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class FriendsController {
 
-    @Autowired
-    FriendRepository friendRepository;
+    private static final String FRIEND_LIST_VIEW_NAME = "friend/list";
+
+    private static final String FRIENDS_MODEL_MODEL_KEY = "friendModels";
+
 
     @Autowired
-    SessionManager sessionManager;
+    FriendService friendService;
 
-    @Autowired
-    UserRepository userRepository;
+    @GetMapping("/list")
+    public ModelAndView friendList(Map<String, Object> model) throws EntityNotFoundException {
 
-    @GetMapping("/friends")
-    public String friendsDefault(Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.FRIENDS);
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
-        model.put("friends", friendRepository.findByUserByFromUserId(user));
-        return "friends";
+        model.put(FRIENDS_MODEL_MODEL_KEY, friendService.prepareFriendModels());
+
+        return new ModelAndView(FRIEND_LIST_VIEW_NAME, model);
     }
-
-
 }
-

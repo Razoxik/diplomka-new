@@ -55,7 +55,7 @@ public class MessageController {
 
     @GetMapping("/list")
     public ModelAndView messageList(@RequestParam(value = MESSAGE_SENT_PARAM, required = false) boolean messageSent,
-                                          Map<String, Object> model) throws EntityNotFoundException {
+                                    Map<String, Object> model) throws EntityNotFoundException {
         User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
         List<Message> messages = messageRepository.findByUserByToUserId(user);
 
@@ -78,12 +78,16 @@ public class MessageController {
 
     @GetMapping("/create")
     public ModelAndView messageCreate(@RequestParam(value = USER_NOT_FOUND_PARAM, required = false) boolean userNotFound,
-                                     @RequestParam(value = MESSAGE_ID_PARAM, required = false) Integer messageId,
-                                     @ModelAttribute(MESSAGE_MODEL_KEY) MessageModel messageModel,
-                                     Map<String, Object> model) throws EntityNotFoundException {
+                                      @RequestParam(value = MESSAGE_ID_PARAM, required = false) Integer messageId,
+                                      @RequestParam(value = "userName", required = false) String userName,
+                                      @ModelAttribute(MESSAGE_MODEL_KEY) MessageModel messageModel,
+                                      Map<String, Object> model) throws EntityNotFoundException {
         if (messageId != null) {
             Message message = messageRepository.findById(messageId).orElseThrow(EntityNotFoundException::new);
             messageModel.setAuthor(message.getUserByFromUserId().getUserName());
+        }
+        if (userName != null) {
+            messageModel.setAuthor(userName);
         }
         model.put(MESSAGE_MODEL_KEY, messageModel);
         model.put(USER_NOT_FOUND_PARAM, userNotFound);
