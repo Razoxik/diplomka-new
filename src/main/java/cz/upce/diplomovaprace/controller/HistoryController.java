@@ -7,7 +7,6 @@ import cz.upce.diplomovaprace.entity.Game;
 import cz.upce.diplomovaprace.entity.ResultState;
 import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
-import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.HistoryModel;
 import cz.upce.diplomovaprace.repository.ChallengeResultRepository;
 import cz.upce.diplomovaprace.repository.UserRepository;
@@ -17,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,8 +36,6 @@ public class HistoryController {
 
     private static final String HISTORY_MODELS_KEY = "historyModels";
 
-    @Autowired
-    SessionManager sessionManager;
 
     @Autowired
     UserRepository userRepository;
@@ -46,8 +44,9 @@ public class HistoryController {
     ChallengeResultRepository challengeResultRepository;
 
     @GetMapping("/list")
-    public ModelAndView historyList(Map<String, Object> model) throws EntityNotFoundException {
-        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+    public ModelAndView historyList(@RequestParam(value = "userId") Integer userId,
+                                    Map<String, Object> model) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         List<ChallengeResult> challengeResults = challengeResultRepository.findByUserByUserId(user);
 
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.HISTORY);

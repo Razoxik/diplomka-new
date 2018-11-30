@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%--@elvariable id="activeTab" type="java.lang.String"--%>
+<%--@elvariable id="userId" type="java.lang.Integer"--%>
 
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="/img/sidebar-2.jpg">
     <!--
@@ -29,8 +30,11 @@
             </li>
             <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
                 <li class="nav-item <c:if test="${activeTab eq 'USER PROFILE'}">active</c:if>">
-                    <spring:url value="/user" var="userUrl"/>
-                    <a class="nav-link" href="${userUrl}">
+                    <spring:url value="/user/detail" var="userDetailUrl">
+                        <spring:param name="userId" value="${userId}"/>
+                    </spring:url>
+
+                    <a class="nav-link" href="${userDetailUrl}">
                         <i class="material-icons">person</i>
                         <p><spring:message code="sidebar.user.userProfile"/></p>
                     </a>
@@ -42,7 +46,7 @@
                         <p><spring:message code="sidebar.user.friends"/></p>
                     </a>
                 </li>
-                <li class="nav-item  <c:if test="${activeTab eq 'MESSAGES'}">active</c:if>">
+                <li class="nav-item <c:if test="${activeTab eq 'MESSAGES'}">active</c:if>">
                     <spring:url value="/message/list" var="messageUrl"/>
                     <a class="nav-link" href="${messageUrl}">
                         <i class="material-icons">message</i>
@@ -59,7 +63,9 @@
             </li>
             <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
                 <li class="nav-item <c:if test="${activeTab eq 'HISTORY'}">active</c:if>">
-                    <spring:url value="/history/list" var="historyUrl"/>
+                    <spring:url value="/history/list" var="historyUrl">
+                        <spring:param name="userId" value="${userId}"/>
+                    </spring:url>
                     <a class="nav-link" href="${historyUrl}">
                         <i class="material-icons">content_paste</i>
                         <p><spring:message code="sidebar.user.history"/></p>

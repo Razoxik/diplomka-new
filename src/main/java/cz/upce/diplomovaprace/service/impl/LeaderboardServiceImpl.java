@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -76,6 +77,8 @@ public class LeaderboardServiceImpl implements LeaderboardService {
             leaderboardModel.setRating(rating);
             leaderboardModels.add(leaderboardModel);
         }
+        leaderboardModels.sort(Comparator.comparingLong(LeaderboardModel::getRating).reversed());
+
         return leaderboardModels;
     }
 }

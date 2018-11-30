@@ -12,7 +12,7 @@ import java.util.List;
 public interface RatingRepository extends CrudRepository<Rating, Integer> {
     //Rating findByUserUserIdAndAndGameGameId(Integer userId, Integer gameId); doesnt work anymore po odendani tech IDcek z Entit, musis valit pres Entity -- USer a ne jen userId
     //  Rating findByUserByUserUserIdAndGameByGameGameId(User user, Game game);
-    List<Rating> findAllByUserByUserId(Integer userId);
+    List<Rating> findByUserByUserId(User user);
 
     Rating findByUserByUserIdAndGameByGameId(User user, Game game);
 

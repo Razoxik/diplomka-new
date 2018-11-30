@@ -41,6 +41,7 @@
                                 <thead class=" text-primary">
                                 <tr>
                                     <th>
+                                        DODELAT TADY JESTE PORADI TEDA V TEJ HRE???!!
                                         <spring:message code="leaderboard.table.user"/>
                                     </th>
                                     <th>
