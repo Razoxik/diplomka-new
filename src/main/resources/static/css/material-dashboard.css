@@ -12999,7 +12999,7 @@ fieldset[disabled] .form-control,
 fieldset[disabled] .form-group .form-control {
   background-color: transparent;
   cursor: not-allowed;
-  border-bottom: 1px dotted #d2d2d2;
+ /* border-bottom: 1px dotted #d2d2d2;*/
   background-repeat: no-repeat;
 }
 
@@ -19916,7 +19916,7 @@ fieldset[disabled][disabled] .dark-edition .form-control,
 .dark-edition .form-control.disabled,
 .dark-edition .form-control:disabled,
 .dark-edition .form-control[disabled] {
-  background-image: linear-gradient(to right, rgba(180, 180, 180, 0.1) 0%, rgba(180, 180, 180, 0.1) 30%, transparent 30%, transparent 100%);
+  background-image: linear-gradient(to right, rgba(180, 180, 180, 0.1) 0%, rgba(180, 180, 180, 0.1) 100%, transparent 100%, transparent 100%);
   background-repeat: repeat-x;
   background-size: 3px 1px;
 }
