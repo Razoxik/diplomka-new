@@ -159,7 +159,7 @@
                         <spring:url value="/history/list" var="historyUrl">
                             <spring:param name="userId" value="${userRatingModels.get(0).userId}"/>
                         </spring:url>
-                        <a href="${historyUrl}" class="btn btn-primary btn-round">Zobrazit historii hráče</a>
+                        <a href="${historyUrl}" class="btn btn-primary btn-round">Zobrazit historii hrámče</a>
                     </div>
                 </div>
             </div>
