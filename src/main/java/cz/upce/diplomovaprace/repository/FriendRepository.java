@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface FriendRepository extends CrudRepository<Friend, Integer> {
     List<Friend> findByUserByFromUserId(User user);
+
+    Friend findByUserByToUserId(User user);
 }

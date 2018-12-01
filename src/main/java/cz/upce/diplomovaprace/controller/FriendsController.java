@@ -8,8 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -18,6 +20,8 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class FriendsController {
+
+    private static final String USER_ID_REQUEST_PARAM = "userId";
 
     private static final String FRIEND_LIST_VIEW_NAME = "friend/list";
 
@@ -34,5 +38,14 @@ public class FriendsController {
         model.put(FRIENDS_MODEL_MODEL_KEY, friendService.prepareFriendModels());
 
         return new ModelAndView(FRIEND_LIST_VIEW_NAME, model);
+    }
+
+    @GetMapping("/addToFriends")
+    public ModelAndView addToFriend(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
+                                    RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        friendService.addToFriend(userId);
+
+        redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
+        return new ModelAndView("redirect:/user/detail");
     }
 }

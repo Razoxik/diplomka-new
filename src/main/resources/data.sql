@@ -20,16 +20,16 @@ INSERT INTO role VALUES(3, 'ADMIN');
 -- password is stored in BCrypt hash
 -- todo pri vkladani dat password to lowecase, sou i v db ulozeny jako lowercase
 -- Columns in order [id; created; email; first name; last login; last name; password; user name; avatar id; role id]
-INSERT INTO user VALUES(1, '2018-11-18 03:04:05', 'admin@letsplay.com'   , 'Tomáš'    , '2018-10-14 12:34:55', 'Bartošek'  , '$2a$04$1fZkF/a9YmeS9ViHR3PnO.1vtlyldNz7tznYakrx6Aha1T7lZH2hW', 'Admin'   , 1, 3);
-INSERT INTO user VALUES(2, '2018-11-18 03:04:05', 'operator@letsplay.com', 'Andulka'  , '2018-10-14 12:34:55', 'Šafářová'  , '$2a$04$yIx7t4pvzfRqci1FREUll.hhJcjflc8eFajzfrS/z2clk9msZ8Knq', 'Operator', 1, 2);
-INSERT INTO user VALUES(3, '2018-11-18 03:04:05', 'user@letsplay.com'    , 'František', '1970-02-02 02:02:02', 'Dobrota'   , '$2a$04$Xb1dmws19pSnkGYfg2pP2uFO/ZqfBZDrkewzwILJJ1Gd5TifchxTm', 'User'    , 1, 1);
-INSERT INTO user VALUES(4, '1970-01-01 00:00:01', 'jeff@amazon.com'      , 'Jeff'     , '1970-02-02 02:02:02', 'Bezos'     , '$2a$04$Zu.Erknol9RGiAAAonfn7ObWmjl0PnCGyDHUf154OK1K2srLSlA6m', 'Jeff'    , 1, 1);
-INSERT INTO user VALUES(5, '1970-01-01 00:00:01', 'bill@microsoft.com'   , 'Bill'     , '1970-02-02 02:02:02', 'Gates'     , '$2a$04$uPCfdVQACa.C5oAepSuoje.IGr6DEoIlU7eY6lpA1TeDLLaCRBiIK', 'Bill'    , 1, 1);
-INSERT INTO user VALUES(6, '1970-01-01 00:00:01', 'warren@hathaway.us'   , 'Warren'   , '1970-02-02 02:02:02', 'Buffett'   , '$2a$04$1SN6rqOfKj4q5Ou0g4Rox.tdGSuvzCoKdnS/ikx3Y7jPtgnDiP3MK', 'Warren'  , 1, 1);
-INSERT INTO user VALUES(7, '1970-01-01 00:00:01', 'bernard@lvmh.fr'      , 'Bernard'  , '1970-02-02 02:02:02', 'Arnault'   , '$2a$04$fjRdWm9vdW7kkbDAZQYzsuKCJc9dO.rWp0f0xTE1hui/08OurVcYO', 'Bernard' , 1, 1);
-INSERT INTO user VALUES(8, '1970-01-01 00:00:01', 'mark@facebook.com'    , 'Mark'     , '1970-02-02 02:02:02', 'Zuckerberg', '$2a$04$jN.txy2FddjqTolSpnqXfOihBp6irRpamxAciBUCoAWdFzRZyZdKG', 'Mark'    , 1, 1);
-INSERT INTO user VALUES(9, '1970-01-01 00:00:01', 'alice@walmart.us'     , 'Alice'    , '1970-02-02 02:02:02', 'Walton'    , '$2a$04$bsyAp0BUEqjJoA79XciYl.7wRNYn60rvmRkBKNnuiRaGBRHJ1yXUu', 'Alice'   , 1, 1);
-INSERT INTO user VALUES(10,'1970-01-01 00:00:01', 'charles@koch.com'     , 'Charles'  , '1970-02-02 02:02:02', 'Koch'      , '$2a$04$Ec99rnfVPd9aLjb4fc0HjejQk8NTaIO6N1hD4LwoKSva5a5k7AyRO', 'Charles' , 1, 1);
+INSERT INTO user VALUES(1, 'abbbbb','2018-11-18 03:04:05', 'admin@letsplay.com'   , 'Tomáš'    , '2018-10-14 12:34:55', 'Bartošek'  , '$2a$04$1fZkF/a9YmeS9ViHR3PnO.1vtlyldNz7tznYakrx6Aha1T7lZH2hW', 'Admin'   , 1, 3);
+INSERT INTO user VALUES(2, 'abbbbb','2018-11-18 03:04:05', 'operator@letsplay.com', 'Andulka'  , '2018-10-14 12:34:55', 'Šafářová'  , '$2a$04$yIx7t4pvzfRqci1FREUll.hhJcjflc8eFajzfrS/z2clk9msZ8Knq', 'Operator', 1, 2);
+INSERT INTO user VALUES(3,'abbbbb', '2018-11-18 03:04:05', 'user@letsplay.com'    , 'František', '1970-02-02 02:02:02', 'Dobrota'   , '$2a$04$Xb1dmws19pSnkGYfg2pP2uFO/ZqfBZDrkewzwILJJ1Gd5TifchxTm', 'User'    , 1, 1);
+INSERT INTO user VALUES(4,'abbbbb', '1970-01-01 00:00:01', 'jeff@amazon.com'      , 'Jeff'     , '1970-02-02 02:02:02', 'Bezos'     , '$2a$04$Zu.Erknol9RGiAAAonfn7ObWmjl0PnCGyDHUf154OK1K2srLSlA6m', 'Jeff'    , 1, 1);
+INSERT INTO user VALUES(5,'abbbbb', '1970-01-01 00:00:01', 'bill@microsoft.com'   , 'Bill'     , '1970-02-02 02:02:02', 'Gates'     , '$2a$04$uPCfdVQACa.C5oAepSuoje.IGr6DEoIlU7eY6lpA1TeDLLaCRBiIK', 'Bill'    , 1, 1);
+INSERT INTO user VALUES(6,'abbbbb', '1970-01-01 00:00:01', 'warren@hathaway.us'   , 'Warren'   , '1970-02-02 02:02:02', 'Buffett'   , '$2a$04$1SN6rqOfKj4q5Ou0g4Rox.tdGSuvzCoKdnS/ikx3Y7jPtgnDiP3MK', 'Warren'  , 1, 1);
+INSERT INTO user VALUES(7,'abbbbb', '1970-01-01 00:00:01', 'bernard@lvmh.fr'      , 'Bernard'  , '1970-02-02 02:02:02', 'Arnault'   , '$2a$04$fjRdWm9vdW7kkbDAZQYzsuKCJc9dO.rWp0f0xTE1hui/08OurVcYO', 'Bernard' , 1, 1);
+INSERT INTO user VALUES(8, 'abbbbb','1970-01-01 00:00:01', 'mark@facebook.com'    , 'Mark'     , '1970-02-02 02:02:02', 'Zuckerberg', '$2a$04$jN.txy2FddjqTolSpnqXfOihBp6irRpamxAciBUCoAWdFzRZyZdKG', 'Mark'    , 1, 1);
+INSERT INTO user VALUES(9,'abbbbb', '1970-01-01 00:00:01', 'alice@walmart.us'     , 'Alice'    , '1970-02-02 02:02:02', 'Walton'    , '$2a$04$bsyAp0BUEqjJoA79XciYl.7wRNYn60rvmRkBKNnuiRaGBRHJ1yXUu', 'Alice'   , 1, 1);
+INSERT INTO user VALUES(10,'abbbbb','1970-01-01 00:00:01', 'charles@koch.com'     , 'Charles'  , '1970-02-02 02:02:02', 'Koch'      , '$2a$04$Ec99rnfVPd9aLjb4fc0HjejQk8NTaIO6N1hD4LwoKSva5a5k7AyRO', 'Charles' , 1, 1);
 
 INSERT INTO report_reason VALUES (1,   'feed');
 INSERT INTO report_reason VALUES(2,   'DONT_COME');

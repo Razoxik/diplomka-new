@@ -2,13 +2,7 @@ package cz.upce.diplomovaprace.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -22,6 +16,7 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private String aboutMe;
     private Timestamp lastLogin;
     private Collection<ChallengeResult> challengeResultsById;
     private Collection<Friend> friendsByFromUserId;
@@ -36,6 +31,7 @@ public class User {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -103,6 +99,16 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Basic
+    @Column(name = "aboutMe", nullable = true, length = 255)
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 
     @Basic

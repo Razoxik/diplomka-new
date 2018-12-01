@@ -1,19 +1,20 @@
 package cz.upce.diplomovaprace.model;
 
 public class UserModel {
-    private long userId;
+    private int userId;
     private String userName;
     private String email;
     private String firstName;
     private String lastName;
     private String lastLogin;
     private String created;
+    private String aboutMe;
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -63,5 +64,13 @@ public class UserModel {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 }

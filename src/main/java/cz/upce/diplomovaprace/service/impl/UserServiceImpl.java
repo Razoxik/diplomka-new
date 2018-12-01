@@ -1,9 +1,11 @@
 package cz.upce.diplomovaprace.service.impl;
 
+import com.google.common.base.Preconditions;
 import cz.upce.diplomovaprace.entity.Game;
 import cz.upce.diplomovaprace.entity.Rating;
 import cz.upce.diplomovaprace.entity.User;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
+import cz.upce.diplomovaprace.manager.SessionManager;
 import cz.upce.diplomovaprace.model.UserModel;
 import cz.upce.diplomovaprace.model.UserRatingModel;
 import cz.upce.diplomovaprace.repository.RatingRepository;
@@ -22,6 +24,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    SessionManager sessionManager;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -29,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserRatingModel> prepareUserRatingModels(Integer userId) throws EntityNotFoundException {
+        Preconditions.checkNotNull(userId);
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         List<Rating> ratings = ratingRepository.findByUserByUserId(user);
 
@@ -49,27 +55,46 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel prepareUserModel(Integer userId) throws EntityNotFoundException {
+        Preconditions.checkNotNull(userId);
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
 
-        String userName = user.getUserName();
-        String firstName = user.getFirstName();
-        String lastName = user.getLastName();
-        String email = user.getEmail();
         LocalDateTimeJPAConverter converter = new LocalDateTimeJPAConverter();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         LocalDateTime friendsFrom = converter.convertToEntityAttribute(user.getCreated());
         LocalDateTime lastLogin = converter.convertToEntityAttribute(user.getLastLogin());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-        String formattedCreated = friendsFrom.format(formatter);
-        String formattedLastLogin = lastLogin.format(formatter);
 
         UserModel userModel = new UserModel();
         userModel.setUserId(userId);
-        userModel.setUserName(userName);
-        userModel.setFirstName(firstName);
-        userModel.setLastName(lastName);
-        userModel.setEmail(email);
-        userModel.setCreated(formattedCreated);
-        userModel.setLastLogin(formattedLastLogin);
+        userModel.setUserName(user.getUserName());
+        userModel.setFirstName(user.getFirstName());
+        userModel.setLastName(user.getLastName());
+        userModel.setEmail(user.getEmail());
+        userModel.setCreated(friendsFrom.format(formatter));
+        userModel.setLastLogin(lastLogin.format(formatter));
+        userModel.setAboutMe(user.getAboutMe());
+
         return userModel;
+    }
+
+    @Override
+    public void saveUserModel(Integer userId, UserModel userModel) throws EntityNotFoundException {
+        Preconditions.checkNotNull(userId);
+        Preconditions.checkNotNull(userModel);
+
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        user.setUserName(userModel.getUserName());
+        user.setFirstName(userModel.getFirstName());
+        user.setLastName(userModel.getLastName());
+        user.setEmail(userModel.getEmail());
+        user.setAboutMe(userModel.getAboutMe());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean isOwnerOfProfile(Integer userId) {
+        Preconditions.checkNotNull(userId);
+
+        return sessionManager.getUserId() == userId;
     }
 }

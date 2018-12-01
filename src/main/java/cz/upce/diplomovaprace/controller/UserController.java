@@ -3,8 +3,7 @@ package cz.upce.diplomovaprace.controller;
 import cz.upce.diplomovaprace.constants.ActiveTabConstants;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
 import cz.upce.diplomovaprace.model.UserModel;
-import cz.upce.diplomovaprace.repository.RatingRepository;
-import cz.upce.diplomovaprace.repository.UserRepository;
+import cz.upce.diplomovaprace.service.FriendService;
 import cz.upce.diplomovaprace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,35 +25,43 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class UserController {
 
+    private static final String DETAIL_VIEW_NAME = "/user/detail";
 
-    @Autowired
-    UserRepository userRepository;
+    private static final String USER_ID_REQUEST_PARAM = "userId";
 
-    @Autowired
-    RatingRepository ratingRepository;
+    private static final String USER_MODEL_KEY = "userModel";
+    private static final String USER_RATINGS_MODEL_KEY = "userRatingModels";
+    private static final String IS_OWNER_OF_PROFILE_MODEL_KEY = "isOwnerOfProfile";
+    private static final String CAN_BE_ADDED_TO_FRIENDS_MODEL_KEY = "canBeAddedToFriends";
 
     @Autowired
     UserService userService;
 
+    @Autowired
+    FriendService friendService;
+
+    // posilat to userId rovnou z JSPcek a nedavat to jako required = false a pak si to tahat ze sessiony muzes to tahat
+    // ze sessiony uz v JSP a posilat to jako param rovnou tam zejo
     @GetMapping("/detail")
-    public ModelAndView userDetail(@RequestParam(value = "userId") Integer userId, // posilat to userId rovnou z JSPcek a nedavat to jako required = false a pak si to tahat ze sessiony muzes to tahat ze sessiony uz v JSP a posilat to jako param rovnou tam zejo
+    public ModelAndView userDetail(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
                                    Map<String, Object> model) throws EntityNotFoundException {
-
-
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.USER_PROFILE);
-        model.put("userModel", userService.prepareUserModel(userId));
-        model.put("userRatingModels", userService.prepareUserRatingModels(userId));
+        model.put(USER_MODEL_KEY, userService.prepareUserModel(userId));
+        model.put(USER_RATINGS_MODEL_KEY, userService.prepareUserRatingModels(userId));
+        model.put(IS_OWNER_OF_PROFILE_MODEL_KEY, userService.isOwnerOfProfile(userId));
+        model.put(CAN_BE_ADDED_TO_FRIENDS_MODEL_KEY, friendService.canBeAddedToFriends(userId));
 
-        return new ModelAndView("user/detail", model);
+        return new ModelAndView(DETAIL_VIEW_NAME, model);
     }
 
+    //TADYTO TED - UDELAT FORM V USER DETAIL NA UPRAVU DAT PRO UZIVATELE KTERYMU NALEZI, ZBYTEK BUTTONU A PREKLADY
     @PostMapping("/updateProfile")
-    public ModelAndView updateProfile(@ModelAttribute("userModel") UserModel userModel,
-                                      RedirectAttributes redirectAttributes) {
-//TADYTO TED - UDELAT FORM V USER DETAIL NA UPRAVU DAT PRO UZIVATELE KTERYMU NALEZI, ZBYTEK BUTTONU A PREKLADY
-        redirectAttributes.addAttribute("userId", userModel.getUserId());
+    public ModelAndView updateProfile(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
+                                      @ModelAttribute(USER_MODEL_KEY) UserModel userModel,
+                                      RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        userService.saveUserModel(userId, userModel);
 
+        redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
         return new ModelAndView("redirect:/user/detail");
     }
-
 }

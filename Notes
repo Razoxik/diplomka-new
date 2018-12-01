@@ -27,6 +27,7 @@ Kapitoly:
     - Bootstrap - vzhledem k tomu, že nejsem koder, ale programator byla vyuzita bootstrapova sablona
 
 TODO:
+    - ADD aboutMe do tabulky v DB - user
     - Admin bude moct schvalovat novy hry
         - nova hra, formular na jmeno a pocet hracu
     - Rozvalit swaggera

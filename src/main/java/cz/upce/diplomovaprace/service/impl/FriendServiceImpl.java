@@ -59,4 +59,27 @@ public class FriendServiceImpl implements FriendService {
         }
         return friendModels;
     }
+
+    @Override
+    public boolean canBeAddedToFriends(Integer userId) throws EntityNotFoundException {
+        User userInSession = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        User userDisplayed = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+
+        boolean isSameUser = userInSession.equals(userDisplayed);
+        boolean isAlreadyInFriends = userInSession.getFriendsByFromUserId().contains(friendRepository.findByUserByToUserId(userDisplayed));
+
+        return !isSameUser && !isAlreadyInFriends;
+    }
+
+    @Override
+    public void addToFriend(Integer userId) throws EntityNotFoundException {
+        User userInSession = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        User userDisplayed = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+        Friend friend = new Friend();
+        friend.setUserByFromUserId(userInSession);
+        friend.setUserByToUserId(userDisplayed);
+        friendRepository.save(friend);
+    }
 }
