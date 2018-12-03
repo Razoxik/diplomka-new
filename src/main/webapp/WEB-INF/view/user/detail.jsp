@@ -17,8 +17,8 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Profil hráče</h4>
-                        <p class="card-category">Detailní informace</p>
+                        <h4 class="card-title"><spring:message code="profile.form.header"/></h4>
+                        <p class="card-category"><spring:message code="profile.form.subheader"/></p>
                     </div>
                     <div class="card-body">
                         <spring:url value="updateProfile" var="updateProfileUrl">
@@ -28,15 +28,19 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">user id</label>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.userId"/>
+                                        </label>
                                         <form:input path="userId" type="text" cssClass="form-control"
                                                     value="${userModel.userId}" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Username</label>
-                                        <form:input path="userName" type="text" cssClass="form-control"
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.username"/>
+                                        </label>
+                                        <form:input path="userName" type="text" cssClass="form-control" required="true"
                                                     value="${userModel.userName}" disabled="${!isOwnerOfProfile}"/>
                                     </div>
                                 </div>
@@ -45,14 +49,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Fist Name</label>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.firstName"/>
+                                        </label>
                                         <form:input path="firstName" type="text" cssClass="form-control"
                                                     value="${userModel.firstName}" disabled="${!isOwnerOfProfile}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Last Name</label>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.lastName"/>
+                                        </label>
                                         <form:input path="lastName" type="text" cssClass="form-control"
                                                     value="${userModel.lastName}" disabled="${!isOwnerOfProfile}"/>
                                     </div>
@@ -61,23 +69,29 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Email address</label>
-                                        <form:input path="email" type="email" cssClass="form-control"
-                                                    value="${userModel.email}" disabled="${!isOwnerOfProfile}"/>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.email"/>
+                                        </label>
+                                        <form:input path="email" type="email" cssClass="form-control" required="true"
+                                                    value="${userModel.email}" disabled="${!isOwnerOfProfile}" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">created</label>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.created"/>
+                                        </label>
                                         <form:input path="created" type="text" cssClass="form-control"
                                                     value="${userModel.created}" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">last login</label>
+                                        <label class="bmd-label-floating">
+                                            <spring:message code="profile.form.lastLogin"/>
+                                        </label>
                                         <form:input path="lastLogin" type="text" cssClass="form-control"
                                                     value="${userModel.lastLogin}" disabled="true"/>
                                     </div>
@@ -86,9 +100,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>About Me</label>
+                                        <label><spring:message code="profile.form.aboutMe"/></label>
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Something very interesting </label>
+                                            <label class="bmd-label-floating">
+                                                <spring:message code="profile.form.subAboutMe"/>
+                                            </label>
                                             <form:textarea path="aboutMe" type="textarea" rows="5"
                                                            cssClass="form-control"
                                                            value="${userModel.aboutMe}"
@@ -98,7 +114,9 @@
                                 </div>
                             </div>
                             <c:if test="${isOwnerOfProfile}">
-                                <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                                <button type="submit" class="btn btn-primary pull-right">
+                                    <spring:message code="global.confirm"/>
+                                </button>
                             </c:if>
                         </form:form>
                         <c:if test="${!isOwnerOfProfile}">
@@ -113,7 +131,7 @@
                                 <spring:param name="userId" value="${userModel.userId}"/>
                             </spring:url>
                             <a href="${addToFriendsUrl}" class="btn btn-primary btn-sm" role="button"
-                               aria-disabled="true">Přidat do přátel</a>
+                               aria-disabled="true"><spring:message code="global.addToFriends"/></a>
                         </c:if>
                     </div>
                 </div>
@@ -121,7 +139,7 @@
             <div class="col-md-4">
                 <div class="card card-profile">
                     <div class="card-avatar">
-                        <a href="#pablo">
+                        <a href="#">
                             <img class="img" src="/img/avatars/default.png"/>
                         </a>
                     </div>
@@ -134,10 +152,10 @@
                                     <thead class="text-primary">
                                     <tr>
                                         <th>
-                                            Hra
+                                            <spring:message code="global.game"/>
                                         </th>
                                         <th>
-                                            Rating
+                                            <spring:message code="global.rating"/>
                                         </th>
                                     </tr>
                                     </thead>
@@ -145,7 +163,7 @@
                                     <c:forEach items="${userRatingModels}" var="userRatingModel" varStatus="status">
                                         <tr>
                                             <td>
-                                                    ${userRatingModel.game}
+                                                <spring:message code="global.game.${userRatingModel.game}"/>
                                             </td>
                                             <td>
                                                     ${userRatingModel.rating}
@@ -159,7 +177,9 @@
                         <spring:url value="/history/list" var="historyUrl">
                             <spring:param name="userId" value="${userRatingModels.get(0).userId}"/>
                         </spring:url>
-                        <a href="${historyUrl}" class="btn btn-primary btn-round">Zobrazit historii hrámče</a>
+                        <a href="${historyUrl}" class="btn btn-primary btn-round">
+                            <spring:message code="profile.showPlayerHistory"/>
+                        </a>
                     </div>
                 </div>
             </div>
