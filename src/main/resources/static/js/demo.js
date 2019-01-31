@@ -174,8 +174,11 @@ demo = {
 
                 var createChallengeWindow = new google.maps.InfoWindow;
 
-                map.addListener('rightclick', function (event) {
-
+                var mousedUp = false;
+                map.addListener('mousedown', function (event) {
+                    mousedUp = false;
+                    setTimeout(function(){
+                        if(mousedUp === false){
                     const latitude = event.latLng.lat();
                     const longitude = event.latLng.lng();
                     var a = document.createElement('a');
@@ -188,8 +191,15 @@ demo = {
                     createChallengeWindow.setContent(a);
                     createChallengeWindow.setPosition({lat: latitude, lng: longitude});
                     createChallengeWindow.open(map);
+                        }
+                    }, 500);
                 });
-
+                map.addListener('mouseup', function(event){
+                    mousedUp = true;
+                });
+                map.addListener('dragstart', function(event){
+                    mousedUp = true;
+                });
                 const avatarIcon = {
                     url: "/img/avatars/default.png", // url
                     scaledSize: new google.maps.Size(50, 50), // scaled size
