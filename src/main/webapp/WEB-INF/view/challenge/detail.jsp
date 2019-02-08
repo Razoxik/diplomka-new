@@ -8,7 +8,7 @@
 <%--@elvariable id="challengeDetailDto" type="cz.upce.diplomovaprace.dto.ChallengeDetailDto"--%>
 <%--@elvariable id="isUserAlreadyInChallenge" type="java.lang.Boolean"--%>
 <%--@elvariable id="isChallengeFinished" type="java.lang.Boolean"--%>
-<%@ include file="common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 <div class="content">
     <div class="container-fluid">
@@ -280,4 +280,4 @@
         </div>
     </div>
 </div>
-<%@ include file="common/footer.jsp" %>
+<%@ include file="../common/footer.jsp" %>

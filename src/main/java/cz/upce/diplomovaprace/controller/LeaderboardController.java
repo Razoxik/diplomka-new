@@ -1,6 +1,7 @@
 package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.constants.ActiveTabConstants;
+import cz.upce.diplomovaprace.constants.GameConstants;
 import cz.upce.diplomovaprace.exception.EntityNotFoundException;
 import cz.upce.diplomovaprace.repository.GameRepository;
 import cz.upce.diplomovaprace.service.LeaderboardService;
@@ -37,7 +38,7 @@ public class LeaderboardController {
                                         Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.LEADERBOARD);
         model.put(LEADERBOARD_MODELS_MODEL_KEY, leaderboardService.prepareLeaderboardModels(gameId));
-        model.put(GAMES_MODEL_KEY, gameRepository.findAll());
+        model.put(GAMES_MODEL_KEY, gameRepository.findByApproved(GameConstants.GAME_APPROVED));
 
         return new ModelAndView(LEADERBOARD_LIST_VIEW_NAME, model);
     }

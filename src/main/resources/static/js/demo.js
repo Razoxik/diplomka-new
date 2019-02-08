@@ -224,19 +224,40 @@ demo = {
 
                 // jednotlivy vyzvy
                 for (let i = 0; i < challenges.length; i++) {
-                    // game icon
+                    //https://stackoverflow.com/questions/25638834/mutable-variable-is-accessible-from-closure/25638959
+                    // Zobrazovala to markery jen jak se tomu zachtělo bez tejhle obalovací fce
+                    (function(){
                     var icon = {
-                        url: "/img/activities/" + challenges[i][10] + ".png",//+ challenges[i][9] + ".png", // url
+                         url: "/img/activities/" + challenges[i][10] + ".png",//+ challenges[i][9] + ".png", // url
                         scaledSize: new google.maps.Size(50, 50), // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(0, 0) // anchor
                     };
 
-                    marker = new google.maps.Marker({
+                    var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(challenges[i][0], challenges[i][1]),
                         map: map,
                         icon: icon
                     });
+
+                    var defaultIcon = {
+                        url: "/img/activities/default.png",
+                        scaledSize: new google.maps.Size(50, 50), // scaled size
+                        origin: new google.maps.Point(0, 0), // origin
+                        anchor: new google.maps.Point(0, 0) // anchor
+                    };
+
+                    var ic = new Image();
+                    ic.src = "/img/activities/" + challenges[i][10] + ".png";//+ challenges[i][9] + ".png";
+
+                    ic.onload = function () {
+                        marker.setIcon(icon); //If icon found go ahead and show it
+                    };
+                   // var blabla = "ahoj"
+                    ic.onerror = function () {
+                        //https://stackoverflow.com/questions/25058443/google-maps-api-v-3-use-default-marker-icon-if-not-found-at-url
+                        marker.setIcon(defaultIcon); //This displays brick colored standard marker icon in case image is not found.
+                    };
 
                     // Vyskakovaci okno vyzvy(markeru), kdyz na ni klikneme.
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
@@ -254,6 +275,7 @@ demo = {
                             infowindow.open(map, marker);
                         }
                     })(marker, i));
+                    })();
                 }
 
                 map.addListener('rightClick', function () {
@@ -262,4 +284,4 @@ demo = {
             });
         }
     }
-}
+};

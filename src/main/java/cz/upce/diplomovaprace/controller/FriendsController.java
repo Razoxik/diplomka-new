@@ -33,7 +33,6 @@ public class FriendsController {
 
     @GetMapping("/list")
     public ModelAndView friendList(Map<String, Object> model) throws EntityNotFoundException {
-
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.FRIENDS);
         model.put(FRIENDS_MODEL_MODEL_KEY, friendService.prepareFriendModels());
 

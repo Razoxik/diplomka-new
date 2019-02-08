@@ -2,6 +2,7 @@ package cz.upce.diplomovaprace.controller;
 
 import cz.upce.diplomovaprace.constants.ActiveTabConstants;
 import cz.upce.diplomovaprace.constants.ChallengeStateConstants;
+import cz.upce.diplomovaprace.constants.GameConstants;
 import cz.upce.diplomovaprace.constants.GameParamConstants;
 import cz.upce.diplomovaprace.constants.ResultStateConstants;
 import cz.upce.diplomovaprace.dto.ChallengeDetailDto;
@@ -61,9 +62,9 @@ public class ChallengeController {
     private static final String GAMES_MODEL_KEY = "games";
     private static final String CHALLENGE_DETAIL_DTO_MODEL_KEY = "challengeDetailDto";
 
-    private static final String CHALLENGE_RESULT_VIEW_NAME = "challengeResult";
-    private static final String CHALLENGE_DETAIL_VIEW_NAME = "challengeDetail";
-    private static final String CHALLENGE_CREATE_VIEW_NAME = "challengeCreate";
+    private static final String CHALLENGE_RESULT_VIEW_NAME = "challenge/result";
+    private static final String CHALLENGE_DETAIL_VIEW_NAME = "challenge/detail";
+    private static final String CHALLENGE_CREATE_VIEW_NAME = "challenge/create";
 
     private static final String IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY = "isUserAlreadyInChallenge";
     private static final String IS_CHALLENGE_FINISHED_MODEL_KEY = "isChallengeFinished";
@@ -107,7 +108,7 @@ public class ChallengeController {
         challengeModel.setLatCoords(latCoords);
         challengeModel.setLngCoords(lngCoords);
 
-        Iterable<Game> games = gameRepository.findAll();
+        Iterable<Game> games = gameRepository.findByApproved(GameConstants.GAME_APPROVED);
         model.put(GAMES_MODEL_KEY, games);
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
 
@@ -279,6 +280,11 @@ public class ChallengeController {
         ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
         challengeResultRepository.delete(challengeResult);
 
+        // Pokud jsem poslední na výzvě a odcházím tak smazat.
+        if (challengeResultRepository.findByChallengeByChallengeId(challenge).size() == 0) {
+            challengeRepository.delete(challenge);
+            return new ModelAndView("redirect:/map");
+        }
         return redirectToChallengeDetail(challengeId, redirectAttributes);
     }
 

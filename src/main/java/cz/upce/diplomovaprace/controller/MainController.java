@@ -55,7 +55,7 @@ public class MainController {
     }
     */
     //for 403 access denied page
-    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    @RequestMapping(value = "/s403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {
 
         ModelAndView model = new ModelAndView();
@@ -67,7 +67,7 @@ public class MainController {
             model.addObject("userName", userDetail.getUsername());
         }
 
-        model.setViewName("403");
+        model.setViewName("ersror/403");
         return model;
 
     }

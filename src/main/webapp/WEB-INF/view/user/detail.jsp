@@ -163,7 +163,7 @@
                                     <c:forEach items="${userRatingModels}" var="userRatingModel" varStatus="status">
                                         <tr>
                                             <td>
-                                                <spring:message code="global.game.${userRatingModel.game}"/>
+                                                <spring:message code="global.game.${userRatingModel.game}" text="${userRatingModel.game}"/>
                                             </td>
                                             <td>
                                                     ${userRatingModel.rating}

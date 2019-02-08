@@ -90,7 +90,7 @@
             </sec:authorize>
             <sec:authorize access="hasAnyAuthority('ADMIN')">
                 <li class="nav-item">
-                    <spring:url value="/admin/gameApproval" var="gameApprovalUrl"/>
+                    <spring:url value="/game/approval" var="gameApprovalUrl"/>
                     <a class="nav-link danger-link" href="${gameApprovalUrl}">
                         <i class="material-icons">videogame_asset</i>
                         <p><spring:message code="sidebar.admin.gameApproval"/></p>

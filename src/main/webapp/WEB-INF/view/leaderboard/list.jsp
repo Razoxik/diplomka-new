@@ -15,14 +15,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="leaderboardGameSelect"><spring:message code="global.game"/></label>
+                    <label for="leaderboardGameSelect">Vyberte hru</label>
                     <form>
                         <select class="form-control selectpicker" id="leaderboardGameSelect"
                                 name='gameId' onchange='this.form.submit()'>
                             <c:forEach items="${games}" var="game" varStatus="status">
                                 <option value="${game.id}" style="color:black"
                                         <c:if test="${game.id eq leaderboardModels.get(0).gameId}">selected</c:if>>
-                                    <spring:message code="global.game.${game.name}"/>
+                                    <spring:message code="global.game.${game.name}" text="${game.name}"/>
                                 </option>
                             </c:forEach>
                         </select>
@@ -32,7 +32,8 @@
                     <div class="card-header card-header-primary">
                         <h4 class="card-title "><spring:message code="leaderboard.table.header"/></h4>
                         <p class="card-category"><spring:message code="leaderboard.table.subheader.for"/>
-                            <spring:message code="global.game.${leaderboardModels.get(0).gameName}"/>&#33;
+                            <spring:message code="global.game.${leaderboardModels.get(0).gameName}"
+                                            text="${leaderboardModels.get(0).gameName}"/>&#33;
                         </p>
                     </div>
                     <div class="card-body">

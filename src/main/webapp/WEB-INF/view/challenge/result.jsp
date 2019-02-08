@@ -7,7 +7,7 @@
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challengeUserId" type="java.lang.Integer"--%>
 
-<%@ include file="common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 <div class="content">
     <div class="container-fluid">
@@ -62,6 +62,6 @@
 
     </div>
 </div>
-<%@ include file="common/footer.jsp" %>
+<%@ include file="../common/footer.jsp" %>
 
 

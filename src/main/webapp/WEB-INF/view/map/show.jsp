@@ -14,7 +14,7 @@
         [
             '${mapModel.latCoords}', // latCoords - [i][0]
             '${mapModel.lngCoords}', // lngCoords - [i][1]
-            '<b><spring:message code="map.challenge.game"/></b> <spring:message code="global.game.${mapModel.gameName}"/>', // gameName - [i][2]
+            '<b><spring:message code="map.challenge.game"/></b> <spring:message code="global.game.${mapModel.gameName}" text="${mapModel.gameName}"/>', // gameName - [i][2]
             '<b><spring:message code="map.challenge.challengerName"/></b>  ${mapModel.hostName}', // challengerName - [i][3]
             '<b><spring:message code="map.challenge.rating"/></b> ${mapModel.rating}', // rating - [i][4]
             '<b><spring:message code="map.challenge.start"/></b> ${mapModel.start}', // start - [i][5]

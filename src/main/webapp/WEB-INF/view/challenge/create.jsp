@@ -10,7 +10,7 @@
 
 
 
-<%@ include file="common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -63,7 +63,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <spring:url value="/createGame" var="enterResultUrl">
+                            <spring:url value="/game/create" var="enterResultUrl">
                             </spring:url>
                             <a href="${enterResultUrl}"
                                class="btn   btn-primary "
@@ -75,4 +75,4 @@
 
             </div>
         </div>
-<%@ include file="common/footer.jsp" %>
+<%@ include file="../common/footer.jsp" %>

@@ -49,19 +49,17 @@ INSERT INTO message VALUES(3, '2038-01-19 03:14:07','message_subject_3', ' Duis 
 
 -- Table 'game'
 -- Columns [id; created; game_description; game_name]
-INSERT INTO game VALUES(1, 1,'2018-11-01 23:29:48', 'Chess game description for mock data'      , 'chess'     ); -- 2
- INSERT INTO game VALUES(2,1, '2018-11-01 23:29:48', 'Football game description for mock data'  , 'football'  ); -- 8
- INSERT INTO game VALUES(3,0, '2018-11-01 23:29:48', 'Badminton game description for mock data'  , 'badminton' ); -- 4
- INSERT INTO game VALUES(4,0, '2018-11-01 23:29:48', 'Hockey ball game description for mock data', 'hockeyball'); -- 6
- INSERT INTO game VALUES(5,0, '2018-11-01 23:29:48', 'Checkers game description for mock data'   , 'checkers'  ); --2
+INSERT INTO game VALUES(1, 1,'2018-11-01 23:29:48', 'Chess game description for mock data'      , 'Chess'     ); -- 2
+INSERT INTO game VALUES(2, 1, '2018-11-01 23:29:48', 'Football game description for mock data'  , 'Football'  ); -- 8
+INSERT INTO game VALUES(3, 1, '2018-11-01 23:29:48', 'Badminton game description for mock data'  , 'Badminton' ); -- 4
+INSERT INTO game VALUES(4, 0, '2018-11-01 23:29:48', 'Checkers game description for mock data'   , 'Tictactoe'  ); --2
 
 -- Table 'game_param'
 -- Columns [id; created; parameter name; parameter value; game id]
 INSERT INTO game_param VALUES(1, '2018-11-01 23:29:48', 'number_of_players', '2', 1);
 INSERT INTO game_param VALUES(2, '2018-11-01 23:29:48', 'number_of_players', '8', 2);
 INSERT INTO game_param VALUES(3, '2018-11-01 23:29:48', 'number_of_players', '4', 3);
-INSERT INTO game_param VALUES(4, '2018-11-01 23:29:48', 'number_of_players', '6', 4);
-INSERT INTO game_param VALUES(5, '2018-11-01 23:29:48', 'number_of_players', '2', 5);
+INSERT INTO game_param VALUES(4, '2018-11-01 23:29:48', 'number_of_players', '2', 4);
 
 -- Table 'challenge_state'
 -- Columns [id; challenge state value]
@@ -115,5 +113,27 @@ INSERT INTO rating VALUES(17, '2018-11-01 23:29:48', 1562, 2, 7);
 INSERT INTO rating VALUES(18, '2018-11-01 23:29:48', 1254, 2, 8);
 INSERT INTO rating VALUES(19, '2018-11-01 23:29:48', 1818, 2, 9);
 INSERT INTO rating VALUES(20, '2018-11-01 23:29:48', 1315, 2, 10);
+-- Ratings for every user for game 3 - Badminton
+INSERT INTO rating VALUES(21, '2018-11-01 23:29:48', 1437, 3, 1);
+INSERT INTO rating VALUES(22, '2018-11-01 23:29:48', 1634, 3, 2);
+INSERT INTO rating VALUES(23, '2018-11-01 23:29:48', 1558, 3, 3);
+INSERT INTO rating VALUES(24, '2018-11-01 23:29:48', 1173, 3, 4);
+INSERT INTO rating VALUES(25, '2018-11-01 23:29:48', 1486, 3, 5);
+INSERT INTO rating VALUES(26, '2018-11-01 23:29:48', 1596, 3, 6);
+INSERT INTO rating VALUES(27, '2018-11-01 23:29:48', 1562, 3, 7);
+INSERT INTO rating VALUES(28, '2018-11-01 23:29:48', 1254, 3, 8);
+INSERT INTO rating VALUES(29, '2018-11-01 23:29:48', 1818, 3, 9);
+INSERT INTO rating VALUES(30, '2018-11-01 23:29:48', 1315, 3, 10);
+-- Ratings for every user for game 4 - Checkers - Unapproved
+INSERT INTO rating VALUES(31, '2018-11-01 23:29:48', 1500, 4, 1);
+INSERT INTO rating VALUES(32, '2018-11-01 23:29:48', 1500, 4, 2);
+INSERT INTO rating VALUES(33, '2018-11-01 23:29:48', 1500, 4, 3);
+INSERT INTO rating VALUES(34, '2018-11-01 23:29:48', 1500, 4, 4);
+INSERT INTO rating VALUES(35, '2018-11-01 23:29:48', 1500, 4, 5);
+INSERT INTO rating VALUES(36, '2018-11-01 23:29:48', 1500, 4, 6);
+INSERT INTO rating VALUES(37, '2018-11-01 23:29:48', 1500, 4, 7);
+INSERT INTO rating VALUES(38, '2018-11-01 23:29:48', 1500, 4, 8);
+INSERT INTO rating VALUES(39, '2018-11-01 23:29:48', 1500, 4, 9);
+INSERT INTO rating VALUES(40, '2018-11-01 23:29:48', 1500, 4, 10);
 
 SET FOREIGN_KEY_CHECKS = 1;
