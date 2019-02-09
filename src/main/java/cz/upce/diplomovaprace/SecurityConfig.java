@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/message/**").authenticated()
                 .antMatchers("/challenge/**").authenticated()
-                .antMatchers("/h2**").hasRole("ADMIN")
+                .antMatchers("/h2-console").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login").failureUrl("/login?error").successHandler(myLoginHandlerCustom())

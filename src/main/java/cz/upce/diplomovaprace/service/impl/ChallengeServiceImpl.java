@@ -1,23 +1,35 @@
 package cz.upce.diplomovaprace.service.impl;
 
-import cz.upce.diplomovaprace.dto.UserDto;
+import cz.upce.diplomovaprace.constants.ChallengeStateConstants;
+import cz.upce.diplomovaprace.constants.GameParamConstants;
+import cz.upce.diplomovaprace.constants.QuestionableChallengeReason;
+import cz.upce.diplomovaprace.constants.ResultStateConstants;
 import cz.upce.diplomovaprace.entity.Challenge;
 import cz.upce.diplomovaprace.entity.ChallengeResult;
 import cz.upce.diplomovaprace.entity.Game;
+import cz.upce.diplomovaprace.entity.Rating;
 import cz.upce.diplomovaprace.entity.User;
-import cz.upce.diplomovaprace.constants.ChallengeStateConstants;
-import cz.upce.diplomovaprace.constants.ResultStateConstants;
+import cz.upce.diplomovaprace.exception.UnexceptedChallengeException;
 import cz.upce.diplomovaprace.manager.SessionManager;
+import cz.upce.diplomovaprace.model.ChallengeDetailUserModel;
+import cz.upce.diplomovaprace.model.ChallengeResultModel;
+import cz.upce.diplomovaprace.model.QuestionableChallengeModel;
+import cz.upce.diplomovaprace.repository.ChallengeRepository;
 import cz.upce.diplomovaprace.repository.ChallengeResultRepository;
+import cz.upce.diplomovaprace.repository.ChallengeStateRepository;
+import cz.upce.diplomovaprace.repository.GameParamRepository;
 import cz.upce.diplomovaprace.repository.RatingRepository;
 import cz.upce.diplomovaprace.repository.ResultStateRepository;
 import cz.upce.diplomovaprace.repository.UserRepository;
 import cz.upce.diplomovaprace.repository.UserRepositoryCustom;
+import cz.upce.diplomovaprace.service.ChallengeResultService;
 import cz.upce.diplomovaprace.service.ChallengeService;
+import cz.upce.diplomovaprace.tools.LocalDateTimeJPAConverter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +43,16 @@ public class ChallengeServiceImpl implements ChallengeService {
     UserRepository userRepository;
 
     @Autowired
+    ChallengeRepository challengeRepository;
+
+    @Autowired
     ChallengeResultRepository challengeResultRepository;
+
+    @Autowired
+    GameParamRepository gameParamRepository;
+
+    @Autowired
+    ChallengeResultService challengeResultService;
 
     @Autowired
     RatingRepository ratingRepository;
@@ -44,6 +65,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Autowired
     SessionManager sessionManager;
+    @Autowired
+    ChallengeStateRepository challengeStateRepository;
 
     @Override
     public boolean isUserAlreadyInChallenge(Challenge challenge) {
@@ -109,10 +132,10 @@ public class ChallengeServiceImpl implements ChallengeService {
      */
 
     @Override
-    public List<UserDto> prepareTeamDtos(Challenge challenge, List<User> users) {
+    public List<ChallengeDetailUserModel> prepareChallengeDetailUserModels(Challenge challenge, List<User> users) {
         Game game = challenge.getGameByGameId();
 
-        List<UserDto> userDtos = new ArrayList<>();
+        List<ChallengeDetailUserModel> challengeDetailUserModels = new ArrayList<>();
         for (User user : users) {
             int userId = user.getId();
             int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
@@ -130,23 +153,24 @@ public class ChallengeServiceImpl implements ChallengeService {
             int totalNumberOfGames = numberOfWins + numberOfLosses + numberOfTies;
             ChallengeResult result = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
 
-            UserDto userDto = new UserDto();
-            userDto.setId(userId);
-            userDto.setRating(rating);
-            userDto.setUserName(userName);
-            userDto.setNumberOfWins(numberOfWins);
-            userDto.setNumberOfLosses(numberOfLosses);
-            userDto.setNumberOfTies(numberOfTies);
-            userDto.setNumberOfGames(totalNumberOfGames);
+            ChallengeDetailUserModel challengeDetailUserModel = new ChallengeDetailUserModel();
+            challengeDetailUserModel.setId(userId);
+            challengeDetailUserModel.setRating(rating);
+            challengeDetailUserModel.setUserName(userName);
+            challengeDetailUserModel.setNumberOfWins(numberOfWins);
+            challengeDetailUserModel.setNumberOfLosses(numberOfLosses);
+            challengeDetailUserModel.setNumberOfTies(numberOfTies);
+            challengeDetailUserModel.setNumberOfGames(totalNumberOfGames);
             if (!ResultStateConstants.IN_PROGRESS.equals(result.getResultStateByResultStateId().getState())) {
-                userDto.setWinningUserScore(result.getScoreWinner());
-                userDto.setLossingUserScore(result.getScoreDefeated());
+                challengeDetailUserModel.setWinningUserScore(result.getScoreWinner());
+                challengeDetailUserModel.setLossingUserScore(result.getScoreDefeated());
+                challengeDetailUserModel.setChallengeResultState(result.getResultStateByResultStateId().getState());
             } else {
-                userDto.setChallengeResultState(ResultStateConstants.IN_PROGRESS);
+                challengeDetailUserModel.setChallengeResultState(ResultStateConstants.IN_PROGRESS);
             }
-            userDtos.add(userDto);
+            challengeDetailUserModels.add(challengeDetailUserModel);
         }
-        return userDtos;
+        return challengeDetailUserModels;
     }
 
     /**
@@ -157,11 +181,177 @@ public class ChallengeServiceImpl implements ChallengeService {
      */
 
     @Override
-    public Pair<List<UserDto>, List<UserDto>> prepareTeamsDtos(Challenge challenge) {
+    public Pair<List<ChallengeDetailUserModel>, List<ChallengeDetailUserModel>> prepareTeamsDtos(Challenge challenge) {
         Pair<List<User>, List<User>> teamsUsers = prepareTeamsUsers(challenge);
-        List<UserDto> firstTeam = prepareTeamDtos(challenge, teamsUsers.getKey());
-        List<UserDto> secondTeam = prepareTeamDtos(challenge, teamsUsers.getValue());
+        List<ChallengeDetailUserModel> firstTeam = prepareChallengeDetailUserModels(challenge, teamsUsers.getKey());
+        List<ChallengeDetailUserModel> secondTeam = prepareChallengeDetailUserModels(challenge, teamsUsers.getValue());
 
         return Pair.of(firstTeam, secondTeam);
+    }
+
+    // Pokud ZADANE vyzsledky u vyzvy nejsou shodne tak je vyzva sporna
+    // Pokud je vyzva dyl jak 10 dni po ukonceni bez skore je sporna
+    //for each Challenge
+    //       find Result v challengeresult repku
+    //      list<resultu pro tu challenge>
+    //check if score of every result challenge is same if true add to list to decide
+    @Override
+    public List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexceptedChallengeException {
+        List<QuestionableChallengeModel> questionableChallengeModels = new ArrayList<>();
+
+        for (Challenge challenge : challengeRepository.findAll()) {
+            if (!challengeResultService.isChallengeResultScoreSame(challenge) ||
+                    challengeResultService.isChallengeTooLongWithoutScore(challenge)) {
+                QuestionableChallengeModel questionableChallengeModel = new QuestionableChallengeModel();
+                questionableChallengeModel.setId(challenge.getId());
+                LocalDateTimeJPAConverter converter = new LocalDateTimeJPAConverter();
+                LocalDateTime challengeCreated = converter.convertToEntityAttribute(challenge.getCreated());
+                LocalDateTime challengeEnd = converter.convertToEntityAttribute(challenge.getEnd());
+                questionableChallengeModel.setCreated(challengeCreated);
+                questionableChallengeModel.setEnd(challengeEnd);
+                questionableChallengeModel.setGameName(challenge.getGameByGameId().getName());
+                if (!challengeResultService.isChallengeResultScoreSame(challenge)) {
+                    questionableChallengeModel.setReason(QuestionableChallengeReason.DIFFERENT_SCORE);
+                } else {
+                    questionableChallengeModel.setReason(QuestionableChallengeReason.TOO_LONG_WITHOUT_SCORE);
+                }
+                questionableChallengeModels.add(questionableChallengeModel);
+            }
+        }
+        return questionableChallengeModels;
+    }
+
+    // Challenge má být převedena do stavu finished v případě, že všichni uživatelé zadali shodné skore
+    // tzn. V případě hry fotbal musí 8 hráčů zadat shodné skore
+    // potom previst challenge do FINISHED - nezobrazovat na mape, a prepocitat rating hracu
+    private boolean shouldBeChallengeFinished(Challenge challenge) throws UnexceptedChallengeException {
+        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
+        int numberOfPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+
+        if (challengeResults.isEmpty()) {
+            throw new UnexceptedChallengeException("Challenge without result should not exist.");
+        }
+
+        // mame tolik vysledku kolik je hracu? neboli máme od každého hráče výsledek?
+        // pokud ne, tak vyzva neni dokoncena a vratit false
+        if (challengeResults.size() != numberOfPlayers) {
+            return false;
+        }
+
+        // kdyz mame od kazdeho hrace vysledek tak se jen kouknem jestli se shoduji
+        Integer scoreWinner = challengeResults.get(0).getScoreWinner();
+        Integer scoreLoser = challengeResults.get(0).getScoreDefeated();
+
+        // pokud se nějaky shodovat nebude vratit false - jde na rozhodovani operatora
+        // nutno kontrolovat i ten vysledek WIN/LOSER, aby kdyz daj oba ze vyhrali s 1:0 to neproslo i kdyz to skore je stejny zejo
+        // Pokud tam bude víc vítězů než je půlka number of players - zkrátka na 8 hráčů, když tam zadá 5 lidí vítězství, tak je něco špatně
+        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        int maxAllowedWinners = maxPlayers / 2;
+        int numberOfWinners = 0;
+        int maxAllowedLosers = maxPlayers / 2;
+        int numberOfLosers = 0;
+        for (ChallengeResult challengeResult : challengeResults) {
+            if (challengeResult.getResultStateByResultStateId().getState().equals(ResultStateConstants.WINNER)) {
+                numberOfWinners++;
+            }
+            if (challengeResult.getResultStateByResultStateId().getState().equals(ResultStateConstants.DEFEATED)) {
+                numberOfLosers++;
+            }
+            if (  ((numberOfWinners > maxAllowedWinners || numberOfLosers > maxAllowedLosers) ||
+                    (challengeResult.getScoreWinner() == null || !challengeResult.getScoreWinner().equals(scoreWinner)) ||
+                    (challengeResult.getScoreDefeated() == null || !challengeResult.getScoreDefeated().equals(scoreLoser)))) {
+                return false;
+            }
+        }
+        // v pripade ze mame 1. tolik vysledku kolik je hracu teto hry
+        //                  2. a vsechny se shoduji vratime true, vyzva muze byt ukoncena
+        return true;
+    }
+
+    public void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexceptedChallengeException {
+        // Steps for finishing challenge
+        // 1. Submit challenge results - every time
+        submitChallengeResults(user, challenge, challengeResultModel);
+        // 2. Check if challenge should be finished - ie. Change to FINISHED state and recalculate players rating
+        if (shouldBeChallengeFinished(challenge)) {
+            // 3. Change challenge state to FINISHED
+            challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findByState(ChallengeStateConstants.FINISHED));
+            challengeRepository.save(challenge);
+            // 4. Recalculate challenge players rating based on their results
+            recalculateRatingAfterFinishedChallenge(challenge);
+        }
+    }
+
+    private void submitChallengeResults(User user, Challenge challenge, ChallengeResultModel challengeResultModel) {
+        ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
+        challengeResult.setResultStateByResultStateId(resultStateRepository.findByState(challengeResultModel.getResultState()));
+        challengeResult.setScoreWinner(challengeResultModel.getWinnerScore());
+        challengeResult.setScoreDefeated(challengeResultModel.getLoserScore());
+        challengeResult.setDescription(challengeResultModel.getDescription());
+        challengeResultRepository.save(challengeResult);
+    }
+
+    // TODO - ZAKAZAT ZAKLADANI HER NA LICHY POCET HRACU
+    private void recalculateRatingAfterFinishedChallenge(Challenge challenge) {
+        Integer ratingTeam1 = calculateTeamRating(challenge, 1);
+        Integer ratingTeam2 = calculateTeamRating(challenge, 2);
+        // V případě výhry vyhrajeme 1% ratingu SOUPEŘE.
+        // V případě prohry prohrajeme 1% ratingu NAŠEHO.
+        // V případě remízy vyhrajeme/prohrajeme 0.5% ratingu, na základě toho jestli jsme měli/neměli větší rating než druhý tým.
+        for (ChallengeResult challengeResult : challengeResultRepository.findByChallengeByChallengeId(challenge)) {
+            Rating rating = ratingRepository.findByUserByUserIdAndGameByGameId(challengeResult.getUserByUserId(), challenge.getGameByGameId());
+            int recalculatedRating = rating.getRating();
+            switch (challengeResult.getResultStateByResultStateId().getState()) {
+                case "WINNER":
+                    if (challengeResult.getTeamNumber() == 1) {
+                        recalculatedRating += (ratingTeam2 / 100);
+                    } else {
+                        recalculatedRating += (ratingTeam1 / 100);
+                    }
+                    break;
+                case "DEFEATED":
+                    if (challengeResult.getTeamNumber() == 1) {
+                        recalculatedRating -= (ratingTeam1 / 100);
+                    } else {
+                        recalculatedRating -= (ratingTeam2 / 100);
+                    }
+                    break;
+                case "TIE":
+                    if (challengeResult.getTeamNumber() == 1 && ratingTeam1 > ratingTeam2) {
+                        recalculatedRating -= (ratingTeam1 / 200);
+                    }
+                    if (challengeResult.getTeamNumber() == 1 && ratingTeam1 < ratingTeam2) {
+                        recalculatedRating += (ratingTeam2 / 200);
+                    }
+                    if (challengeResult.getTeamNumber() == 2 && ratingTeam2 > ratingTeam1) {
+                        recalculatedRating -= (ratingTeam2 / 200);
+                    }
+                    if (challengeResult.getTeamNumber() == 2 && ratingTeam2 < ratingTeam1) {
+                        recalculatedRating += (ratingTeam1 / 200);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            rating.setRating(recalculatedRating);
+            ratingRepository.save(rating);
+        }
+    }
+
+    private Integer calculateTeamRating(Challenge challenge, int teamNumber) {
+        int numberOfPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+
+        List<User> teamUsers = challengeResultRepository.findByChallengeByChallengeIdAndTeamNumber(challenge, teamNumber)
+                .stream()
+                .map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
+
+        Integer teamRating = 0;
+        for (User u : teamUsers) {
+            teamRating += ratingRepository.findByUserByUserIdAndGameByGameId(u, challenge.getGameByGameId()).getRating();
+        }
+        return teamRating / (numberOfPlayers / 2);
     }
 }

@@ -3,13 +3,14 @@ package cz.upce.diplomovaprace.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class ChallengeModel {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime start;
+    private LocalDateTime start = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime end;
+    private LocalDateTime end = LocalDateTime.now().plusHours(24).truncatedTo(ChronoUnit.MINUTES);
     private String latCoords;
     private String lngCoords;
     private int gameId;

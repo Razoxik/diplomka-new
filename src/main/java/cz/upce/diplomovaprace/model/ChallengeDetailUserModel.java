@@ -1,6 +1,6 @@
-package cz.upce.diplomovaprace.dto;
+package cz.upce.diplomovaprace.model;
 
-public class UserDto {
+public class ChallengeDetailUserModel {
     private int id;
     private int rating;
     private String userName;

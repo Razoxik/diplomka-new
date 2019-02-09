@@ -81,14 +81,14 @@
             </li>
             <sec:authorize access="hasAnyAuthority('OPERATOR','ADMIN')">
                 <li class="nav-item">
-                    <spring:url value="/operator" var="operatorUrl"/>
-                    <a class="nav-link success-link" href="${operatorUrl}">
+                    <spring:url value="/challenge/questionable/list" var="questionableChallengesList"/>
+                    <a class="nav-link success-link" href="${questionableChallengesList}">
                         <i class="material-icons">settings</i>
-                        <p><spring:message code="sidebar.operator"/></p>
+                        <p><spring:message code="sidebar.operator.questionableChallenges"/></p>
                     </a>
                 </li>
             </sec:authorize>
-            <sec:authorize access="hasAnyAuthority('ADMIN')">
+            <sec:authorize access="hasAuthority('ADMIN')">
                 <li class="nav-item">
                     <spring:url value="/game/approval" var="gameApprovalUrl"/>
                     <a class="nav-link danger-link" href="${gameApprovalUrl}">
@@ -97,7 +97,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <spring:url value="/admin/console" var="consoleUrl"/>
+                    <spring:url value="/h2-console" var="consoleUrl"/>
                     <a class="nav-link danger-link" href="${consoleUrl}">
                         <i class="material-icons">verified_user</i>
                         <p><spring:message code="sidebar.admin.console"/></p>

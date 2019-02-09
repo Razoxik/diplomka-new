@@ -2,24 +2,25 @@ package cz.upce.diplomovaprace.model;
 
 public class ChallengeResultModel {
     private String resultState;
-    private int scoreTeam1;
-    private int scoreTeam2;
+    private int winnerScore;
+    private int loserScore;
     private Integer challengeUserId;
+    private String description;
 
-    public int getScoreTeam1() {
-        return scoreTeam1;
+    public int getWinnerScore() {
+        return winnerScore;
     }
 
-    public void setScoreTeam1(int scoreTeam1) {
-        this.scoreTeam1 = scoreTeam1;
+    public void setWinnerScore(int winnerScore) {
+        this.winnerScore = winnerScore;
     }
 
-    public int getScoreTeam2() {
-        return scoreTeam2;
+    public int getLoserScore() {
+        return loserScore;
     }
 
-    public void setScoreTeam2(int scoreTeam2) {
-        this.scoreTeam2 = scoreTeam2;
+    public void setLoserScore(int loserScore) {
+        this.loserScore = loserScore;
     }
 
     public String getResultState() {
@@ -36,5 +37,13 @@ public class ChallengeResultModel {
 
     public void setChallengeUserId(Integer challengeUserId) {
         this.challengeUserId = challengeUserId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -9,6 +9,7 @@
 <jsp:include page="../common/map/header.jsp"/>
 
 <script>
+    const createChallenge = "<spring:message code="map.challenge.create"/>";
     let challenges = [
         <c:forEach items="${mapModels}" var="mapModel" varStatus="status">
         [
@@ -23,6 +24,7 @@
             '<b><spring:message code="map.challenge.challengeDetail"/></b>', // linkToDetail - [i][8]
             '${mapModel.challengeId}', // challengeId - [i][9]
             '${mapModel.gameName}', // gameName - [i][10]
+            '<b><spring:message code="map.challenge.description"/></b><br>${mapModel.description}', // Challenge description - [i][11]
         ]
         <c:if test="${!status.last}">
         ,

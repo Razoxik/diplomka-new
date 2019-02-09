@@ -12,6 +12,7 @@ public class ActiveTabConstants {
     public static final String LEADERBOARD = "LEADERBOARD";
     public static final String GAME = "GAME";
     public static final String GAME_APPROVAL = "GAME APPROVAL";
+    public static final String QUESTIONABLE_CHALLENGES = "QUESTIONABLE CHALLENGES";
 
     private ActiveTabConstants() {
     }

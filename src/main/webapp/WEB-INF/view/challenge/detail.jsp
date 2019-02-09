@@ -5,7 +5,7 @@
 <%--@elvariable id="challenge" type="cz.upce.diplomovaprace.entity.Challenge"--%>
 <%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
 <%--@elvariable id="player" type="cz.upce.diplomovaprace.entity.User"--%>
-<%--@elvariable id="challengeDetailDto" type="cz.upce.diplomovaprace.dto.ChallengeDetailDto"--%>
+<%--@elvariable id="challengeDetailModel" type="cz.upce.diplomovaprace.model.ChallengeDetailModel"--%>
 <%--@elvariable id="isUserAlreadyInChallenge" type="java.lang.Boolean"--%>
 <%--@elvariable id="isChallengeFinished" type="java.lang.Boolean"--%>
 <%@ include file="../common/header.jsp" %>
@@ -20,7 +20,7 @@
                     <div class="card-header card-header-primary">
                         <h4 class="card-title ">
                             <c:choose>
-                                <c:when test="${challengeDetailDto.maxPlayers gt 2}">
+                                <c:when test="${challengeDetailModel.maxPlayers gt 2}">
                                     Team 1
                                 </c:when>
                                 <c:otherwise>
@@ -62,45 +62,61 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${challengeDetailDto.firstTeam}" var="userDto"
+                                <c:forEach items="${challengeDetailModel.firstTeam}" var="challengeDetailUserModel"
                                            varStatus="status">
 
                                     <tr>
                                         <td>
-                                                ${userDto.userName}
+                                                ${challengeDetailUserModel.userName}
                                         </td>
                                         <td>
-                                                ${userDto.rating}
+                                                ${challengeDetailUserModel.rating}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfGames}
+                                                ${challengeDetailUserModel.numberOfGames}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfWins}
+                                                ${challengeDetailUserModel.numberOfWins}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfLosses}
+                                                ${challengeDetailUserModel.numberOfLosses}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfTies}
+                                                ${challengeDetailUserModel.numberOfTies}
                                         </td>
                                         <c:set var="scoreColor" value=""/>
-                                        <c:if test="${userDto.winningUserScore gt  userDto.lossingUserScore}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore gt  challengeDetailUserModel.lossingUserScore}">
                                             <c:set var="scoreColor" value="color:green"/>
                                         </c:if>
-                                        <c:if test="${userDto.winningUserScore lt  userDto.lossingUserScore}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore lt  challengeDetailUserModel.lossingUserScore}">
                                             <c:set var="scoreColor" value="color:red"/>
                                         </c:if>
-                                        <c:if test="${userDto.winningUserScore eq  userDto.lossingUserScore and !userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore eq  challengeDetailUserModel.lossingUserScore and !challengeDetailUserModel.challengeResultState.equals('IN_PROGRESS')}">
+                                            <c:set var="scoreColor" value="color:yellow"/>
+                                        </c:if>
+
+                                        <c:set var="scoreColor" value=""/>
+                                        <c:set var="score"
+                                               value="${challengeDetailUserModel.winningUserScore}:${challengeDetailUserModel.lossingUserScore}"/>
+                                        <c:if test="${challengeDetailUserModel.challengeResultState eq 'WINNER'}">
+                                            <c:set var="scoreColor" value="color:green"/>
+                                        </c:if>
+                                            ${challengeDetailUserModel.challengeResultState}
+                                        <c:if test="${challengeDetailUserModel.challengeResultState eq 'DEFEATED'}">Ł
+                                            <c:set var="scoreColor" value="color:red"/>
+                                            <c:set var="score"
+                                                   value="${challengeDetailUserModel.lossingUserScore}:${challengeDetailUserModel.winningUserScore}"/>
+                                        </c:if>
+                                        <c:if test="${challengeDetailUserModel.challengeResultState eq 'TIE'}">
                                             <c:set var="scoreColor" value="color:yellow"/>
                                         </c:if>
                                         <td style="${scoreColor}">
                                             <c:choose>
-                                                <c:when test="${userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                <c:when test="${challengeDetailUserModel.challengeResultState.equals('IN_PROGRESS')}">
                                                     N/A
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${userDto.winningUserScore}:${userDto.lossingUserScore}
+                                                    ${score}
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
@@ -111,7 +127,8 @@
                                                 <%--AND IF ROLE OPERATOR CO TOHLE MUZE TVORIT AZUROVA BARVA, PRO ROLI OPERATORA --%>
                                                 <spring:url value="/challenge/enterResult" var="enterResultUrl">
                                                     <spring:param name="challengeId" value="${challenge.id}"/>
-                                                    <spring:param name="challengeUserId" value="${userDto.id}"/>
+                                                    <spring:param name="challengeUserId"
+                                                                  value="${challengeDetailUserModel.id}"/>
                                                 </spring:url>
                                                 <a href="${enterResultUrl}"
                                                    class="btn  btn-success btn-sm "
@@ -142,7 +159,7 @@
                     <div class="card-header card-header-primary">
                         <h4 class="card-title ">
                             <c:choose>
-                                <c:when test="${challengeDetailDto.maxPlayers gt 2}">
+                                <c:when test="${challengeDetailModel.maxPlayers gt 2}">
                                     Team 2
                                 </c:when>
                                 <c:otherwise>
@@ -184,45 +201,45 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${challengeDetailDto.secondTeam}" var="userDto"
+                                <c:forEach items="${challengeDetailModel.secondTeam}" var="challengeDetailUserModel"
                                            varStatus="status">
 
                                     <tr>
                                         <td>
-                                                ${userDto.userName}
+                                                ${challengeDetailUserModel.userName}
                                         </td>
                                         <td>
-                                                ${userDto.rating}
+                                                ${challengeDetailUserModel.rating}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfGames}
+                                                ${challengeDetailUserModel.numberOfGames}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfWins}
+                                                ${challengeDetailUserModel.numberOfWins}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfLosses}
+                                                ${challengeDetailUserModel.numberOfLosses}
                                         </td>
                                         <td>
-                                                ${userDto.numberOfTies}
+                                                ${challengeDetailUserModel.numberOfTies}
                                         </td>
                                         <c:set var="scoreColor" value=""/>
-                                        <c:if test="${userDto.winningUserScore gt  userDto.lossingUserScore}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore gt  challengeDetailUserModel.lossingUserScore}">
                                             <c:set var="scoreColor" value="color:green"/>
                                         </c:if>
-                                        <c:if test="${userDto.winningUserScore lt  userDto.lossingUserScore}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore lt  challengeDetailUserModel.lossingUserScore}">
                                             <c:set var="scoreColor" value="color:red"/>
                                         </c:if>
-                                        <c:if test="${userDto.winningUserScore eq  userDto.lossingUserScore and !userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                        <c:if test="${challengeDetailUserModel.winningUserScore eq  challengeDetailUserModel.lossingUserScore and !challengeDetailUserModel.challengeResultState.equals('IN_PROGRESS')}">
                                             <c:set var="scoreColor" value="color:yellow"/>
                                         </c:if>
                                         <td style="${scoreColor}">
                                             <c:choose>
-                                                <c:when test="${userDto.challengeResultState.equals('IN_PROGRESS')}">
+                                                <c:when test="${challengeDetailUserModel.challengeResultState.equals('IN_PROGRESS')}">
                                                     N/A
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${userDto.winningUserScore}:${userDto.lossingUserScore}
+                                                    ${challengeDetailUserModel.winningUserScore}:${challengeDetailUserModel.lossingUserScore}
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
@@ -230,7 +247,8 @@
                                             <c:if test="${ true }"> <%--AND IF ROLE OPERATOR CO TOHLE MUZE TVORIT --%>
                                                 <spring:url value="/challenge/enterResult" var="enterResultUrl">
                                                     <spring:param name="challengeId" value="${challenge.id}"/>
-                                                    <spring:param name="challengeUserId" value="${userDto.id}"/>
+                                                    <spring:param name="challengeUserId"
+                                                                  value="${challengeDetailUserModel.id}"/>
                                                 </spring:url>
                                                 <a href="${enterResultUrl}"
                                                    class="btn  btn-success btn-sm "
@@ -276,6 +294,12 @@
                         Připojit se k výzvě
                     </a>
                 </c:if>
+                <spring:url value="join" var="joinUrl" htmlEscape="true">
+                    <spring:param name="challengeId" value="${challenge.id}"/>
+                </spring:url>
+                <a href="${joinUrl}" class="btn btn-success" role="button" aria-disabled="true">
+                    Odstranit výzvu - pro operátora
+                </a>
             </div>
         </div>
     </div>

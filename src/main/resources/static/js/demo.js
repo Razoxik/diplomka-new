@@ -182,7 +182,7 @@ demo = {
                     const latitude = event.latLng.lat();
                     const longitude = event.latLng.lng();
                     var a = document.createElement('a');
-                    var linkText = document.createTextNode("CREATE CHALLENGE");
+                    var linkText = document.createTextNode(createChallenge);
                     a.appendChild(linkText);
                     a.style.color = "black";
                     a.href = "/challenge/create?latCoords=" + latitude + "&lngCoords=" + longitude;
@@ -269,7 +269,8 @@ demo = {
                                 challenges[i][4] + "<br/>" +
                                 challenges[i][5] + "<br/>" +
                                 challenges[i][6] + "<br/>" +
-                                challenges[i][7] + "<br/>" + "<br/>" +
+                                challenges[i][7] + "<br/>" +
+                                challenges[i][11] + "<br/>" + "<br/>" +
                                 '<a style="color:black" href=/challenge/detail?challengeId=' + challenges[i][9] + '>' + challenges[i][8] + '</a>'
                             );
                             infowindow.open(map, marker);

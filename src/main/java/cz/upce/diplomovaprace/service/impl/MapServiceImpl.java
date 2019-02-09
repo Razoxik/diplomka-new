@@ -60,6 +60,7 @@ public class MapServiceImpl implements MapService {
             mapModel.setHostName(host.getUserName());
             mapModel.setGameName(game.getName());
             mapModel.setRating(rating);
+            mapModel.setDescription(challenge.getDescription());
             LocalDateTimeJPAConverter converter = new LocalDateTimeJPAConverter();
             LocalDateTime startDate = converter.convertToEntityAttribute(challenge.getStart());
             LocalDateTime endDate = converter.convertToEntityAttribute(challenge.getEnd());

@@ -54,7 +54,7 @@ public class MainController {
         return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
     */
-    //for 403 access denied page
+    //for 403 access denied page není potřeba když to mame jako html casti v resource balicku
     @RequestMapping(value = "/s403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {
 

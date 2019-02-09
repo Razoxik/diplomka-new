@@ -27,7 +27,6 @@ public class FriendsController {
 
     private static final String FRIENDS_MODEL_MODEL_KEY = "friendModels";
 
-
     @Autowired
     FriendService friendService;
 

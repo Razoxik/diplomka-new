@@ -14,6 +14,7 @@ public class MapModel {
     private String lngCoords;
     private int numberOfPlayers;
     private int maxPlayers;
+    private String description;
 
     public int getChallengeId() {
         return challengeId;
@@ -101,5 +102,13 @@ public class MapModel {
 
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

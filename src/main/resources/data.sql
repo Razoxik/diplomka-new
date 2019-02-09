@@ -68,7 +68,7 @@ INSERT INTO challenge_state VALUES(2, 'IN_PROGRESS');
 INSERT INTO challenge_state VALUES(3, 'FINISHED');
 
 
-INSERT INTO challenge VALUES(1, '49.902238', '16.439289', '1970-01-01 00:00:01','challenge_text_1',  '2038-01-19 03:14:07',  'pass',  '1970-01-01 00:00:01' ,1, 1);
+INSERT INTO challenge VALUES(1, '49.902238', '16.439289', '1970-01-01 00:00:01','challenge_text_1',  '2018-01-19 03:14:07',  'pass',  '1970-01-01 00:00:01' ,1, 1);
 --  '50.036816', '15.759573',
 INSERT INTO challenge VALUES(2, '49.9005116576071', '16.41433837070315', '1970-01-01 00:00:01','challenge_text_1',  '2038-01-19 03:14:07',  'pass',  '1970-01-01 00:00:01' ,1, 2);
 
@@ -80,7 +80,7 @@ INSERT INTO result_state VALUES(2,'DEFEATED' );
 INSERT INTO result_state VALUES(3,'TIE' );
 INSERT INTO result_state VALUES(4,'IN_PROGRESS' );
 
-INSERT INTO challenge_result VALUES(1, '1970-01-01 00:00:01', 'challenge_result_description_1', 0, 1, 1, 1, 1, 1);
+INSERT INTO challenge_result VALUES(1, '1970-01-01 00:00:01', 'challenge_result_description_1', 0, 1, 1, 1, 1, 3);
 INSERT INTO challenge_result VALUES(2, '1970-01-01 00:00:01', 'challenge_result_description_1',  0, 1, 1, 2, 4, 4);
 INSERT INTO challenge_result VALUES(3, '1970-01-01 00:00:01', 'challenge_result_description_1', 0, 1, 1,  2, 4, 5);
 INSERT INTO challenge_result VALUES(4, '1970-01-01 00:00:01', 'challenge_result_description_1',  0, 1, 1, 2, 4, 6);

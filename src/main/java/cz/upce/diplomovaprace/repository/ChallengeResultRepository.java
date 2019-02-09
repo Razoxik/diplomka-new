@@ -19,5 +19,4 @@ public interface ChallengeResultRepository extends CrudRepository<ChallengeResul
     ChallengeResult findByUserByUserIdAndChallengeByChallengeId(User user, Challenge challenge);
 
     List<ChallengeResult> findByUserByUserId(User user);
-
 }

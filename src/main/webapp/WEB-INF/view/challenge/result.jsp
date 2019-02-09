@@ -22,7 +22,7 @@
                       <form:input path="challengeUserId" type="hidden" value="${  challengeUserId}"/>
                     </c:if>
                     <div class="form-group">
-                        <label class="label-control">How do you end?</label>
+                        <label class="label-control">Jak si dopadl?</label>
                         <form:select path="resultState" cssClass="form-control selectpicker"
                                      id="exampleFormControlSelect1">
                             <%--<c:forEach items="${games}" var="game" varStatus="status">--%>
@@ -34,20 +34,33 @@
                         <form:errors path="resultState" cssClass="error"/>
                     </div>
 
-
+                    <script>
+                        var winnerScore = document.getElementById("winnerScore");
+                        var loserScore = document.getElementById("loserScore");
+                        function setMin() {
+                            winnerScore.min = loserScore.value;
+                        }
+                        function setMax() {
+                            loserScore.max = winnerScore.value;
+                        }
+                        var trigger = document.getElementById("winnerScore");
+                        trigger.addEventListener("change", setMin, false);
+                        var loserScoreTrigger = document.getElementById("loserScore");
+                        loserScoreTrigger.addEventListener("change", setMax, false);
+                    </script>
                     <div class="form-group">
-                        <label class="label-control">your score: Skóre Hráč/Team1[Pepa, Fanda, Lama,
+                        <label class="label-control">Vítězné scoŕe
                             Klepmr]</label>
-                        <form:input path="scoreTeam1" type="text" class="form-control datetimepicker"
+                        <form:input path="winnerScore" id="winnerScore" type="number" class="form-control"
                                     value="12"/>
-                        <form:errors path="scoreTeam1" cssClass="error"/>
+                        <form:errors path="winnerScore" cssClass="error"/>
                     </div>
                     <div class="form-group">
-                        <label class="label-control">oponnent sore: Skóre Hráč/Team2[Pepa, Fanda, Lama,
+                        <label class="label-control">skore porazeneho
                             Klepmr]</label>
-                        <form:input path="scoreTeam2" type="text" class="form-control datetimepicker"
-                                    value="2"/>
-                        <form:errors path="scoreTeam2" cssClass="error"/>
+                        <form:input path="loserScore" id="loserScore" type="number" class="form-control"
+                                    value="2" onchange="document.getElementById('winnerScore').min=this.value;"/>
+                        <form:errors path="loserScore" cssClass="error"/>
                     </div>
 
                     <div class="form-group">
