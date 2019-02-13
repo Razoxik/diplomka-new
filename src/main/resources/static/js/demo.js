@@ -201,7 +201,7 @@ demo = {
                     mousedUp = true;
                 });
                 const avatarIcon = {
-                    url: "/img/avatars/default.png", // url
+                    url: "/img/avatars/Default.png", // url
                     scaledSize: new google.maps.Size(50, 50), // scaled size
                     origin: new google.maps.Point(0, 0), // origin
                     anchor: new google.maps.Point(0, 0) // anchor
@@ -241,7 +241,7 @@ demo = {
                     });
 
                     var defaultIcon = {
-                        url: "/img/activities/default.png",
+                        url: "/img/activities/Default.png",
                         scaledSize: new google.maps.Size(50, 50), // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(0, 0) // anchor

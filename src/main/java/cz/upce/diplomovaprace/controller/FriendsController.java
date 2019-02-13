@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -39,11 +40,16 @@ public class FriendsController {
     }
 
     @GetMapping("/addToFriends")
-    public ModelAndView addToFriend(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
-                                    RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+    public ModelAndView addToFriend(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId, Map<String, Object> model,
+                                    RedirectAttributes redirectAttributes, HttpServletRequest request) throws EntityNotFoundException {
         friendService.addToFriend(userId);
 
-        redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
-        return new ModelAndView("redirect:/user/detail");
+        //redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
+        //TODO model.put("informationMessage", " text - pritel uspesne pridan"); do header.jsp dat
+        // if infromation message not null vypsat tu hlasu s tim textem! resp. udelat pro to preklady takze tady by to bylo jen
+//        model.put("successMessage", "friendAdded"); // proto mit preklad a mit ty hlasky pouze v headeru BEZ PRESMEREOVANI
+        redirectAttributes.addAttribute("successMessage", "friendAdded");
+        return new ModelAndView("redirect:" + request.getHeader("Referer"));
+//        return new ModelAndView("redirect:/user/detail");
     }
 }

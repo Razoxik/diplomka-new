@@ -33,7 +33,7 @@ public class H2ServerConfiguration {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", h2TcpPort).start();
     }
 
-    /**
+    /*
      * Web console for the embedded h2 database.
      *
      * Go to http://localhost:8082 and connect to the database "jdbc:h2:mem:testdb", userName "sa", password empty.
@@ -44,3 +44,12 @@ public class H2ServerConfiguration {
         return Server.createWebServer("-web", "-webAllowOthers", "-webPort", h2WebPort).start();
     }
 }
+
+/**
+ * Report
+ *      -> Nová stránka 0. Reportovaný hráč - Disabled
+ *                      1. Důvod
+ *                      2. Popis
+ *                      3. Button odeslat
+ *
+ */

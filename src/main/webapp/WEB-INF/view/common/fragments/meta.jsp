@@ -3,8 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <meta charset="utf-8"/>
-<link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}img/apple-icon.png">
-<link rel="icon" type="image/png" href="${pageContext.request.contextPath}img/favicon.png">
+<spring:url value="/img/titleIcon.png" var="titleIconUrl"/>
+<link rel="icon" type="image/png" href="${titleIconUrl}">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>
     Let's play folks

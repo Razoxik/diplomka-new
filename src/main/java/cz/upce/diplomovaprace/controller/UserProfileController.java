@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("/user")
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
-public class UserController {
+public class UserProfileController {
 
     private static final String DETAIL_VIEW_NAME = "/user/detail";
 
