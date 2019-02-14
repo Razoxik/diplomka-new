@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%--@elvariable id="messageModel" type="cz.upce.diplomovaprace.model.MessageModel"--%>
+<%--@elvariable id="messageModel" type="com.bartosektom.letsplayfolks.model.MessageModel"--%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">

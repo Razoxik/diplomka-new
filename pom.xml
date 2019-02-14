@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cz.upce.diplomova-prace</groupId>
-    <artifactId>diplomova-prace</artifactId>
+    <groupId>com.bartosektom.letsplayfolks</groupId>
+    <artifactId>LetsPlayFolks</artifactId>
     <version>1.0</version>
 
     <parent>

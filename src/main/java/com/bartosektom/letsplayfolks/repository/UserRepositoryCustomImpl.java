@@ -1,0 +1,28 @@
+package com.bartosektom.letsplayfolks.repository;
+
+import com.bartosektom.letsplayfolks.entity.Challenge;
+import com.bartosektom.letsplayfolks.entity.ChallengeResult;
+import com.bartosektom.letsplayfolks.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Repository
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
+
+
+    @Autowired
+    ChallengeRepository challengeRepository;
+
+    @Autowired
+    ChallengeResultRepository challengeResultRepository;
+
+    @Override
+    public List<User> findAllChallengeUsersByChallenge(Challenge challenge) {
+        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
+
+        return challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
+    }
+}

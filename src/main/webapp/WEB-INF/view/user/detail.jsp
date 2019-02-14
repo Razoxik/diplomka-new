@@ -4,9 +4,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%--@elvariable id="userModel" type="cz.upce.diplomovaprace.model.UserModel"--%>
+<%--@elvariable id="userModel" type="com.bartosektom.letsplayfolks.model.UserModel"--%>
 <%--@elvariable id="userRatingModels" type="java.util.List<cz.upce.diplomovaprace.model.UserRatingModel>"--%>
-<%--@elvariable id="userRatingModel" type="cz.upce.diplomovaprace.model.UserRatingModel"--%>
+<%--@elvariable id="userRatingModel" type="com.bartosektom.letsplayfolks.model.UserRatingModel"--%>
 <%--@elvariable id="isOwnerOfProfile" type="java.lang.Boolean"--%>
 <%--@elvariable id="canBeAddedToFriends" type="java.lang.Boolean"--%>
 

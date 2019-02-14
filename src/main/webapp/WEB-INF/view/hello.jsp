@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%--@elvariable id="message" type="cz.upce.diplomovaprace.entity.Message"--%>
+<%--@elvariable id="message" type="com.bartosektom.letsplayfolks.entity.Message"--%>
 <%--@elvariable id="messages" type="java.util.List<ccz.upce.diplomovaprace.entity.Message>"--%>
 
 <%@ include file="common/header.jsp" %>

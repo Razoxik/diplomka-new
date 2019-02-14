@@ -6,5 +6,5 @@ This readme file is still under construction :-) ...I hope that not forever.
 
 If you want to contact me, feel free to do there:
    - Razox(at)seznam.cz
-   - https://tomasbartosek.cz (under construction as well)
+   - http://tomasbartosek.cz (under construction as well)
    - https://github.com/TomasBartosek

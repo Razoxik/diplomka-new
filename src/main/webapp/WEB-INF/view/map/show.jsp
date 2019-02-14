@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%--@elvariable id="mapModel" type="cz.upce.diplomovaprace.model.MapModel"--%>
+<%--@elvariable id="mapModel" type="com.bartosektom.letsplayfolks.model.MapModel"--%>
 <%--@elvariable id="mapModels" type="java.util.List<cz.upce.diplomovaprace.model.MapModel>"--%>
 
 <jsp:include page="../common/map/header.jsp"/>

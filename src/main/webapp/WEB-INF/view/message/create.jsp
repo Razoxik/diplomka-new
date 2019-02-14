@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%--@elvariable id="messageModel" type="cz.upce.diplomovaprace.model.MessageModel"--%>
+<%--@elvariable id="messageModel" type="com.bartosektom.letsplayfolks.model.MessageModel"--%>
 <%--@elvariable id="userNotFound" type="java.lang.Boolean"--%>
 
 <spring:message code="global.mandatory.form.attribute" var="mandatoryFieldError"/>

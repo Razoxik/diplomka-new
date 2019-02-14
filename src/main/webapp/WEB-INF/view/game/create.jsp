@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%--@elvariable id="gameModel" type="cz.upce.diplomovaprace.model.GameModel"--%>
+<%--@elvariable id="gameModel" type="com.bartosektom.letsplayfolks.model.GameModel"--%>
 
 // přidat do GAME nějakou FLAG, jestli je hra potvrzena nebo ne, a pak jen vyhledat tyhle hry na schvaleni adminem
 <%@ include file="../common/header.jsp" %>

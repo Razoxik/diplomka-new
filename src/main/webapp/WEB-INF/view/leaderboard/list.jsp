@@ -4,10 +4,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%--@elvariable id="game" type="cz.upce.diplomovaprace.entity.Game"--%>
+<%--@elvariable id="game" type="com.bartosektom.letsplayfolks.entity.Game"--%>
 <%--@elvariable id="games" type="java.util.List<cz.upce.diplomovaprace.entity.Game>"--%>
 <%--@elvariable id="leaderboardModels" type="java.util.List<cz.upce.diplomovaprace.model.LeaderboardModel>"--%>
-<%--@elvariable id="leaderboardModel" type="cz.upce.diplomovaprace.model.LeaderboardModel"--%>
+<%--@elvariable id="leaderboardModel" type="com.bartosektom.letsplayfolks.model.LeaderboardModel"--%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">

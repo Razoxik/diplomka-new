@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--@elvariable id="questionableChallenge" type="cz.upce.diplomovaprace.model.QuestionableChallengeModel"--%>
+<%--@elvariable id="questionableChallenge" type="com.bartosektom.letsplayfolks.model.QuestionableChallengeModel"--%>
 <%--@elvariable id="questionableChallenges" type="java.util.List<cz.upce.diplomovaprace.model.QuestionableChallengeModel>"--%>
 
 <%@ include file="../../common/header.jsp" %>
