@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%--@elvariable id="userModel" type="com.bartosektom.letsplayfolks.model.UserModel"--%>
-<%--@elvariable id="userRatingModels" type="java.util.List<cz.upce.diplomovaprace.model.UserRatingModel>"--%>
+<%--@elvariable id="userRatingModels" type="java.util.List<com.bartosektom.letsplayfolks.model.UserRatingModel>"--%>
 <%--@elvariable id="userRatingModel" type="com.bartosektom.letsplayfolks.model.UserRatingModel"--%>
 <%--@elvariable id="isOwnerOfProfile" type="java.lang.Boolean"--%>
 <%--@elvariable id="canBeAddedToFriends" type="java.lang.Boolean"--%>
@@ -41,7 +41,7 @@
                                             <spring:message code="profile.form.username"/>
                                         </label>
                                         <form:input path="userName" type="text" cssClass="form-control" required="true"
-                                                    value="${userModel.userName}" disabled="${!isOwnerOfProfile}"/>
+                                                    value="${userModel.userName}" disabled="true"/>
                                     </div>
                                 </div>
 

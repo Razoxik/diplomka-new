@@ -1,5 +1,6 @@
 package com.bartosektom.letsplayfolks.service;
 
+import com.bartosektom.letsplayfolks.exception.UserAlreadyExistException;
 import com.bartosektom.letsplayfolks.model.UserModel;
 import com.bartosektom.letsplayfolks.model.UserRatingModel;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
@@ -15,4 +16,6 @@ public interface UserService {
     void saveUserModel(Integer userId, UserModel userModel) throws EntityNotFoundException;
 
     boolean isOwnerOfProfile(Integer userId);
+
+    void createUserFromModel(UserModel userModel) throws EntityNotFoundException, UserAlreadyExistException;
 }

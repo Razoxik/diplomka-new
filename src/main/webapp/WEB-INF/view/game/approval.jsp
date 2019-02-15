@@ -6,7 +6,7 @@
 
 <%--TODO: Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát Návrhováno tímto uživatelem--%>
 <%--@elvariable id="gameModel" type="com.bartosektom.letsplayfolks.model.GameModel"--%>
-<%--@elvariable id="gameModels" type="java.util.List<cz.upce.diplomovaprace.model.GameModel>"--%>
+<%--@elvariable id="gameModels" type="java.util.List<com.bartosektom.letsplayfolks.model.GameModel>"--%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">

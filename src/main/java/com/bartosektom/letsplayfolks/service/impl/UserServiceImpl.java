@@ -1,18 +1,24 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
-import com.bartosektom.letsplayfolks.manager.SessionManager;
-import com.bartosektom.letsplayfolks.model.UserModel;
-import com.bartosektom.letsplayfolks.repository.UserRepository;
-import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
-import com.google.common.base.Preconditions;
+import com.bartosektom.letsplayfolks.constants.RatingConstants;
 import com.bartosektom.letsplayfolks.entity.Game;
 import com.bartosektom.letsplayfolks.entity.Rating;
 import com.bartosektom.letsplayfolks.entity.User;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
+import com.bartosektom.letsplayfolks.exception.UserAlreadyExistException;
+import com.bartosektom.letsplayfolks.manager.SessionManager;
+import com.bartosektom.letsplayfolks.model.UserModel;
 import com.bartosektom.letsplayfolks.model.UserRatingModel;
+import com.bartosektom.letsplayfolks.repository.AvatarRepository;
+import com.bartosektom.letsplayfolks.repository.GameRepository;
 import com.bartosektom.letsplayfolks.repository.RatingRepository;
+import com.bartosektom.letsplayfolks.repository.RoleRepository;
+import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.service.UserService;
+import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
+import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,6 +37,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RatingRepository ratingRepository;
+
+    @Autowired
+    GameRepository gameRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    AvatarRepository avatarRepository;
 
     @Override
     public List<UserRatingModel> prepareUserRatingModels(Integer userId) throws EntityNotFoundException {
@@ -96,5 +111,33 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userId);
 
         return sessionManager.getUserId() == userId;
+    }
+
+    @Override
+    public void createUserFromModel(UserModel userModel) throws EntityNotFoundException, UserAlreadyExistException {
+        String userName = userModel.getUserName().substring(0, 1).toUpperCase() + userModel.getUserName().substring(1).toLowerCase();
+        if (userRepository.findByUserName(userName) != null) {
+            throw new UserAlreadyExistException();
+        }
+        User user = new User();
+        user.setUserName(userName);
+        user.setFirstName(userModel.getFirstName());
+        user.setLastName(userModel.getLastName());
+        user.setEmail(userModel.getEmail());
+        user.setAboutMe(userModel.getAboutMe());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+        user.setRoleByRoleId(roleRepository.findById(1).orElseThrow(EntityNotFoundException::new));
+        user.setAvatarByAvatarId(avatarRepository.findById(1).orElseThrow(EntityNotFoundException::new));
+
+        userRepository.save(user);
+
+        for (Game game : gameRepository.findAll()) {
+            Rating rating = new Rating();
+            rating.setGameByGameId(game);
+            rating.setUserByUserId(user);
+            rating.setRating(RatingConstants.DEFAULT_RATING);
+            ratingRepository.save(rating);
+        }
     }
 }

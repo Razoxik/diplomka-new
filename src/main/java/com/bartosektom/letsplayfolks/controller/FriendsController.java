@@ -1,6 +1,7 @@
 package com.bartosektom.letsplayfolks.controller;
 
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
 import com.bartosektom.letsplayfolks.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,6 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class FriendsController {
 
-    private static final String USER_ID_REQUEST_PARAM = "userId";
-
     private static final String FRIEND_LIST_VIEW_NAME = "friend/list";
 
     private static final String FRIENDS_MODEL_MODEL_KEY = "friendModels";
@@ -40,7 +39,7 @@ public class FriendsController {
     }
 
     @GetMapping("/addToFriends")
-    public ModelAndView addToFriend(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId, Map<String, Object> model,
+    public ModelAndView addToFriend(@RequestParam(CommonConstants.USER_ID) Integer userId, Map<String, Object> model,
                                     RedirectAttributes redirectAttributes, HttpServletRequest request) throws EntityNotFoundException {
         friendService.addToFriend(userId);
 
@@ -48,7 +47,7 @@ public class FriendsController {
         //TODO model.put("informationMessage", " text - pritel uspesne pridan"); do header.jsp dat
         // if infromation message not null vypsat tu hlasu s tim textem! resp. udelat pro to preklady takze tady by to bylo jen
 //        model.put("successMessage", "friendAdded"); // proto mit preklad a mit ty hlasky pouze v headeru BEZ PRESMEREOVANI
-        redirectAttributes.addAttribute("infoMessage", "friendAdded");
+        redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, "friendAdded");
         return new ModelAndView("redirect:" + request.getHeader("Referer"));
 //        return new ModelAndView("redirect:/user/detail");
     }

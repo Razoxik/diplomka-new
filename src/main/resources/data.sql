@@ -31,8 +31,10 @@ INSERT INTO user VALUES(8, 'abbbbb','1970-01-01 00:00:01', 'mark@facebook.com'  
 INSERT INTO user VALUES(9,'abbbbb', '1970-01-01 00:00:01', 'alice@walmart.us'     , 'Alice'    , '1970-02-02 02:02:02', 'Walton'    , '$2a$04$bsyAp0BUEqjJoA79XciYl.7wRNYn60rvmRkBKNnuiRaGBRHJ1yXUu', 'Alice'   , 1, 1);
 INSERT INTO user VALUES(10,'abbbbb','1970-01-01 00:00:01', 'charles@koch.com'     , 'Charles'  , '1970-02-02 02:02:02', 'Koch'      , '$2a$04$Ec99rnfVPd9aLjb4fc0HjejQk8NTaIO6N1hD4LwoKSva5a5k7AyRO', 'Charles' , 1, 1);
 
-INSERT INTO report_reason VALUES (1,   'feed');
-INSERT INTO report_reason VALUES(2,   'DONT_COME');
+INSERT INTO report_reason VALUES (1,   'BAD_SCORE');
+INSERT INTO report_reason VALUES (2,   'DO_NOT_ARRIVE');
+INSERT INTO report_reason VALUES (3,   'VERBAL_ABUSE');
+INSERT INTO report_reason VALUES (4,   'OTHER');
 
 INSERT INTO report VALUES(1, '1970-01-01 00:00:01',   'report_text_1',1 ,'1', '2');
 INSERT INTO report VALUES(2, '2038-01-19 03:14:07',   'report_text_2', 2,'2', '1');

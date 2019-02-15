@@ -19,23 +19,23 @@
                         <div class="table-responsive">
                             <form name='loginForm' action="<c:url value='/login' />" method='POST'>
                                 <div class="form-group">
-                                    <label class="label-control">
+                                    <label for="login" class="label-control">
                                         <spring:message code="login.form.userNameInput"/>
                                     </label>
-                                    <input type='text' class="form-control" name='username' value="admin"/>
+                                    <input id="login" type='text' class="form-control" name='username' value="admin"/>
                                 </div>
-                                <div class="form-group">
+                                <div for="pw" class="form-group">
                                     <label class="label-control">
                                         <spring:message code="login.form.passwordInput"/>
                                     </label>
-                                    <input type='password' class="form-control" name='password' value="admin"/>
+                                    <input id="pw" type='password' class="form-control" name='password' value="admin"/>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     <spring:message code="login.form.submitButton"/>
                                 </button>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <p><spring:message code="login.noAccount.text"/>
-                                    <a href="">
+                                    <a href="/user/registration">
                                         <strong><spring:message code="login.noAccount.link"/></strong>
                                     </a>
                                     <span>&#33;</span>

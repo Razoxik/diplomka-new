@@ -3,16 +3,16 @@ package com.bartosektom.letsplayfolks.model;
 // v DP popsat anotace jako creation timestamp a entitiy generate apod.
 public class ReportModel {
 
-    private String userId;
+    private Integer userId;
     private String userName;
     private Integer reportReasonId;
     private String description;
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

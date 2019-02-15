@@ -6,7 +6,7 @@
 
 <%--@elvariable id="challenge" type="com.bartosektom.letsplayfolks.entity.Challenge"--%>
 <%--@elvariable id="challengeDetailModel" type="com.bartosektom.letsplayfolks.model.ChallengeDetailModel"--%>
-<%--@elvariable id="challengeDetailModelTeam" type="List<cz.upce.diplomovaprace.model.ChallengeDetailUserModel>"--%>
+<%--@elvariable id="challengeDetailModelTeam" type="List<com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel>"--%>
 <%--@elvariable id="challengeDetailUserModel" type="com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel"--%>
 <%--@elvariable id="userId" type="java.lang.Integer"--%>
 
@@ -115,7 +115,7 @@
                                     <spring:message code="global.sendMessage"/>
                                 </a>
                                 <spring:url value="/report/report" var="reportUserUrl">
-                                    <spring:param name="userName" value="${challengeDetailUserModel.userName}"/>
+                                    <spring:param name="userId" value="${challengeDetailUserModel.id}"/>
                                 </spring:url>
                                 <a href="${reportUserUrl}" role="button" class="btn btn-primary btn-sm
                                     <c:if test="${!(challengeDetailUserModel.id != userId)}">disabled</c:if>">

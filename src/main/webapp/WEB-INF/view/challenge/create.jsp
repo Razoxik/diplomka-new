@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%--@elvariable id="challengeModel" type="com.bartosektom.letsplayfolks.model.ChallengeModel"--%>
-<%--@elvariable id="games" type="List<cz.upce.diplomovaprace.entity.Game>"--%>
+<%--@elvariable id="games" type="List<com.bartosektom.letsplayfolks.entity.Game>"--%>
 <%--@elvariable id="game" type="com.bartosektom.letsplayfolks.entity.Game"--%>
 
 <%@ include file="../common/header.jsp" %>

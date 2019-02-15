@@ -1,5 +1,6 @@
 package com.bartosektom.letsplayfolks.manager.impl;
 
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
 import com.bartosektom.letsplayfolks.manager.SessionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,7 +38,7 @@ public class SessionManagerImpl implements SessionManager {
 
     @Override
     public int getUserId() {
-        return (int) getSessionAttribute("userId");
+        return (int) getSessionAttribute(CommonConstants.USER_ID);
     }
 
     @Override

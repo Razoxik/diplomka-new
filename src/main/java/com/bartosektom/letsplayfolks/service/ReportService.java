@@ -7,5 +7,5 @@ public interface ReportService {
 
     ReportModel prepareReportModel(Integer userId) throws EntityNotFoundException;
 
-    void createReport(ReportModel reportModel);
+    void createReportFromModel(ReportModel reportModel) throws EntityNotFoundException;
 }

@@ -1,7 +1,9 @@
 package com.bartosektom.letsplayfolks.controller;
 
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
+import com.bartosektom.letsplayfolks.exception.UserAlreadyExistException;
 import com.bartosektom.letsplayfolks.model.UserModel;
 import com.bartosektom.letsplayfolks.service.FriendService;
 import com.bartosektom.letsplayfolks.service.UserService;
@@ -22,12 +24,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user")
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
-@PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
-public class UserProfileController {
+public class UserController {
 
     private static final String DETAIL_VIEW_NAME = "/user/detail";
-
-    private static final String USER_ID_REQUEST_PARAM = "userId";
+    private static final String REGISTRATION_VIEW_NAME = "/user/registration";
 
     private static final String USER_MODEL_KEY = "userModel";
     private static final String USER_RATINGS_MODEL_KEY = "userRatingModels";
@@ -43,7 +43,8 @@ public class UserProfileController {
     // posilat to userId rovnou z JSPcek a nedavat to jako required = false a pak si to tahat ze sessiony muzes to tahat
     // ze sessiony uz v JSP a posilat to jako param rovnou tam zejo
     @GetMapping("/detail")
-    public ModelAndView userDetail(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
+    public ModelAndView userDetail(@RequestParam(CommonConstants.USER_ID) Integer userId,
                                    Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.USER_PROFILE);
         model.put(USER_MODEL_KEY, userService.prepareUserModel(userId));
@@ -56,12 +57,35 @@ public class UserProfileController {
 
     //TADYTO TED - UDELAT FORM V USER DETAIL NA UPRAVU DAT PRO UZIVATELE KTERYMU NALEZI, ZBYTEK BUTTONU A PREKLADY
     @PostMapping("/updateProfile")
-    public ModelAndView updateProfile(@RequestParam(value = USER_ID_REQUEST_PARAM) Integer userId,
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
+    public ModelAndView updateProfile(@RequestParam(CommonConstants.USER_ID) Integer userId,
                                       @ModelAttribute(USER_MODEL_KEY) UserModel userModel,
                                       RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         userService.saveUserModel(userId, userModel);
 
-        redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
+        redirectAttributes.addAttribute(CommonConstants.USER_ID, userId);
         return new ModelAndView("redirect:/user/detail");
+    }
+
+    @GetMapping("/registration")
+    public ModelAndView registration(Map<String, Object> model) {
+        model.put("userModel", new UserModel());
+
+        return new ModelAndView(REGISTRATION_VIEW_NAME, model);
+    }
+
+    @PostMapping("/registration")
+    public ModelAndView submitRegistration(@ModelAttribute("userModel") UserModel userModel,
+                                           Map<String, Object> model,
+                                           RedirectAttributes redirectAttributes) throws EntityNotFoundException {
+        model.put("userModel", new UserModel());
+        try {
+            userService.createUserFromModel(userModel);
+        } catch (UserAlreadyExistException e) {
+            redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, "info.message.userReported");
+            return new ModelAndView("redirect:/user/registration");
+        }
+
+        return new ModelAndView(REGISTRATION_VIEW_NAME, model);
     }
 }

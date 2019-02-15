@@ -1,17 +1,10 @@
 package com.bartosektom.letsplayfolks.controller;
 
 import com.bartosektom.letsplayfolks.ChallengeResultValidator;
-import com.bartosektom.letsplayfolks.constants.GameConstants;
-import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
-import com.bartosektom.letsplayfolks.manager.SessionManager;
-import com.bartosektom.letsplayfolks.model.ChallengeDetailModel;
-import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
-import com.bartosektom.letsplayfolks.model.ChallengeResultModel;
-import com.bartosektom.letsplayfolks.repository.ChallengeStateRepository;
-import com.bartosektom.letsplayfolks.repository.ResultStateRepository;
-import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
 import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
+import com.bartosektom.letsplayfolks.constants.GameConstants;
 import com.bartosektom.letsplayfolks.constants.GameParamConstants;
 import com.bartosektom.letsplayfolks.constants.ResultStateConstants;
 import com.bartosektom.letsplayfolks.entity.Challenge;
@@ -21,12 +14,20 @@ import com.bartosektom.letsplayfolks.entity.Game;
 import com.bartosektom.letsplayfolks.entity.ResultState;
 import com.bartosektom.letsplayfolks.entity.User;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
+import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
+import com.bartosektom.letsplayfolks.manager.SessionManager;
+import com.bartosektom.letsplayfolks.model.ChallengeDetailModel;
+import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
 import com.bartosektom.letsplayfolks.model.ChallengeModel;
+import com.bartosektom.letsplayfolks.model.ChallengeResultModel;
 import com.bartosektom.letsplayfolks.repository.ChallengeRepository;
 import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
+import com.bartosektom.letsplayfolks.repository.ChallengeStateRepository;
 import com.bartosektom.letsplayfolks.repository.GameParamRepository;
 import com.bartosektom.letsplayfolks.repository.GameRepository;
 import com.bartosektom.letsplayfolks.repository.RatingRepository;
+import com.bartosektom.letsplayfolks.repository.ResultStateRepository;
+import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.service.ChallengeService;
 import io.micrometer.core.lang.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
@@ -133,7 +134,7 @@ public class ChallengeController {
     //Controller calls service. Service returns an object (be it a DTO, domain model or something else)
     @GetMapping("/detail")
     public ModelAndView challengeDetail(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
-                                        @RequestParam(value = "infoMessage", required = false) String infoMessage,
+                                        @RequestParam(value = CommonConstants.INFO_MESSAGE, required = false) String infoMessage,
                                         Map<String, Object> model) throws EntityNotFoundException {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
 
@@ -147,7 +148,7 @@ public class ChallengeController {
         model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, isUserAlreadyInChallenge);
         model.put(IS_CHALLENGE_FINISHED_MODEL_KEY, isChallengeFinished);
         model.put("canUserEnterResult", canUserEnterResult);
-        model.put("infoMessage", infoMessage);
+        model.put(CommonConstants.INFO_MESSAGE, infoMessage);
         // AND CHALLENGE IS NOT FULL!!! NA JOIN/ODHLASIT SE!!!
 
         return new ModelAndView(CHALLENGE_DETAIL_VIEW_NAME, model);
@@ -155,7 +156,7 @@ public class ChallengeController {
 
 
     @GetMapping("/enterResult")
-    public ModelAndView challengeEnterResult(@RequestParam(value = "infoMessage", required = false) String infoMessage,
+    public ModelAndView challengeEnterResult(@RequestParam(value = CommonConstants.INFO_MESSAGE, required = false) String infoMessage,
                                              @RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
                                              @RequestParam(value = "challengeUserId", required = false) Integer challengeUserId,
                                              @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) ChallengeResultModel challengeResultModel,
@@ -163,7 +164,7 @@ public class ChallengeController {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
         model.put(CHALLENGE_MODEL_KEY, challenge);
         model.put("challengeUserId", challengeUserId);
-        model.put("infoMessage", infoMessage);
+        model.put(CommonConstants.INFO_MESSAGE, infoMessage);
 
         return new ModelAndView(CHALLENGE_RESULT_VIEW_NAME, model);
     }
@@ -176,7 +177,7 @@ public class ChallengeController {
                                               HttpServletRequest request) throws EntityNotFoundException, UnexceptedChallengeException {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addAttribute("infoMessage", bindingResult.getGlobalErrors().get(0).getDefaultMessage());
+            redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, bindingResult.getGlobalErrors().get(0).getDefaultMessage());
             redirectAttributes.addAttribute("challengeId", challengeId);
             redirectAttributes.addAttribute("challengeUserId", challengeResultModel.getChallengeUserId());
             return new ModelAndView("redirect:/challenge/enterResult");

@@ -1,6 +1,7 @@
 package com.bartosektom.letsplayfolks.controller;
 
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
 import com.bartosektom.letsplayfolks.entity.Challenge;
 import com.bartosektom.letsplayfolks.entity.ChallengeResult;
 import com.bartosektom.letsplayfolks.entity.Game;
@@ -44,7 +45,7 @@ public class HistoryController {
     ChallengeResultRepository challengeResultRepository;
 
     @GetMapping("/list")
-    public ModelAndView historyList(@RequestParam(value = "userId") Integer userId,
+    public ModelAndView historyList(@RequestParam(CommonConstants.USER_ID) Integer userId,
                                     Map<String, Object> model) throws EntityNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         List<ChallengeResult> challengeResults = challengeResultRepository.findByUserByUserId(user);

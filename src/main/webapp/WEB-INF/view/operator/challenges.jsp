@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="challenge" type="com.bartosektom.letsplayfolks.entity.Challenge"--%>
-<%--@elvariable id="challenges" type="java.util.List<ccz.upce.diplomovaprace.entity.Challenge>"--%>
+<%--@elvariable id="challenges" type="java.util.List<com.bartosektom.letsplayfolks.entity.Challenge>"--%>
 
 <%@ include file="../common/header.jsp" %>
 

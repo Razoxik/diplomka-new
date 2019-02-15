@@ -9,6 +9,7 @@ public class UserModel {
     private String lastLogin;
     private String created;
     private String aboutMe;
+    private String password;
 
     public int getUserId() {
         return userId;
@@ -72,5 +73,13 @@ public class UserModel {
 
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

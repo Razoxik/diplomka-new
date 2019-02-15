@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%--@elvariable id="message" type="com.bartosektom.letsplayfolks.model.MessageModel"--%>
-<%--@elvariable id="messages" type="java.util.List<cz.upce.diplomovaprace.model.MessageModel>"--%>
+<%--@elvariable id="messages" type="java.util.List<com.bartosektom.letsplayfolks.model.MessageModel>"--%>
 <%--@elvariable id="messageSent" type="java.lang.Boolean"--%>
 
 <%@ include file="../common/header.jsp" %>
