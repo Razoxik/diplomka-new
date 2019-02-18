@@ -10,6 +10,7 @@
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-12">
                 <form:form method="POST" action="/game/create" modelAttribute="gameModel">

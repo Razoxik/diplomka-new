@@ -29,7 +29,7 @@
                 <table class="table">
                     <thead class="text-primary">
                     <tr>
-                        <th>
+                        <th >
                             <spring:message code="challenge.detail.team.table.header.userName"/>
                         </th>
                         <th>
@@ -105,14 +105,14 @@
                                 </spring:url>
                                 <a href="${addToFriendsUrl}" role="button" class="btn btn-primary btn-sm
                                 <c:if test="${!challengeDetailUserModel.canBeAddToFriends}">disabled</c:if>">
-                                    <spring:message code="global.addToFriends"/>
+                                    <spring:message code="challenge.detail.addToFriends"/>
                                 </a>
                                 <spring:url value="/message/create" var="createMessageUrl">
                                     <spring:param name="userName" value="${challengeDetailUserModel.userName}"/>
                                 </spring:url>
                                 <a href="${createMessageUrl}" role="button" class="btn btn-primary btn-sm
                                     <c:if test="${!(challengeDetailUserModel.id != userId)}">disabled</c:if>">
-                                    <spring:message code="global.sendMessage"/>
+                                    <spring:message code="challenge.detail.sendMessage"/>
                                 </a>
                                 <spring:url value="/report/report" var="reportUserUrl">
                                     <spring:param name="userId" value="${challengeDetailUserModel.id}"/>

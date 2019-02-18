@@ -1,9 +1,10 @@
 package com.bartosektom.letsplayfolks.controller;
 
+import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
+import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
 import com.bartosektom.letsplayfolks.model.GameModel;
 import com.bartosektom.letsplayfolks.service.GameService;
-import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
-import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -51,10 +52,12 @@ public class GameController {
     }
 
     @GetMapping("/create")
-    public ModelAndView createGame(@RequestParam(value = "gameId", required = false) Integer gameId,
+    public ModelAndView createGame(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
+                                   @RequestParam(value = "gameId", required = false) Integer gameId,
                                    Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.GAME);
         model.put(GAME_MODEL_MODEL_KEY, gameService.prepareGameModel(gameId));
+        model.put(CommonConstants.SUCCESS_MESSAGE, successMessage);
 
         return new ModelAndView(GAME_CREATE_VIEW_NAME, model);
     }
@@ -62,16 +65,21 @@ public class GameController {
     @PostMapping("/create")
     public ModelAndView createGameSubmit(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
                                          Map<String, Object> model) throws EntityNotFoundException {
+        // TODO: Validator - sudý počet hráčů
+        // TODO: Validátor - hra se stejným jménem již existuje
+        // TODO: Nebo tohle úplně ignorovat, to má na starosti rozhodnout pak administrator. Sounds good.
         gameService.createGame(gameModel);
+        model.put(CommonConstants.SUCCESS_MESSAGE, "info.message.createGame.send");
         return new ModelAndView(GAME_CREATE_VIEW_NAME, model);
     }
 
     @PostMapping("/approval")
     public ModelAndView createGameApproval(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
-                                         Map<String, Object> model) throws EntityNotFoundException {
+                                           Map<String, Object> model) throws EntityNotFoundException {
         gameService.approveGame(gameModel);
         return new ModelAndView(GAME_CREATE_VIEW_NAME, model);
     }
+
     // TODO: odstranit ty hry z data.sql, protoze nemaj ranking pro hrace, nechat tam jen ejdnu testovaci
     // TODO: Defaultni obrazek?
     @PostMapping("/upload") // //new annotation since 4.3

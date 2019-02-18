@@ -68,24 +68,26 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public ModelAndView registration(Map<String, Object> model) {
-        model.put("userModel", new UserModel());
+    public ModelAndView registration(@RequestParam(value = CommonConstants.ERROR_MESSAGE, required = false) String errorMessage,
+                                     Map<String, Object> model) {
+        model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.REGISTRATION);
+        model.put(CommonConstants.ERROR_MESSAGE, errorMessage);
+        model.put(USER_MODEL_KEY, new UserModel());
 
         return new ModelAndView(REGISTRATION_VIEW_NAME, model);
     }
 
     @PostMapping("/registration")
-    public ModelAndView submitRegistration(@ModelAttribute("userModel") UserModel userModel,
-                                           Map<String, Object> model,
+    public ModelAndView submitRegistration(@ModelAttribute(USER_MODEL_KEY) UserModel userModel,
                                            RedirectAttributes redirectAttributes) throws EntityNotFoundException {
-        model.put("userModel", new UserModel());
         try {
             userService.createUserFromModel(userModel);
         } catch (UserAlreadyExistException e) {
-            redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, "info.message.userReported");
+            redirectAttributes.addAttribute(CommonConstants.ERROR_MESSAGE, "info.message.register.userAlreadyExists");
             return new ModelAndView("redirect:/user/registration");
         }
+        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "info.message.register.userRegistered");
 
-        return new ModelAndView(REGISTRATION_VIEW_NAME, model);
+        return new ModelAndView("redirect:/login");
     }
 }

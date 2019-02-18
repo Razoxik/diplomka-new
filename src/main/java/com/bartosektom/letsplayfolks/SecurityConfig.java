@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/message/**").authenticated()
                 .antMatchers("/challenge/**").authenticated()
                 .antMatchers("/h2-console").hasAuthority("ADMIN")
+                // ADD has authority na OPERATORA
                 .and()
                 .formLogin()
                 .loginPage("/login").failureUrl("/login?error").successHandler(myLoginHandlerCustom())

@@ -97,7 +97,6 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userModel);
 
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        user.setUserName(userModel.getUserName());
         user.setFirstName(userModel.getFirstName());
         user.setLastName(userModel.getLastName());
         user.setEmail(userModel.getEmail());

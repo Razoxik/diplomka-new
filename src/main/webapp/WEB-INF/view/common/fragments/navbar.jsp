@@ -68,9 +68,47 @@
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/news?lang=cz"/>Czech</a>
-                        <a class="dropdown-item" href="/news?lang=en"/>English</a>
+                        <a id="langEn" style="cursor: pointer" class="dropdown-item">English</a>
+                        <a id="langCz" style="cursor: pointer" class="dropdown-item">Czech</a>
                     </div>
+                    <script type="text/javascript">
+                        /**
+                         * @return {string}
+                         */
+                        function URL_add_parameter(url, param, value) {
+                            let hash = {};
+                            let parser = document.createElement('a');
+
+                            parser.href = url;
+
+                            let parameters = parser.search.split(/[?&]/);
+
+                            for (let i = 0; i < parameters.length; i++) {
+                                if (!parameters[i])
+                                    continue;
+
+                                let ary = parameters[i].split('=');
+                                hash[ary[0]] = ary[1];
+                            }
+
+                            hash[param] = value;
+
+                            let list = [];
+                            Object.keys(hash).forEach(function (key) {
+                                list.push(key + '=' + hash[key]);
+                            });
+
+                            parser.search = '?' + list.join('&');
+                            return parser.href;
+                        }
+
+                        document.getElementById("langEn").onclick = function () {
+                            location.href = URL_add_parameter(location.href, 'lang', 'en');
+                        };
+                        document.getElementById("langCz").onclick = function () {
+                            location.href = URL_add_parameter(location.href, 'lang', 'cz');
+                        };
+                    </script>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLogout" data-toggle="dropdown"
@@ -81,16 +119,18 @@
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="<c:url value="/login"/>">Login</a>
-
-                        <form id="logoutForm" name='logoutForm' action="<c:url value='/logout'/>" method='POST'>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form>
-                        <a class="dropdown-item" href="javascript:{}"
-                           onclick="document.getElementById('logoutForm').submit();">Logout
-                        </a>
+                        <sec:authorize access="isAnonymous()">
+                            <a class="dropdown-item" href="<c:url value="/login"/>">Login</a>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <form id="logoutForm" name='logoutForm' action="<c:url value='/logout'/>" method='POST'>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                            <a class="dropdown-item" href="javascript:{}"
+                               onclick="document.getElementById('logoutForm').submit();">Logout
+                            </a>
+                        </sec:authorize>
                     </div>
-
                 </li>
             </ul>
         </div>

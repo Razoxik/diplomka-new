@@ -5,9 +5,10 @@
 
 <%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfToken"--%>
 
-<%@ include file="common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -34,8 +35,9 @@
                                     <spring:message code="login.form.submitButton"/>
                                 </button>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <spring:url value="/user/registration" var="registrationUrl"/>
                                 <p><spring:message code="login.noAccount.text"/>
-                                    <a href="/user/registration">
+                                    <a href="${registrationUrl}">
                                         <strong><spring:message code="login.noAccount.link"/></strong>
                                     </a>
                                     <span>&#33;</span>
@@ -48,4 +50,4 @@
         </div>
     </div>
 </div>
-<%@ include file="common/footer.jsp" %>
+<%@ include file="../common/footer.jsp" %>

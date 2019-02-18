@@ -13,6 +13,8 @@ public class ActiveTabConstants {
     public static final String GAME = "GAME";
     public static final String GAME_APPROVAL = "GAME APPROVAL";
     public static final String QUESTIONABLE_CHALLENGES = "QUESTIONABLE CHALLENGES";
+    public static final String LOGIN = "LOGIN";
+    public static final String REGISTRATION = "REGISTRATION";
 
     private ActiveTabConstants() {
     }
