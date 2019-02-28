@@ -77,6 +77,7 @@ public class GameController {
     public ModelAndView createGameApproval(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
                                            Map<String, Object> model) throws EntityNotFoundException {
         gameService.approveGame(gameModel);
+        model.put(CommonConstants.SUCCESS_MESSAGE, "info.message.createGame.approved");
         return new ModelAndView(GAME_CREATE_VIEW_NAME, model);
     }
 

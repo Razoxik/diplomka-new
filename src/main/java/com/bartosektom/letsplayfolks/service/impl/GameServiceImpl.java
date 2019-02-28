@@ -78,14 +78,6 @@ public class GameServiceImpl implements GameService {
         gameParam.setName(GameParamConstants.NUMBER_OF_PLAYERS);
         gameParam.setValue(String.valueOf(gameModel.getNumberOfPlayers()));
         gameParamRepository.save(gameParam);
-
-        for (User user : userRepository.findAll()) {
-            Rating rating = new Rating();
-            rating.setUserByUserId(user);
-            rating.setGameByGameId(game);
-            rating.setRating(RatingConstants.DEFAULT_RATING);
-            ratingRepository.save(rating);
-        }
     }
 
     @Override
@@ -99,5 +91,13 @@ public class GameServiceImpl implements GameService {
         GameParam gameParam = gameParamRepository.findByGameByGameIdAndName(game, GameParamConstants.NUMBER_OF_PLAYERS);
         gameParam.setValue(String.valueOf(gameModel.getNumberOfPlayers()));
         gameParamRepository.save(gameParam);
+
+        for (User user : userRepository.findAll()) {
+            Rating rating = new Rating();
+            rating.setUserByUserId(user);
+            rating.setGameByGameId(game);
+            rating.setRating(RatingConstants.DEFAULT_RATING);
+            ratingRepository.save(rating);
+        }
     }
 }

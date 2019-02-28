@@ -38,9 +38,8 @@
                                 <spring:url value="/user/registration" var="registrationUrl"/>
                                 <p><spring:message code="login.noAccount.text"/>
                                     <a href="${registrationUrl}">
-                                        <strong><spring:message code="login.noAccount.link"/></strong>
+                                        <strong><spring:message code="login.noAccount.link"/></strong>&#33;
                                     </a>
-                                    <span>&#33;</span>
                                 </p>
                             </form>
                         </div>

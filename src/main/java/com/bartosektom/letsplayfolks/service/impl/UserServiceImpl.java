@@ -1,5 +1,6 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
+import com.bartosektom.letsplayfolks.constants.GameConstants;
 import com.bartosektom.letsplayfolks.constants.RatingConstants;
 import com.bartosektom.letsplayfolks.entity.Game;
 import com.bartosektom.letsplayfolks.entity.Rating;
@@ -131,7 +132,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        for (Game game : gameRepository.findAll()) {
+        for (Game game : gameRepository.findByApproved(GameConstants.GAME_APPROVED)) {
             Rating rating = new Rating();
             rating.setGameByGameId(game);
             rating.setUserByUserId(user);
