@@ -14,7 +14,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form:form method="POST" action="create" modelAttribute="challengeModel">
+                <div class="card">
+
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">
+                       Založit výzvu
+                    </h4>
+                </div>
+                    <div class="card-body">
+
+                    <form:form method="POST" action="create" modelAttribute="challengeModel">
                     <div class="form-group">
                         <label class="label-control">
                             <spring:message code="challenge.create.start"/>
@@ -75,6 +84,9 @@
                         <spring:message code="challenge.create.newGame"/>
                     </a>
                 </form:form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

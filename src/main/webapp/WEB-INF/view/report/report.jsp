@@ -21,6 +21,14 @@
         </c:if>
         <div class="row">
             <div class="col-md-12">
+                <div class="card">
+
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">
+                     Nahlásit uživatele
+                    </h4>
+                </div>
+                <div class="card-body">
                 <form:form method="POST" action="report" modelAttribute="reportModel">
                     <form:input path="userId" type="hidden" value="${reportModel.userId}"/>
                     <div class="form-group">
@@ -48,6 +56,8 @@
                         <spring:message code="message.create.submit"/>
                     </button>
                 </form:form>
+                </div>
+                </div>
             </div>
         </div>
     </div>

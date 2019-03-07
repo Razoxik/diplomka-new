@@ -22,6 +22,13 @@
         </c:if>
         <div class="row">
             <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">
+                            Zpráva
+                        </h4>
+                    </div>
+                    <div class="card-body">
                 <form:form method="POST" action="send" modelAttribute="messageModel">
                     <div class="form-group">
                         <label for="author"><spring:message code="message.create.playerUsername"/></label>
@@ -50,7 +57,8 @@
                     </button>
                 </form:form>
             </div>
-        </div>
+                </div>
+            </div>
     </div>
 </div>
 <%@ include file="../common/footer.jsp" %>

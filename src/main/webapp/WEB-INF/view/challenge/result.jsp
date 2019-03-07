@@ -22,6 +22,13 @@
         </c:if>
         <div class="row">
             <div class="col-md-12">
+                <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">
+                       Zadejte výsledek
+                    </h4>
+                </div>
+                <div class="card-body">
                 <spring:url value="submitResult" var="submitResultUrl" htmlEscape="true">
                     <spring:param name="challengeId" value="${challenge.id}"/>
                 </spring:url>
@@ -90,6 +97,8 @@
                         <spring:message code="global.submit"/>
                     </button>
                 </form:form>
+            </div>
+            </div>
             </div>
         </div>
     </div>
