@@ -32,7 +32,8 @@
                                 <label class="label-control">
                                     <spring:message code="profile.form.password"/>
                                 </label>
-                                <form:input path="password" type="password" class="form-control" required="true"/>
+                                <form:input path="password" minlength="8" type="password" class="form-control"
+                                            required="true"/>
                                 <form:errors path="password" cssClass="error"/>
                             </div>
                             <div class="form-group">

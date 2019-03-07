@@ -32,7 +32,9 @@
                                     onchange="this.setCustomValidity('')"/>
                     </div>
                     <div class="form-group">
-                        <label for="subject"><spring:message code="message.create.subject"/></label>
+                        <label for="subject">
+                            <spring:message code="message.create.subject"/>
+                        </label>
                         <form:input path="subject" type="text" id="subject" cssClass="form-control"
                                     aria-describedby="subject" required="true"
                                     oninvalid="this.setCustomValidity('${mandatoryFieldError}')"

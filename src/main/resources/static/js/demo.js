@@ -211,7 +211,7 @@ demo = {
                     position: new google.maps.LatLng(pos.lat, pos.lng), // position
                     map: map, // same as avatarMarker.setMap(map);
                     icon: avatarIcon, // icon of marker
-                    title: "Here you are!"
+                    title: "Zde se nacházíš!"
                 });
 
                 //marker.setMap(map);
