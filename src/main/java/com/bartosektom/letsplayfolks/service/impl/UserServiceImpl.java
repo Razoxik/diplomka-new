@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
         user.setAvatarByAvatarId(avatarRepository.findById(1).orElseThrow(EntityNotFoundException::new));
 
         userRepository.save(user);
-
+        // After registration set default rating
         for (Game game : gameRepository.findByApproved(GameConstants.GAME_APPROVED)) {
             Rating rating = new Rating();
             rating.setGameByGameId(game);

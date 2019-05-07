@@ -1,6 +1,6 @@
 package com.bartosektom.letsplayfolks.controller;
 
-import com.bartosektom.letsplayfolks.ChallengeResultValidator;
+import com.bartosektom.letsplayfolks.validator.ChallengeResultValidator;
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
 import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
 import com.bartosektom.letsplayfolks.constants.CommonConstants;

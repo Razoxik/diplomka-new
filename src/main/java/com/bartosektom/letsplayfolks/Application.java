@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-@EntityScan // For DB
+@EntityScan // For scan of DB entities.
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 

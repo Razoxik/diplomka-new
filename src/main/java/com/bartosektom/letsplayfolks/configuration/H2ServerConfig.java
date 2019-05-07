@@ -1,5 +1,4 @@
-package com.bartosektom.letsplayfolks;
-
+package com.bartosektom.letsplayfolks.configuration;
 
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,22 +8,23 @@ import org.springframework.context.annotation.Configuration;
 
 import java.sql.SQLException;
 
-//https://techdev.io/en/developer-blog/querying-the-embedded-h2-database-of-a-spring-boot-application
+/**
+ * For more info of H2 configuration see link bellow.
+ * https://techdev.io/en/developer-blog/querying-the-embedded-h2-database-of-a-spring-boot-application
+ */
 @Configuration
-//@Profile("dev") // Only activate this in the "dev" profile
-public class H2ServerConfiguration {
+public class H2ServerConfig {
 
-    // TCP port for remote connections, default 9092
+    // TCP port for remote connections, default 9092.
     @Value("${h2.tcp.port:9092}")
     private String h2TcpPort;
 
-    // Web port, default 8082
+    // Web port, default 8082.
     @Value("${h2.web.port:8082}")
     private String h2WebPort;
 
     /**
      * TCP connection to connect with SQL clients to the embedded h2 database.
-     *
      * Connect to "jdbc:h2:tcp://localhost:9092/mem:testdb", userName "sa", password empty.
      */
     @Bean
@@ -33,9 +33,8 @@ public class H2ServerConfiguration {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", h2TcpPort).start();
     }
 
-    /*
+    /**
      * Web console for the embedded h2 database.
-     *
      * Go to http://localhost:8082 and connect to the database "jdbc:h2:mem:testdb", userName "sa", password empty.
      */
     @Bean
@@ -44,12 +43,3 @@ public class H2ServerConfiguration {
         return Server.createWebServer("-web", "-webAllowOthers", "-webPort", h2WebPort).start();
     }
 }
-
-/**
- * Report
- *      -> Nová stránka 0. Reportovaný hráč - Disabled
- *                      1. Důvod
- *                      2. Popis
- *                      3. Button odeslat
- *
- */

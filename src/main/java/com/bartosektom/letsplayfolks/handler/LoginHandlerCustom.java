@@ -19,7 +19,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
-//http://www.jcombat.com/spring/custom-authentication-success-handler-with-spring-security
+/**
+ * Login handler class.
+ * For more info: http://www.jcombat.com/spring/custom-authentication-success-handler-with-spring-security
+ */
 public class LoginHandlerCustom implements AuthenticationSuccessHandler {
 
     @Autowired
@@ -32,42 +35,37 @@ public class LoginHandlerCustom implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         HttpSession session = request.getSession();
 
-        /*Set some session variables*/
+        // Set session variables.
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        session.setAttribute("uname", authUser.getUsername());
-        session.setAttribute("authorities", authentication.getAuthorities());
         session.setAttribute(CommonConstants.USER_ID, userRepository.findByUserName(authUser.getUsername()).getId());
 
+        // Set last login for user.
         com.bartosektom.letsplayfolks.entity.User user = userRepository.findByUserName(authUser.getUsername());
         user.setLastLogin(new Timestamp(new Date().getTime()));
         userRepository.save(user);
 
-        /*Set target URL to redirect*/
+        // Set target URL to redirect.
         String targetUrl = determineTargetUrl(authentication);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
+    /**
+     * Method prepared for future use - now redirect all user roles to the same URL.
+     *
+     * @param authentication {@link Authentication}
+     * @return URL which is user redirected after login.
+     */
     private String determineTargetUrl(Authentication authentication) {
         Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (authorities.contains("ADMIN")) {
             return "/news?successMessage=login";
-            // return "/admin.htm";
-        } else if (authorities.contains("OPERATOR")) {
-            return "/news?successMessage=login";
-            // return "/user.htm";
-        } else if (authorities.contains("USER")) {
-            return "/news?successMessage=login";
-        } else {
-            return "/news?successMessage=login";
-//            throw new IllegalStateException();
         }
-    }
-
-    public RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
-    }
-
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
+        if (authorities.contains("OPERATOR")) {
+            return "/news?successMessage=login";
+        }
+        if (authorities.contains("USER")) {
+            return "/news?successMessage=login";
+        }
+        throw new IllegalStateException();
     }
 }

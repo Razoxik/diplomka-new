@@ -1,4 +1,4 @@
-package com.bartosektom.letsplayfolks;
+package com.bartosektom.letsplayfolks.validator;
 
 import com.bartosektom.letsplayfolks.constants.ResultStateConstants;
 import com.bartosektom.letsplayfolks.model.ChallengeResultModel;

@@ -1,4 +1,4 @@
-package com.bartosektom.letsplayfolks;
+package com.bartosektom.letsplayfolks.configuration;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +12,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * For more information of message sources see link bellow.
+ * https://stackoverflow.com/questions/46659679/spring-boot-application-and-messagesource/46718209
+ */
 @Configuration
 public class LocalizationConfig implements WebMvcConfigurer {
+
+    private static final String LCI_PARAM_NAME = "lang";
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -23,24 +29,23 @@ public class LocalizationConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(10);
+        return messageSource;
+    }
+
+    @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
+        lci.setParamName(LCI_PARAM_NAME);
         return lci;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-    }
-
-    //https://stackoverflow.com/questions/46659679/spring-boot-application-and-messagesource/46718209
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:messages");
-        messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setCacheSeconds(10); //reload messages every 10 seconds
-        return messageSource;
     }
 }
