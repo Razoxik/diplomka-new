@@ -1,8 +1,11 @@
-package com.bartosektom.letsplayfolks.repository;
+package com.bartosektom.letsplayfolks.repository.impl;
 
 import com.bartosektom.letsplayfolks.entity.Challenge;
 import com.bartosektom.letsplayfolks.entity.ChallengeResult;
 import com.bartosektom.letsplayfolks.entity.User;
+import com.bartosektom.letsplayfolks.repository.ChallengeRepository;
+import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
+import com.bartosektom.letsplayfolks.repository.UserRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
-
 
     @Autowired
     ChallengeRepository challengeRepository;
