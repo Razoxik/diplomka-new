@@ -1,7 +1,7 @@
 package com.bartosektom.letsplayfolks.service;
 
 
-import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
+import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
 import com.bartosektom.letsplayfolks.model.ChallengeResultModel;
 import com.bartosektom.letsplayfolks.model.QuestionableChallengeModel;
@@ -26,7 +26,7 @@ public interface ChallengeService {
 
     Pair<List<ChallengeDetailUserModel>, List<ChallengeDetailUserModel>> prepareTeamsDtos(Challenge challenge) throws EntityNotFoundException;
 
-    List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexceptedChallengeException;
+    List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexpectedChallengeException;
 
-    void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexceptedChallengeException;
+    void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexpectedChallengeException;
 }

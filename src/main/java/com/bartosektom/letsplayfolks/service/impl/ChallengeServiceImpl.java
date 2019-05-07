@@ -1,7 +1,7 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
 import com.bartosektom.letsplayfolks.constants.QuestionableChallengeReason;
-import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
+import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.manager.SessionManager;
 import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
 import com.bartosektom.letsplayfolks.model.ChallengeResultModel;
@@ -224,7 +224,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     //      list<resultu pro tu challenge>
     //check if score of every result challenge is same if true add to list to decide
     @Override
-    public List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexceptedChallengeException {
+    public List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexpectedChallengeException {
         List<QuestionableChallengeModel> questionableChallengeModels = new ArrayList<>();
 
         for (Challenge challenge : challengeRepository.findAll()) {
@@ -252,13 +252,13 @@ public class ChallengeServiceImpl implements ChallengeService {
     // Challenge má být převedena do stavu finished v případě, že všichni uživatelé zadali shodné skore
     // tzn. V případě hry fotbal musí 8 hráčů zadat shodné skore
     // potom previst challenge do FINISHED - nezobrazovat na mape, a prepocitat rating hracu
-    private boolean shouldBeChallengeFinished(Challenge challenge) throws UnexceptedChallengeException {
+    private boolean shouldBeChallengeFinished(Challenge challenge) throws UnexpectedChallengeException {
         List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
         int numberOfPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
                 challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
 
         if (challengeResults.isEmpty()) {
-            throw new UnexceptedChallengeException("Challenge without result should not exist.");
+            throw new UnexpectedChallengeException("Challenge without result should not exist.");
         }
 
         // mame tolik vysledku kolik je hracu? neboli máme od každého hráče výsledek?
@@ -298,7 +298,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         return true;
     }
 
-    public void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexceptedChallengeException {
+    public void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexpectedChallengeException {
         // Steps for finishing challenge
         // 1. Submit challenge results - every time
         submitChallengeResults(user, challenge, challengeResultModel);

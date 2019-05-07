@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     public void createUserFromModel(UserModel userModel) throws EntityNotFoundException, UserAlreadyExistException {
         String userName = userModel.getUserName().substring(0, 1).toUpperCase() + userModel.getUserName().substring(1).toLowerCase();
         if (userRepository.findByUserName(userName) != null) {
-            throw new UserAlreadyExistException();
+            throw new UserAlreadyExistException("User with this user name already exists!");
         }
         User user = new User();
         user.setUserName(userName);

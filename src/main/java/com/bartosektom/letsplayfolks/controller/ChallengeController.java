@@ -14,7 +14,7 @@ import com.bartosektom.letsplayfolks.entity.Game;
 import com.bartosektom.letsplayfolks.entity.ResultState;
 import com.bartosektom.letsplayfolks.entity.User;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
-import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
+import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.manager.SessionManager;
 import com.bartosektom.letsplayfolks.model.ChallengeDetailModel;
 import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
@@ -174,7 +174,7 @@ public class ChallengeController {
     public ModelAndView challengeSubmitResult(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
                                               @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) @Validated ChallengeResultModel challengeResultModel, BindingResult bindingResult,
                                               RedirectAttributes redirectAttributes,
-                                              HttpServletRequest request) throws EntityNotFoundException, UnexceptedChallengeException {
+                                              HttpServletRequest request) throws EntityNotFoundException, UnexpectedChallengeException {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, bindingResult.getGlobalErrors().get(0).getDefaultMessage());
@@ -323,7 +323,7 @@ public class ChallengeController {
 
     @GetMapping("/questionable/list")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
-    public ModelAndView challengeQuestionableList(Map<String, Object> model) throws UnexceptedChallengeException {
+    public ModelAndView challengeQuestionableList(Map<String, Object> model) throws UnexpectedChallengeException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.QUESTIONABLE_CHALLENGES);
         model.put(QUESTIONABLE_CHALLENGES_MODEL_KEY, challengeService.prepareQuestionableChallengeModels());
 

@@ -1,6 +1,6 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
-import com.bartosektom.letsplayfolks.exception.UnexceptedChallengeException;
+import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.service.ChallengeResultService;
 import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
 import com.bartosektom.letsplayfolks.constants.GameParamConstants;
@@ -48,14 +48,14 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
      *
      * @param challenge challenge
      * @return true or false
-     * @throws UnexceptedChallengeException sdas
+     * @throws UnexpectedChallengeException sdas
      */
     @Override
-    public boolean isChallengeResultScoreSame(@NonNull Challenge challenge) throws UnexceptedChallengeException {
+    public boolean isChallengeResultScoreSame(@NonNull Challenge challenge) throws UnexpectedChallengeException {
         List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
 
         if (challengeResults.isEmpty()) {
-            throw new UnexceptedChallengeException("Challenge without result should not exist.");
+            throw new UnexpectedChallengeException("Challenge without result should not exist.");
         }
         // pracujes s Integerama protoze to muze byt null a do int null nedas
         Integer scoreWinner = challengeResults.get(0).getScoreWinner();
