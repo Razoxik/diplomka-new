@@ -7,11 +7,9 @@ import javax.servlet.http.HttpSession;
 @Component
 public interface SessionManager {
 
-    Object getSessionAttribute(String name);
-
     HttpSession getHttpSession();
 
-    void setSessionAttribute(String name, Object value);
+    Object getSessionAttribute(String name);
 
     int getUserId();
 }
