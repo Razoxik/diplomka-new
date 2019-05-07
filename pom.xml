@@ -35,7 +35,7 @@
             <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
-    <!-- Jinak me nesel view resolver / routovani na jednotlivz url bey techhlech dependencz-->
+        <!-- Jinak me nesel view resolver / routovani na jednotlivz url bey techhlech dependencz-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -81,11 +81,11 @@
       </dependency>-->
 
         <!--  https://www.baeldung.com/spring-security-with-maven -->
-          <dependency>
-              <groupId>org.springframework.security</groupId>
-              <artifactId>spring-security-core</artifactId>
-              <version>5.0.6.RELEASE</version>
-          </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.0.6.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -127,19 +127,19 @@
                  <version>9.1-901-1.jdbc4</version>
              </dependency> -->
 
-         </dependencies>
+    </dependencies>
 
-           <properties>
-               <java.version>1.8</java.version>
-           </properties>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
 
-           <build>
-               <plugins>
-                   <plugin>
-                       <groupId>org.springframework.boot</groupId>
-                       <artifactId>spring-boot-maven-plugin</artifactId>
-                   </plugin>
-               </plugins>
-           </build>
-       </project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

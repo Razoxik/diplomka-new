@@ -13,46 +13,62 @@
         <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-12">
-                <form:form method="POST" action="/game/create" modelAttribute="gameModel">
-                    <form:hidden path="id"/>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="game.create.name"/>
-                        </label>
-                        <form:input path="name" cssClass="form-control" required="true"
-                                    value="${gameModel.name}" type="text"/>
+                <div class="card">
+
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">
+                            Založení nové aktivity
+                        </h4>
                     </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="game.create.numberOfPlayers"/>
-                        </label>
-                        <form:input path="numberOfPlayers" cssClass="form-control" required="true"
-                                    value="${gameModel.numberOfPlayers}" type="number" min="2"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="game.create.description"/>
-                        </label>
-                        <form:textarea path="description" cssClass="form-control"
-                                       value="${gameModel.description}" type="textarea" rows="5"/>
-                    </div>
-                    <c:if test="${not empty gameModel.id}">
-                        <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
-                            <button type="submit" class="btn btn-danger" onclick="form.action='/game/approval';">
-                                <spring:message code="game.create.approveGame"/>
+                    <div class="card-body">
+                        <form:form method="POST" action="/game/create" modelAttribute="gameModel">
+                            <form:hidden path="id"/>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="game.create.name"/>
+                                </label>
+                                <form:input path="name" cssClass="form-control" required="true"
+                                            value="${gameModel.name}" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="game.create.numberOfPlayers"/>
+                                </label>
+                                <form:input path="numberOfPlayers" cssClass="form-control" required="true"
+                                            value="${gameModel.numberOfPlayers}" type="number" min="2"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="game.create.description"/>
+                                </label>
+                                <form:textarea path="description" cssClass="form-control"
+                                               value="${gameModel.description}" type="textarea" rows="5"/>
+                            </div>
+                            <c:if test="${not empty gameModel.id}">
+                                <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="form.action='/game/approval';">
+                                        <spring:message code="game.create.approveGame"/>
+                                    </button>
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="form.action='/game/decline';">
+                                        Zamítnout TODO:
+                                    </button>
+                                </sec:authorize>
+                            </c:if>
+                            <button type="submit" class="btn btn-primary">
+                                <spring:message code="game.create.submitForApproval"/>
                             </button>
-                        </sec:authorize>
-                    </c:if>
-                    <button type="submit" class="btn btn-primary">
-                        <spring:message code="game.create.submitForApproval"/>
-                    </button>
-                </form:form>
-                <form method="POST" action="/game/upload" enctype="multipart/form-data">
-                    <input type="file" name="file"/><br/><br/>
-                    <input type="hidden" name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
-                    <input type="submit" value="Vytvořit hru"/>
-                </form>
+                        </form:form>
+                        <%--
+                          <form method="POST" action="/game/upload" enctype="multipart/form-data">
+                              <input type="file" name="file"/><br/><br/>
+                              <input type="hidden" name="${_csrf.parameterName}"
+                                     value="${_csrf.token}"/>
+                              <input type="submit" value="Vytvořit hru"/>
+                          </form>--%>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

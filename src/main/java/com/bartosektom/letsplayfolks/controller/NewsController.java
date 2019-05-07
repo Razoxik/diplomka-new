@@ -1,6 +1,7 @@
 package com.bartosektom.letsplayfolks.controller;
 
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.CommonConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,18 +14,13 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class NewsController {
 
-    private static final String FROM_LOGIN_REQUEST_PARAM = "fromLogin";
-    private static final String FROM_LOGOUT_REQUEST_PARAM = "fromLogout";
-
     private static final String NEWS_VIEW_NAME = "/news/news";
 
     @GetMapping("/news")
-    public ModelAndView renderNews(@RequestParam(value = FROM_LOGIN_REQUEST_PARAM, required = false) boolean fromLogin,
-                                   @RequestParam(value = FROM_LOGOUT_REQUEST_PARAM, required = false) boolean fromLogout,
+    public ModelAndView renderNews(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
                                    Map<String, Object> model) {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.NEWS);
-        model.put(FROM_LOGOUT_REQUEST_PARAM, fromLogout);
-        model.put(FROM_LOGIN_REQUEST_PARAM, fromLogin);
+        model.put(CommonConstants.SUCCESS_MESSAGE, successMessage);
 
         return new ModelAndView(NEWS_VIEW_NAME, model);
     }

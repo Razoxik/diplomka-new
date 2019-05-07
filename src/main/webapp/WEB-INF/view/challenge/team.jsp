@@ -16,7 +16,7 @@
             <h4 class="card-title">
                 <c:choose>
                     <c:when test="${challengeDetailModel.maxPlayers gt 2}">
-                        <spring:message code="challenge.detail.team.card.title.team"/>
+                        <spring:message code="challenge.detail.team.card.title.team"/> 2
                     </c:when>
                     <c:otherwise>
                         <spring:message code="challenge.detail.team.card.title.player"/>

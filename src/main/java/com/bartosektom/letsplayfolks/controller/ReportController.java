@@ -29,8 +29,8 @@ public class ReportController {
     private static final String REPORT_VIEW_NAME = "/report/report";
 
     private static final String REPORT_REASONS_MODEL_KEY = "reportReasons";
-
     private static final String REPORT_MODEL_KEY = "reportModel";
+
     @Autowired
     ReportReasonRepository reportReasonRepository;
 

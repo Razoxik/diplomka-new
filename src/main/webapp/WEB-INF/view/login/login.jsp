@@ -25,8 +25,8 @@
                                     </label>
                                     <input id="login" type='text' class="form-control" name='username' value="admin"/>
                                 </div>
-                                <div for="pw" class="form-group">
-                                    <label class="label-control">
+                                <div class="form-group">
+                                    <label for="pw" class="label-control">
                                         <spring:message code="login.form.passwordInput"/>
                                     </label>
                                     <input id="pw" type='password' class="form-control" name='password' value="admin"/>

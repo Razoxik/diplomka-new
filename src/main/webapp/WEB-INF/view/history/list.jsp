@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title "><spring:message code="history.table.header"/></h4>
+                        <h4 class="card-title"><spring:message code="history.table.header"/></h4>
                         <p class="card-category"><spring:message code="history.table.subheader"/></p>
                     </div>
                     <div class="card-body">

@@ -1,10 +1,10 @@
 package com.bartosektom.letsplayfolks.controller;
 
-import com.bartosektom.letsplayfolks.constants.GameConstants;
-import com.bartosektom.letsplayfolks.service.LeaderboardService;
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
+import com.bartosektom.letsplayfolks.constants.GameConstants;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
 import com.bartosektom.letsplayfolks.repository.GameRepository;
+import com.bartosektom.letsplayfolks.service.LeaderboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

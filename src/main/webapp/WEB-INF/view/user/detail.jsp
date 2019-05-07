@@ -13,6 +13,7 @@
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -24,7 +25,7 @@
                         <spring:url value="updateProfile" var="updateProfileUrl">
                             <spring:param name="userId" value="${userModel.userId}"/>
                         </spring:url>
-                        <form:form method="POST" action="${updateProfileUrl}" modelAttribute="userModel"><%----%>
+                        <form:form method="POST" action="${updateProfileUrl}" modelAttribute="userModel">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
@@ -44,7 +45,6 @@
                                                     value="${userModel.userName}" disabled="true"/>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -73,7 +73,7 @@
                                             <spring:message code="profile.form.email"/>
                                         </label>
                                         <form:input path="email" type="email" cssClass="form-control" required="true"
-                                                    value="${userModel.email}" disabled="${!isOwnerOfProfile}" />
+                                                    value="${userModel.email}" disabled="${!isOwnerOfProfile}"/>
                                     </div>
                                 </div>
                             </div>
@@ -139,8 +139,9 @@
             <div class="col-md-4">
                 <div class="card card-profile">
                     <div class="card-avatar">
+                        <spring:url value="/img/avatars/default.png" var="avatarIconUrl"/>
                         <a href="#">
-                            <img class="img" src="/img/avatars/default.png"/>
+                            <img class="img" src="${avatarIconUrl}"/>
                         </a>
                     </div>
                     <div class="card-body">
@@ -163,7 +164,8 @@
                                     <c:forEach items="${userRatingModels}" var="userRatingModel" varStatus="status">
                                         <tr>
                                             <td>
-                                                <spring:message code="global.game.${userRatingModel.game}" text="${userRatingModel.game}"/>
+                                                <spring:message code="global.game.${userRatingModel.game}"
+                                                                text="${userRatingModel.game}"/>
                                             </td>
                                             <td>
                                                     ${userRatingModel.rating}

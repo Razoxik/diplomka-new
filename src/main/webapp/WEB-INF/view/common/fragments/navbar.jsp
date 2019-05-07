@@ -4,10 +4,12 @@
 
 <%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfToken"--%>
 
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top" id="navigation-example">
     <div class="container-fluid">
         <div class="navbar-wrapper">
-            <a class="navbar-brand" href="#">${activeTab}</a>
+            <a class="navbar-brand" href="#">
+                <spring:message code="global.activeTab.${activeTab}"/>
+            </a>
         </div>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
@@ -68,47 +70,14 @@
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a id="langEn" style="cursor: pointer" class="dropdown-item">English</a>
-                        <a id="langCz" style="cursor: pointer" class="dropdown-item">Czech</a>
+                        <a id="langEn" style="cursor: pointer" class="dropdown-item">
+                            <spring:message code="navbar.language.english"/>
+                        </a>
+                        <a id="langCz" style="cursor: pointer" class="dropdown-item">
+                            <spring:message code="navbar.language.czech"/>
+                        </a>
                     </div>
-                    <script type="text/javascript">
-                        /**
-                         * @return {string}
-                         */
-                        function URL_add_parameter(url, param, value) {
-                            let hash = {};
-                            let parser = document.createElement('a');
 
-                            parser.href = url;
-
-                            let parameters = parser.search.split(/[?&]/);
-
-                            for (let i = 0; i < parameters.length; i++) {
-                                if (!parameters[i])
-                                    continue;
-
-                                let ary = parameters[i].split('=');
-                                hash[ary[0]] = ary[1];
-                            }
-
-                            hash[param] = value;
-
-                            let list = [];
-                            Object.keys(hash).forEach(function (key) {
-                                list.push(key + '=' + hash[key]);
-                            });
-
-                            parser.search = '?' + list.join('&');
-                            return parser.href;
-                        }
-
-                        document.getElementById("langEn").onclick = function () {
-                            location.href = URL_add_parameter(location.href, 'lang', 'en');
-                        };
-                        document.getElementById("langCz").onclick = function () {
-                            location.href = URL_add_parameter(location.href, 'lang', 'cz');
-                        };
-                    </script>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLogout" data-toggle="dropdown"
@@ -120,14 +89,17 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <sec:authorize access="isAnonymous()">
-                            <a class="dropdown-item" href="<c:url value="/login"/>">Login</a>
+                            <a class="dropdown-item" href="<c:url value="/login"/>">
+                                <spring:message code="navbar.login"/>
+                            </a>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
                             <form id="logoutForm" name='logoutForm' action="<c:url value='/logout'/>" method='POST'>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             </form>
                             <a class="dropdown-item" href="javascript:{}"
-                               onclick="document.getElementById('logoutForm').submit();">Logout
+                               onclick="document.getElementById('logoutForm').submit();">
+                                <spring:message code="navbar.logout"/>
                             </a>
                         </sec:authorize>
                     </div>
@@ -136,3 +108,41 @@
         </div>
     </div>
 </nav>
+<script type="text/javascript">
+    /**
+     * @return {string}
+     */
+    function URL_add_parameter(url, param, value) {
+        let hash = {};
+        let parser = document.createElement('a');
+
+        parser.href = url;
+
+        let parameters = parser.search.split(/[?&]/);
+
+        for (let i = 0; i < parameters.length; i++) {
+            if (!parameters[i])
+                continue;
+
+            let ary = parameters[i].split('=');
+            hash[ary[0]] = ary[1];
+        }
+
+        hash[param] = value;
+
+        let list = [];
+        Object.keys(hash).forEach(function (key) {
+            list.push(key + '=' + hash[key]);
+        });
+
+        parser.search = '?' + list.join('&');
+        return parser.href;
+    }
+
+    document.getElementById("langEn").onclick = function () {
+        location.href = URL_add_parameter(location.href, 'lang', 'en');
+    };
+    document.getElementById("langCz").onclick = function () {
+        location.href = URL_add_parameter(location.href, 'lang', 'cz');
+    };
+</script>

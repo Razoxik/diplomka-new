@@ -1,7 +1,7 @@
 package com.bartosektom.letsplayfolks;
 
 import com.bartosektom.letsplayfolks.handler.LoginHandlerCustom;
-import com.bartosektom.letsplayfolks.service.MyUserDetailsService;
+import com.bartosektom.letsplayfolks.service.impl.UserDetailsServiceCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true) // for security prepost atd anotace
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private MyUserDetailsService myAppUserDetailsService;
+    private UserDetailsServiceCustomImpl myAppUserDetailsService;
 
    // @Autowired
   //  private LoginHandlerCustom loginHandlerCustom;
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").failureUrl("/login?error").successHandler(myLoginHandlerCustom())
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/news?fromLogout=true").deleteCookies("JSESSIONID")
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/news?successMessage=logout").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).clearAuthentication(true).permitAll();
         // SECURITY PRO H2 CONSOLI, ABY SME SE TAM DOSTALI JE NUTNY VYPNOUT CSRF PORTOZE v tom LOGIN INPUTU ZADNY csrf tokeny neposíláš žejo
         //https://stackoverflow.com/questions/41961270/h2-console-and-spring-security-permitall-not-working

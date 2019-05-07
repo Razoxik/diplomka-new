@@ -47,18 +47,18 @@ public class LoginHandlerCustom implements AuthenticationSuccessHandler {
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(Authentication authentication) {
+    private String determineTargetUrl(Authentication authentication) {
         Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (authorities.contains("ADMIN")) {
-            return "/news?fromLogin=true";
+            return "/news?successMessage=login";
             // return "/admin.htm";
         } else if (authorities.contains("OPERATOR")) {
-            return "/news?fromLogin=true";
+            return "/news?successMessage=login";
             // return "/user.htm";
         } else if (authorities.contains("USER")) {
-            return "/news?fromLogin=true";
+            return "/news?successMessage=login";
         } else {
-            return "/news?fromLogin=true";
+            return "/news?successMessage=login";
 //            throw new IllegalStateException();
         }
     }

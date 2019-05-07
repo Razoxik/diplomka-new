@@ -1,4 +1,4 @@
-Welcome to my thesis/testing/learning project of Java, Spring(boot), Hibernate and follow-up technologies.
+Welcome to my thesis/testing/learning project of Spring(boot), Hibernate and follow-up technologies.
 Constructive criticism is always welcomed. I am still learning so feel free to message
 me what am I doing wrong. Thanks!
 

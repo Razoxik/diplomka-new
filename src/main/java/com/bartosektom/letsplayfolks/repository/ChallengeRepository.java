@@ -9,9 +9,11 @@ import java.util.List;
 
 @Repository
 public interface ChallengeRepository extends CrudRepository<Challenge, Integer> {
-    //List<Challenge> findChallengesByUserByChallengerUserId(int id);
-
-    //TODO opravit preklep v opoNNent      oponnentUserId;
-    // List<Challenge> findChallengesByOponnentUserId(int id);
     List<Challenge> findByGameByGameId(Game game);
+    /// Another repository methods
 }
+
+//List<Challenge> findChallengesByUserByChallengerUserId(int id);
+
+//TODO opravit preklep v opoNNent      oponnentUserId;
+// List<Challenge> findChallengesByOponnentUserId(int id);

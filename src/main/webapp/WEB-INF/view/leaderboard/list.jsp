@@ -30,7 +30,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title "><spring:message code="leaderboard.table.header"/></h4>
+                        <h4 class="card-title"><spring:message code="leaderboard.table.header"/></h4>
                         <p class="card-category"><spring:message code="leaderboard.table.subheader.for"/>
                             <spring:message code="global.game.${leaderboardModels.get(0).gameName}"
                                             text="${leaderboardModels.get(0).gameName}"/>&#33;

@@ -44,13 +44,15 @@ public class UserController {
     // ze sessiony uz v JSP a posilat to jako param rovnou tam zejo
     @GetMapping("/detail")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
-    public ModelAndView userDetail(@RequestParam(CommonConstants.USER_ID) Integer userId,
+    public ModelAndView userDetail(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
+                                   @RequestParam(CommonConstants.USER_ID) Integer userId,
                                    Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.USER_PROFILE);
         model.put(USER_MODEL_KEY, userService.prepareUserModel(userId));
         model.put(USER_RATINGS_MODEL_KEY, userService.prepareUserRatingModels(userId));
         model.put(IS_OWNER_OF_PROFILE_MODEL_KEY, userService.isOwnerOfProfile(userId));
         model.put(CAN_BE_ADDED_TO_FRIENDS_MODEL_KEY, friendService.canBeAddedToFriends(userId));
+        model.put(CommonConstants.SUCCESS_MESSAGE, successMessage);
 
         return new ModelAndView(DETAIL_VIEW_NAME, model);
     }
@@ -64,6 +66,7 @@ public class UserController {
         userService.saveUserModel(userId, userModel);
 
         redirectAttributes.addAttribute(CommonConstants.USER_ID, userId);
+        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "user.profile.updated");
         return new ModelAndView("redirect:/user/detail");
     }
 

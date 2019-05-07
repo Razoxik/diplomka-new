@@ -7,7 +7,7 @@
 <%--@elvariable id="activeTab" type="java.lang.String"--%>
 <%--@elvariable id="userId" type="java.lang.Integer"--%>
 
-<div class="sidebar" data-color="purple" data-background-color="black" data-image="/img/sidebar-2.jpg">
+<div class="sidebar" data-color="purple" data-background-color="black" data-image="/img/sidebar.jpg">
     <!--
     Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -29,7 +29,7 @@
                 </a>
             </li>
             <sec:authorize access="hasAnyAuthority('USER','OPERATOR','ADMIN')">
-                <li class="nav-item <c:if test="${activeTab eq 'USER PROFILE'}">active</c:if>">
+                <li class="nav-item <c:if test="${activeTab eq 'USER_PROFILE'}">active</c:if>">
                     <spring:url value="/user/detail" var="userDetailUrl">
                         <spring:param name="userId" value="${userId}"/>
                     </spring:url>

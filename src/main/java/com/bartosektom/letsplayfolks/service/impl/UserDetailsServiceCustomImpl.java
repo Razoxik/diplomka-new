@@ -1,4 +1,4 @@
-package com.bartosektom.letsplayfolks.service;
+package com.bartosektom.letsplayfolks.service.impl;
 
 
 import com.bartosektom.letsplayfolks.repository.UserRepository;
@@ -16,7 +16,7 @@ import java.util.Collections;
 // todo: pri registraci ulozit username do DB s prvnim pismenem VELKYM a hash hesla celi MALYM!!
 // todo: po zalozeni usera mu nasetovat rating na vsechny hry 1500
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceCustomImpl implements UserDetailsService {
 
     // TY MOJE DAOCKA DAT JAKO REPOSITORY https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
     @Autowired
