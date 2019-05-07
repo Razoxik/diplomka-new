@@ -2,12 +2,20 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Friend {
+
     private Integer id;
     private Timestamp created;
     private User userByFromUserId;
@@ -15,7 +23,7 @@ public class Friend {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -40,14 +48,11 @@ public class Friend {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Friend friend = (Friend) o;
-        return Objects.equals(id, friend.id) &&
-
-                Objects.equals(created, friend.created);
+        return Objects.equals(id, friend.id) && Objects.equals(created, friend.created);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created);
     }
 

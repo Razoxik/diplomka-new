@@ -17,6 +17,7 @@ import java.util.Objects;
 
 @Entity
 public class Challenge {
+
     private Integer id;
     private Timestamp created;
     private Timestamp start;
@@ -31,7 +32,7 @@ public class Challenge {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -72,7 +73,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "coordsLat", nullable = false, length = 255)
+    @Column(name = "coordsLat", nullable = false)
     public String getCoordsLat() {
         return coordsLat;
     }
@@ -82,7 +83,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "coordsLng", nullable = false, length = 255)
+    @Column(name = "coordsLng", nullable = false)
     public String getCoordsLng() {
         return coordsLng;
     }
@@ -92,7 +93,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 255)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -102,7 +103,7 @@ public class Challenge {
     }
 
     @Basic
-    @Column(name = "password", nullable = true, length = 45)
+    @Column(name = "password", length = 45)
     public String getPassword() {
         return password;
     }
@@ -117,7 +118,6 @@ public class Challenge {
         if (o == null || getClass() != o.getClass()) return false;
         Challenge challenge = (Challenge) o;
         return Objects.equals(id, challenge.id) &&
-
                 Objects.equals(created, challenge.created) &&
                 Objects.equals(start, challenge.start) &&
                 Objects.equals(end, challenge.end) &&
@@ -129,7 +129,6 @@ public class Challenge {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, start, end, coordsLat, coordsLng, description, password);
     }
 

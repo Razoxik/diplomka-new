@@ -1,18 +1,25 @@
 package com.bartosektom.letsplayfolks.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class ReportReason {
+
     private Integer id;
     private String reason;
     private Collection<Report> reportsById;
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -36,13 +43,11 @@ public class ReportReason {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReportReason that = (ReportReason) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(reason, that.reason);
+        return Objects.equals(id, that.id) && Objects.equals(reason, that.reason);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, reason);
     }
 

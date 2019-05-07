@@ -2,13 +2,20 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Avatar {
+
     private Integer id;
     private Timestamp created;
     private String imageUrl;
@@ -17,7 +24,7 @@ public class Avatar {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -38,7 +45,7 @@ public class Avatar {
     }
 
     @Basic
-    @Column(name = "imageUrl", nullable = false, length = 255)
+    @Column(name = "imageUrl", nullable = false)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -70,7 +77,6 @@ public class Avatar {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, imageUrl, name);
     }
 

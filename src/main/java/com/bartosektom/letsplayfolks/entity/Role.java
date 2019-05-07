@@ -1,18 +1,25 @@
 package com.bartosektom.letsplayfolks.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Role {
+
     private Integer id;
     private String role;
     private Collection<User> usersById;
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -36,13 +43,11 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role1 = (Role) o;
-        return Objects.equals(id, role1.id) &&
-                Objects.equals(role, role1.role);
+        return Objects.equals(id, role1.id) && Objects.equals(role, role1.role);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, role);
     }
 

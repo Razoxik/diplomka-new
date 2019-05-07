@@ -15,11 +15,12 @@ import java.util.Objects;
 
 @Entity
 public class ChallengeResult {
+
     private Integer id;
     private Timestamp created;
     private Integer scoreWinner;
     private Integer scoreDefeated;
-    private Integer teamNumber; // UPRAVIT DATA MODEL!
+    private Integer teamNumber; // TODO:UPRAVIT DATA MODEL!
     private String description;
     private Challenge challengeByChallengeId;
     private User userByUserId;
@@ -27,7 +28,7 @@ public class ChallengeResult {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -35,7 +36,6 @@ public class ChallengeResult {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     @Basic
     @Column(name = "created", nullable = false)
@@ -49,7 +49,7 @@ public class ChallengeResult {
     }
 
     @Basic
-    @Column(name = "scoreWinner", nullable = true)
+    @Column(name = "scoreWinner")
     public Integer getScoreWinner() {
         return scoreWinner;
     }
@@ -59,7 +59,7 @@ public class ChallengeResult {
     }
 
     @Basic
-    @Column(name = "teamNumber", nullable = true)
+    @Column(name = "teamNumber")
     public Integer getTeamNumber() {
         return teamNumber;
     }
@@ -69,7 +69,7 @@ public class ChallengeResult {
     }
 
     @Basic
-    @Column(name = "scoreDefeated", nullable = true)
+    @Column(name = "scoreDefeated")
     public Integer getScoreDefeated() {
         return scoreDefeated;
     }
@@ -79,7 +79,7 @@ public class ChallengeResult {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 255)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -94,7 +94,6 @@ public class ChallengeResult {
         if (o == null || getClass() != o.getClass()) return false;
         ChallengeResult that = (ChallengeResult) o;
         return Objects.equals(id, that.id) &&
-
                 Objects.equals(created, that.created) &&
                 Objects.equals(scoreWinner, that.scoreWinner) &&
                 Objects.equals(scoreDefeated, that.scoreDefeated) &&
@@ -103,8 +102,7 @@ public class ChallengeResult {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id,  created, scoreWinner, scoreDefeated, description);
+        return Objects.hash(id, created, scoreWinner, scoreDefeated, description);
     }
 
     @ManyToOne

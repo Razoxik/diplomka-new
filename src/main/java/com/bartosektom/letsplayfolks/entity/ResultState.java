@@ -1,18 +1,25 @@
 package com.bartosektom.letsplayfolks.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class ResultState {
+
     private Integer id;
     private String state;
     private Collection<ChallengeResult> challengeResultsById;
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -36,13 +43,11 @@ public class ResultState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ResultState that = (ResultState) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(state, that.state);
+        return Objects.equals(id, that.id) && Objects.equals(state, that.state);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, state);
     }
 

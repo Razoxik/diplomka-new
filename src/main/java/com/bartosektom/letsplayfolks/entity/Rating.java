@@ -2,14 +2,21 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Rating {
-    private Integer id;
 
+    private Integer id;
     private Timestamp created;
     private Integer rating;
     private User userByUserId;
@@ -17,7 +24,7 @@ public class Rating {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -25,7 +32,6 @@ public class Rating {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     @Basic
     @Column(name = "created", nullable = false)
@@ -54,14 +60,12 @@ public class Rating {
         if (o == null || getClass() != o.getClass()) return false;
         Rating rating1 = (Rating) o;
         return Objects.equals(id, rating1.id) &&
-
                 Objects.equals(created, rating1.created) &&
                 Objects.equals(rating, rating1.rating);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, rating);
     }
 

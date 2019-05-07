@@ -2,25 +2,32 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Game {
+
     private Integer id;
     private Timestamp created;
     private String name;
     private String description;
-    private Integer approved;
+    private Integer approved; // TODO: add to diagram
     private Collection<Challenge> challengesById;
     private Collection<GameParam> gameParamsById;
     private Collection<Rating> ratingsById;
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -51,7 +58,7 @@ public class Game {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 255)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -59,9 +66,9 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
-// TODO: add to diagram
+
     @Basic
-    @Column(name = "approved", nullable = true)
+    @Column(name = "approved")
     public Integer getApproved() {
         return approved;
     }
@@ -83,7 +90,6 @@ public class Game {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, name, description);
     }
 

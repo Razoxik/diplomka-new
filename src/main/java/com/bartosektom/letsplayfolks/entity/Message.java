@@ -15,6 +15,7 @@ import java.util.Objects;
 
 @Entity
 public class Message {
+
     private Integer id;
     private Timestamp created;
     private String subject;
@@ -55,7 +56,7 @@ public class Message {
     }
 
     @Basic
-    @Column(name = "text", nullable = true, length = 255)
+    @Column(name = "text")
     public String getText() {
         return text;
     }
@@ -70,7 +71,6 @@ public class Message {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
         return Objects.equals(id, message.id) &&
-
                 Objects.equals(created, message.created) &&
                 Objects.equals(subject, message.subject) &&
                 Objects.equals(text, message.text);
@@ -78,7 +78,6 @@ public class Message {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, subject, text);
     }
 

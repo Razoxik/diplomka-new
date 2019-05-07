@@ -2,12 +2,20 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Report {
+
     private Integer id;
     private Timestamp created;
     private String description;
@@ -17,7 +25,7 @@ public class Report {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -38,7 +46,7 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 255)
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -53,14 +61,12 @@ public class Report {
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
         return Objects.equals(id, report.id) &&
-
                 Objects.equals(created, report.created) &&
                 Objects.equals(description, report.description);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, description);
     }
 

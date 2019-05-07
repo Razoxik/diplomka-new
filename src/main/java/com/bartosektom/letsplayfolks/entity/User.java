@@ -2,13 +2,22 @@ package com.bartosektom.letsplayfolks.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class User {
+
     private Integer id;
     private Timestamp created;
     private String userName;
@@ -31,7 +40,7 @@ public class User {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -62,7 +71,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -82,7 +91,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "firstName", nullable = true, length = 45)
+    @Column(name = "firstName", length = 45)
     public String getFirstName() {
         return firstName;
     }
@@ -92,7 +101,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "lastName", nullable = true, length = 45)
+    @Column(name = "lastName", length = 45)
     public String getLastName() {
         return lastName;
     }
@@ -102,7 +111,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "aboutMe", nullable = true, length = 255)
+    @Column(name = "aboutMe") // todo: diagram do nej
     public String getAboutMe() {
         return aboutMe;
     }
@@ -112,7 +121,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "last_login", nullable = true)
+    @Column(name = "last_login")
     public Timestamp getLastLogin() {
         return lastLogin;
     }
@@ -127,7 +136,6 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-
                 Objects.equals(created, user.created) &&
                 Objects.equals(userName, user.userName) &&
                 Objects.equals(password, user.password) &&
@@ -139,7 +147,6 @@ public class User {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, created, userName, password, email, firstName, lastName, lastLogin);
     }
 
