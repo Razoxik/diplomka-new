@@ -29,6 +29,7 @@ import com.bartosektom.letsplayfolks.repository.ResultStateRepository;
 import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.service.ChallengeService;
 import com.bartosektom.letsplayfolks.validator.ChallengeResultValidator;
+import com.bartosektom.letsplayfolks.validator.ChallengeValidator;
 import io.micrometer.core.lang.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,9 +80,17 @@ public class ChallengeController {
     @Autowired
     private ChallengeResultValidator challengeResultValidator;
 
+    @Autowired
+    private ChallengeValidator challengeValidator;
+
     @InitBinder("challengeResultModel")
-    protected void initBinder(WebDataBinder binder) {
+    protected void initChallengeResultModelBinder(WebDataBinder binder) {
         binder.addValidators(challengeResultValidator);
+    }
+
+    @InitBinder("challengeModel")
+    protected void initChallengeModelBinder(WebDataBinder binder) {
+        binder.addValidators(challengeValidator);
     }
 
     @Autowired
@@ -116,7 +125,8 @@ public class ChallengeController {
 
 
     @GetMapping("/create")
-    public ModelAndView challengeCreate(@RequestParam(LAT_COORDS_REQUEST_PARAM) String latCoords,
+    public ModelAndView challengeCreate(@RequestParam(value = CommonConstants.ERROR_MESSAGE, required = false) String errorMessage,
+                                        @RequestParam(LAT_COORDS_REQUEST_PARAM) String latCoords,
                                         @RequestParam(LNG_COORDS_REQUEST_PARAM) String lngCoords,
                                         @ModelAttribute(CHALLENGE_MODEL_ATTRIBUTE) ChallengeModel challengeModel,
                                         Map<String, Object> model) {
@@ -126,6 +136,7 @@ public class ChallengeController {
         List<Game> games = gameRepository.findByApproved(GameConstants.GAME_APPROVED);
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.MAP);
         model.put(GAMES_MODEL_KEY, games);
+        model.put(CommonConstants.ERROR_MESSAGE, errorMessage);
 
         return new ModelAndView(CHALLENGE_CREATE_VIEW_NAME, model);
     }
@@ -247,10 +258,13 @@ public class ChallengeController {
     }
 
     @PostMapping("/create")
-    public ModelAndView challengeCreate(@ModelAttribute(CHALLENGE_MODEL_ATTRIBUTE) ChallengeModel challengeModel,
-                                        BindingResult bindingResult) throws EntityNotFoundException {
+    public ModelAndView challengeCreate(@ModelAttribute(CHALLENGE_MODEL_ATTRIBUTE) @Validated ChallengeModel challengeModel,
+                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         if (bindingResult.hasErrors()) {
-            // TODO: Validation
+            redirectAttributes.addAttribute(CommonConstants.ERROR_MESSAGE, bindingResult.getGlobalErrors().get(0).getDefaultMessage());
+            redirectAttributes.addAttribute(LAT_COORDS_REQUEST_PARAM, challengeModel.getLatCoords());
+            redirectAttributes.addAttribute(LNG_COORDS_REQUEST_PARAM, challengeModel.getLngCoords());
+            return new ModelAndView("redirect:/challenge/create");
         }
 
         Challenge challenge = new Challenge();

@@ -18,9 +18,11 @@
         <div class="row">
             <%-- START TEAM 1 --%>
             <c:set var="challengeDetailModelTeam" value="${challengeDetailModel.firstTeam}" scope="request"/>
+            <c:set var="teamNumber" value="1" scope="request"/>
             <jsp:include page="team.jsp"/>
             <%-- START TEAM 2 --%>
             <c:set var="challengeDetailModelTeam" value="${challengeDetailModel.secondTeam}" scope="request"/>
+            <c:set var="teamNumber" value="2" scope="request"/>
             <jsp:include page="team.jsp"/>
             <div class="col-md-12">
                 <c:if test="${not isChallengeFinished and isUserAlreadyInChallenge and canUserEnterResult}">

@@ -12,10 +12,10 @@
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">
                        Založit výzvu
@@ -29,7 +29,7 @@
                             <spring:message code="challenge.create.start"/>
                         </label>
                         <form:input type="datetime-local" path="start" cssClass="form-control datetimepicker"
-                                    value="${challengeModel.start}"/>
+                                    value="${challengeModel.start.plusHours(2)}"/>
                         <form:errors path="start" cssClass="error"/>
                     </div>
                     <div class="form-group">
@@ -37,7 +37,7 @@
                             <spring:message code="challenge.create.end"/>
                         </label>
                         <form:input type="datetime-local" path="end" cssClass="form-control datetimepicker"
-                                    value="${challengeModel.end}"/>
+                                    value="${challengeModel.start.plusHours(8)}"/>
                         <form:errors path="end" cssClass="error"/>
                     </div>
                     <div class="form-group">

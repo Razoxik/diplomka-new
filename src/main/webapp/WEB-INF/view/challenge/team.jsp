@@ -9,6 +9,7 @@
 <%--@elvariable id="challengeDetailModelTeam" type="List<com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel>"--%>
 <%--@elvariable id="challengeDetailUserModel" type="com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel"--%>
 <%--@elvariable id="userId" type="java.lang.Integer"--%>
+<%--@elvariable id="teamNumber" type="java.lang.Integer"--%>
 
 <div class="col-md-12">
     <div class="card">
@@ -16,10 +17,10 @@
             <h4 class="card-title">
                 <c:choose>
                     <c:when test="${challengeDetailModel.maxPlayers gt 2}">
-                        <spring:message code="challenge.detail.team.card.title.team"/> 2
+                        <spring:message code="challenge.detail.team.card.title.team"/> ${teamNumber}
                     </c:when>
                     <c:otherwise>
-                        <spring:message code="challenge.detail.team.card.title.player"/>
+                        <spring:message code="challenge.detail.team.card.title.player"/> ${teamNumber}
                     </c:otherwise>
                 </c:choose>
             </h4>

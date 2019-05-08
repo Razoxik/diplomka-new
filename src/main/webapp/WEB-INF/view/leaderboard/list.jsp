@@ -15,7 +15,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="leaderboardGameSelect">Vyberte hru</label>
+                    <label for="leaderboardGameSelect">
+                        <spring:message code="leaderboard.choose.game"/>
+                    </label>
                     <form>
                         <select class="form-control selectpicker" id="leaderboardGameSelect"
                                 name='gameId' onchange='this.form.submit()'>
@@ -42,7 +44,6 @@
                                 <thead class=" text-primary">
                                 <tr>
                                     <th>
-                                        DODELAT TADY JESTE PORADI TEDA V TEJ HRE???!!
                                         <spring:message code="leaderboard.table.user"/>
                                     </th>
                                     <th>
