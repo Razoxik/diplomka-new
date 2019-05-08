@@ -41,7 +41,7 @@ demo = {
                 };
                 var myLatlng = new google.maps.LatLng(pos.lat, pos.lng);
                 var mapOptions = {
-                    zoom: 9,//16,
+                    zoom: 15,//16,
                     center: myLatlng,
                     scrollwheel: true, //we disable de scroll over the map, it is a really annoing when you scroll through page
                     styles: [

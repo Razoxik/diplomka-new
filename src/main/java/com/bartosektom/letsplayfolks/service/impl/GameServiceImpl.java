@@ -1,19 +1,20 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
-import com.bartosektom.letsplayfolks.constants.RatingConstants;
-import com.bartosektom.letsplayfolks.service.GameService;
 import com.bartosektom.letsplayfolks.constants.GameConstants;
 import com.bartosektom.letsplayfolks.constants.GameParamConstants;
+import com.bartosektom.letsplayfolks.constants.RatingConstants;
 import com.bartosektom.letsplayfolks.entity.Game;
 import com.bartosektom.letsplayfolks.entity.GameParam;
 import com.bartosektom.letsplayfolks.entity.Rating;
 import com.bartosektom.letsplayfolks.entity.User;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
+import com.bartosektom.letsplayfolks.exception.GameAlreadyExistException;
 import com.bartosektom.letsplayfolks.model.GameModel;
 import com.bartosektom.letsplayfolks.repository.GameParamRepository;
 import com.bartosektom.letsplayfolks.repository.GameRepository;
 import com.bartosektom.letsplayfolks.repository.RatingRepository;
 import com.bartosektom.letsplayfolks.repository.UserRepository;
+import com.bartosektom.letsplayfolks.service.GameService;
 import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,10 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void createGame(GameModel gameModel) {
+    public void createGame(GameModel gameModel) throws GameAlreadyExistException {
+        if(gameRepository.findByName(gameModel.getName()) !=null){
+            throw new GameAlreadyExistException("This game already exists!");
+        }
         Game game = new Game();
         game.setName(gameModel.getName());
         game.setDescription(gameModel.getDescription());
@@ -99,5 +103,14 @@ public class GameServiceImpl implements GameService {
             rating.setRating(RatingConstants.DEFAULT_RATING);
             ratingRepository.save(rating);
         }
+    }
+
+    @Override
+    public void declineGame(GameModel gameModel) throws EntityNotFoundException {
+        Game game = gameRepository.findById(gameModel.getId()).orElseThrow(EntityNotFoundException::new);
+        game.setName(gameModel.getName());
+        game.setDescription(gameModel.getDescription());
+        game.setApproved(GameConstants.GAME_DECLINED);
+        gameRepository.save(game);
     }
 }

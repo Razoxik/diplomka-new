@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResultStateRepository extends CrudRepository<ResultState, Integer> {
+
     ResultState findByState(String state);
 }

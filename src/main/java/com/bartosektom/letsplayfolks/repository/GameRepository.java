@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
+
     List<Game> findByApproved(int approved);
+
+    Game findByName(String name);
 }

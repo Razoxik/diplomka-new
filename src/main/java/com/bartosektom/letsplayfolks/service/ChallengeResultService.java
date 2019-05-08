@@ -13,7 +13,7 @@ public interface ChallengeResultService {
 
     long countChallengeResultsForResultState(List<ChallengeResult> challengeResults, String resultState);
 
-    boolean isChallengeResultScoreSame(Challenge challenge) throws UnexpectedChallengeException;
+    boolean isChallengeResultScoreDifferent(Challenge challenge) throws UnexpectedChallengeException;
 
     boolean isChallengeTooLongWithoutScore(Challenge challenge) throws UnexpectedChallengeException;
 }

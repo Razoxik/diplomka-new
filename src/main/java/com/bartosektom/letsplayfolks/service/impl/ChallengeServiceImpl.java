@@ -228,7 +228,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         List<QuestionableChallengeModel> questionableChallengeModels = new ArrayList<>();
 
         for (Challenge challenge : challengeRepository.findAll()) {
-            if (!challengeResultService.isChallengeResultScoreSame(challenge) ||
+            if (challengeResultService.isChallengeResultScoreDifferent(challenge) ||
                     challengeResultService.isChallengeTooLongWithoutScore(challenge)) {
                 QuestionableChallengeModel questionableChallengeModel = new QuestionableChallengeModel();
                 questionableChallengeModel.setId(challenge.getId());
@@ -238,7 +238,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                 questionableChallengeModel.setCreated(challengeCreated);
                 questionableChallengeModel.setEnd(challengeEnd);
                 questionableChallengeModel.setGameName(challenge.getGameByGameId().getName());
-                if (!challengeResultService.isChallengeResultScoreSame(challenge)) {
+                if (challengeResultService.isChallengeResultScoreDifferent(challenge)) {
                     questionableChallengeModel.setReason(QuestionableChallengeReason.DIFFERENT_SCORE);
                 } else {
                     questionableChallengeModel.setReason(QuestionableChallengeReason.TOO_LONG_WITHOUT_SCORE);

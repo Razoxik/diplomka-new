@@ -4,13 +4,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--TODO: Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát Návrhováno tímto uživatelem--%>
+<%--TODO: Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát návrhováno tímto uživatelem--%>
 <%--@elvariable id="gameModel" type="com.bartosektom.letsplayfolks.model.GameModel"--%>
 <%--@elvariable id="gameModels" type="java.util.List<com.bartosektom.letsplayfolks.model.GameModel>"--%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -56,9 +57,10 @@
                                         <td>
                                                 ${gameModel.description}
                                         </td>
-                                        <td class=>
+                                        <td>
                                             <spring:url value="/game/create" var="gameCreate">
                                                 <spring:param name="gameId" value="${gameModel.id}"/>
+                                                <spring:param name="approval" value="true"/>
                                             </spring:url>
                                             <a href="${gameCreate}">
                                                 <spring:message code="global.detailLink"/>

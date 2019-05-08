@@ -51,7 +51,7 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
      * @throws UnexpectedChallengeException sdas
      */
     @Override
-    public boolean isChallengeResultScoreSame(@NonNull Challenge challenge) throws UnexpectedChallengeException {
+    public boolean isChallengeResultScoreDifferent(@NonNull Challenge challenge) throws UnexpectedChallengeException {
         List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
 
         if (challengeResults.isEmpty()) {
@@ -78,10 +78,10 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
                     ((numberOfWinners > maxAllowedWinners || numberOfLosers > maxAllowedLosers) ||
                             (challengeResult.getScoreWinner() == null || !challengeResult.getScoreWinner().equals(scoreWinner)) ||
                             (challengeResult.getScoreDefeated() == null || !challengeResult.getScoreDefeated().equals(scoreLoser)))) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     // Challenge je poslana na rozhodovani pokud nedosahla stavu FINISHED do 3 dnu od Konce vyzvy

@@ -28,7 +28,7 @@ public class ChallengeResultValidator implements Validator {
             errors.reject("resultState", "info.message.badResultState.Draw");
         }
         // When result state is draw and winner score eq loser, we do NOT want to reject value cause winner score is not greater
-        // cause in draw both scores are same right so just loserScore >= winnerScore doesnt work
+        // cause in draw both scores are same right so just loserScore >= winnerScore does not work
         if (!(resultState.equals(ResultStateConstants.TIE) && winnerScore == loserScore) && loserScore >= winnerScore) {
             errors.reject("resultState", "info.message.badResultState.BadScore");
         }

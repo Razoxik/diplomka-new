@@ -40,8 +40,6 @@ public class UserController {
     @Autowired
     FriendService friendService;
 
-    // posilat to userId rovnou z JSPcek a nedavat to jako required = false a pak si to tahat ze sessiony muzes to tahat
-    // ze sessiony uz v JSP a posilat to jako param rovnou tam zejo
     @GetMapping("/detail")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
     public ModelAndView userDetail(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
@@ -57,7 +55,6 @@ public class UserController {
         return new ModelAndView(DETAIL_VIEW_NAME, model);
     }
 
-    //TADYTO TED - UDELAT FORM V USER DETAIL NA UPRAVU DAT PRO UZIVATELE KTERYMU NALEZI, ZBYTEK BUTTONU A PREKLADY
     @PostMapping("/updateProfile")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
     public ModelAndView updateProfile(@RequestParam(CommonConstants.USER_ID) Integer userId,
@@ -65,8 +62,8 @@ public class UserController {
                                       RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         userService.saveUserModel(userId, userModel);
 
-        redirectAttributes.addAttribute(CommonConstants.USER_ID, userId);
         redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "user.profile.updated");
+        redirectAttributes.addAttribute(CommonConstants.USER_ID, userId);
         return new ModelAndView("redirect:/user/detail");
     }
 
@@ -89,8 +86,8 @@ public class UserController {
             redirectAttributes.addAttribute(CommonConstants.ERROR_MESSAGE, "info.message.register.userAlreadyExists");
             return new ModelAndView("redirect:/user/registration");
         }
-        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "info.message.register.userRegistered");
 
+        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "info.message.register.userRegistered");
         return new ModelAndView("redirect:/login");
     }
 }

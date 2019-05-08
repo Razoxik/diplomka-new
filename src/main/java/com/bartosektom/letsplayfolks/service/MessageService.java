@@ -7,6 +7,7 @@ import com.bartosektom.letsplayfolks.model.MessageModel;
 import java.util.List;
 
 public interface MessageService {
+
     MessageModel prepareMessageModel(Message message);
 
     List<MessageModel> prepareMessagesModels(List<Message> messages);
