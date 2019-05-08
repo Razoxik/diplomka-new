@@ -1,6 +1,10 @@
 package com.bartosektom.letsplayfolks.model;
 
-public class UserRatingModel {
+import java.io.Serializable;
+
+public class UserRatingModel implements Serializable {
+
+    private static final long serialVersionUID = -5927022982963906175L;
 
     private String game;
     private long rating;

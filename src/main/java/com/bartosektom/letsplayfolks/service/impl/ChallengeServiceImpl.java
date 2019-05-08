@@ -188,7 +188,7 @@ public class ChallengeServiceImpl implements ChallengeService {
             challengeDetailUserModel.setCanBeAddToFriends(friendService.canBeAddedToFriends(userId));
             if (!ResultStateConstants.IN_PROGRESS.equals(result.getResultStateByResultStateId().getState())) {
                 challengeDetailUserModel.setWinningUserScore(result.getScoreWinner());
-                challengeDetailUserModel.setLossingUserScore(result.getScoreDefeated());
+                challengeDetailUserModel.setLosingUserScore(result.getScoreDefeated());
                 challengeDetailUserModel.setChallengeResultState(result.getResultStateByResultStateId().getState());
             } else {
                 challengeDetailUserModel.setChallengeResultState(ResultStateConstants.IN_PROGRESS);

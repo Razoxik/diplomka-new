@@ -2,9 +2,12 @@ package com.bartosektom.letsplayfolks.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class MessageModel {
+public class MessageModel implements Serializable {
+
+    private static final long serialVersionUID = -3370995219897368060L;
 
     private Integer id;
     private String author;

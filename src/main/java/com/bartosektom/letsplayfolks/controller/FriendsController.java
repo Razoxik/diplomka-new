@@ -39,16 +39,11 @@ public class FriendsController {
     }
 
     @GetMapping("/addToFriends")
-    public ModelAndView addToFriend(@RequestParam(CommonConstants.USER_ID) Integer userId, Map<String, Object> model,
-                                    RedirectAttributes redirectAttributes, HttpServletRequest request) throws EntityNotFoundException {
+    public ModelAndView addToFriend(@RequestParam(CommonConstants.USER_ID) Integer userId, HttpServletRequest request,
+                                    RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         friendService.addToFriend(userId);
 
-        //redirectAttributes.addAttribute(USER_ID_REQUEST_PARAM, userId);
-        //TODO model.put("informationMessage", " text - pritel uspesne pridan"); do header.jsp dat
-        // if infromation message not null vypsat tu hlasu s tim textem! resp. udelat pro to preklady takze tady by to bylo jen
-//        model.put("successMessage", "friendAdded"); // proto mit preklad a mit ty hlasky pouze v headeru BEZ PRESMEREOVANI
-        redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, "friendAdded");
+        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "friendAdded");
         return new ModelAndView("redirect:" + request.getHeader("Referer"));
-//        return new ModelAndView("redirect:/user/detail");
     }
 }

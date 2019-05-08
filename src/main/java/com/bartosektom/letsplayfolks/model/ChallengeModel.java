@@ -2,10 +2,13 @@ package com.bartosektom.letsplayfolks.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class ChallengeModel {
+public class ChallengeModel implements Serializable {
+
+    private static final long serialVersionUID = 8840170537250904466L;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);

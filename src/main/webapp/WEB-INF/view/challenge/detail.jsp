@@ -14,14 +14,7 @@
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
-        <c:if test="${not empty infoMessage}">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <spring:message code="infoMessage.friendAdd"/>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </c:if>
+        <jsp:include page="../common/infoMessage.jsp"/>
         <div class="row">
             <%-- START TEAM 1 --%>
             <c:set var="challengeDetailModelTeam" value="${challengeDetailModel.firstTeam}" scope="request"/>

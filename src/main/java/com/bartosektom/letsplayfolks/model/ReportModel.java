@@ -1,7 +1,10 @@
 package com.bartosektom.letsplayfolks.model;
 
-// v DP popsat anotace jako creation timestamp a entitiy generate apod.
-public class ReportModel {
+import java.io.Serializable;
+
+public class ReportModel implements Serializable {
+
+    private static final long serialVersionUID = 5318286257420620135L;
 
     private Integer userId;
     private String userName;

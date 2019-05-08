@@ -1,14 +1,14 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
-import com.bartosektom.letsplayfolks.manager.SessionManager;
-import com.bartosektom.letsplayfolks.model.FriendModel;
-import com.bartosektom.letsplayfolks.repository.UserRepository;
-import com.bartosektom.letsplayfolks.service.FriendService;
-import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
 import com.bartosektom.letsplayfolks.entity.Friend;
 import com.bartosektom.letsplayfolks.entity.User;
 import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
+import com.bartosektom.letsplayfolks.manager.SessionManager;
+import com.bartosektom.letsplayfolks.model.FriendModel;
 import com.bartosektom.letsplayfolks.repository.FriendRepository;
+import com.bartosektom.letsplayfolks.repository.UserRepository;
+import com.bartosektom.letsplayfolks.service.FriendService;
+import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

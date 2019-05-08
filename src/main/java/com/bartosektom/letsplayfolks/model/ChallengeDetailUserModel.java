@@ -14,8 +14,9 @@ public class ChallengeDetailUserModel implements Serializable {
     private int numberOfLosses;
     private int numberOfTies;
     private int winningUserScore;
-    private int lossingUserScore;
+    private int losingUserScore;
     private boolean canBeAddToFriends;
+    private String challengeResultState;
 
     public String getChallengeResultState() {
         return challengeResultState;
@@ -25,9 +26,6 @@ public class ChallengeDetailUserModel implements Serializable {
         this.challengeResultState = challengeResultState;
     }
 
-    private String challengeResultState;
-
-
     public int getWinningUserScore() {
         return winningUserScore;
     }
@@ -36,12 +34,12 @@ public class ChallengeDetailUserModel implements Serializable {
         this.winningUserScore = winningUserScore;
     }
 
-    public int getLossingUserScore() {
-        return lossingUserScore;
+    public int getLosingUserScore() {
+        return losingUserScore;
     }
 
-    public void setLossingUserScore(int lossingUserScore) {
-        this.lossingUserScore = lossingUserScore;
+    public void setLosingUserScore(int losingUserScore) {
+        this.losingUserScore = losingUserScore;
     }
 
     public int getId() {

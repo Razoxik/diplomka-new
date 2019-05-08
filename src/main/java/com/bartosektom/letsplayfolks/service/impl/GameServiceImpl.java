@@ -68,7 +68,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void createGame(GameModel gameModel) throws GameAlreadyExistException {
-        if(gameRepository.findByName(gameModel.getName()) !=null){
+        if (gameRepository.findByName(gameModel.getName()) != null) {
             throw new GameAlreadyExistException("This game already exists!");
         }
         Game game = new Game();

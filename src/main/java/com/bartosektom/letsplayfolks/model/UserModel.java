@@ -1,6 +1,11 @@
 package com.bartosektom.letsplayfolks.model;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
+
+    private static final long serialVersionUID = 7861879284625849490L;
+
     private int userId;
     private String userName;
     private String email;

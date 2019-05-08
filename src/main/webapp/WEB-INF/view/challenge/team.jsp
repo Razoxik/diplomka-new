@@ -77,14 +77,14 @@
                             </td>
                             <c:set var="scoreColor" value=""/>
                             <c:set var="score"
-                                   value="${challengeDetailUserModel.winningUserScore}:${challengeDetailUserModel.lossingUserScore}"/>
+                                   value="${challengeDetailUserModel.winningUserScore}:${challengeDetailUserModel.losingUserScore}"/>
                             <c:if test="${challengeDetailUserModel.challengeResultState eq 'WINNER'}">
                                 <c:set var="scoreColor" value="color:green"/>
                             </c:if>
                             <c:if test="${challengeDetailUserModel.challengeResultState eq 'DEFEATED'}">
                                 <c:set var="scoreColor" value="color:red"/>
                                 <c:set var="score"
-                                       value="${challengeDetailUserModel.lossingUserScore}:${challengeDetailUserModel.winningUserScore}"/>
+                                       value="${challengeDetailUserModel.losingUserScore}:${challengeDetailUserModel.winningUserScore}"/>
                             </c:if>
                             <c:if test="${challengeDetailUserModel.challengeResultState eq 'TIE'}">
                                 <c:set var="scoreColor" value="color:yellow"/>

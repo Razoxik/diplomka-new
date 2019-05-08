@@ -1,6 +1,5 @@
 package com.bartosektom.letsplayfolks.controller;
 
-import com.bartosektom.letsplayfolks.validator.ChallengeResultValidator;
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
 import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
 import com.bartosektom.letsplayfolks.constants.CommonConstants;
@@ -29,6 +28,7 @@ import com.bartosektom.letsplayfolks.repository.RatingRepository;
 import com.bartosektom.letsplayfolks.repository.ResultStateRepository;
 import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.service.ChallengeService;
+import com.bartosektom.letsplayfolks.validator.ChallengeResultValidator;
 import io.micrometer.core.lang.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +133,7 @@ public class ChallengeController {
     //Controller calls service. Service returns an object (be it a DTO, domain model or something else)
     @GetMapping("/detail")
     public ModelAndView challengeDetail(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
-                                        @RequestParam(value = CommonConstants.INFO_MESSAGE, required = false) String infoMessage,
+                                        @RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
                                         Map<String, Object> model) throws EntityNotFoundException {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
 
@@ -148,7 +147,7 @@ public class ChallengeController {
         model.put(IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY, isUserAlreadyInChallenge);
         model.put(IS_CHALLENGE_FINISHED_MODEL_KEY, isChallengeFinished);
         model.put("canUserEnterResult", canUserEnterResult);
-        model.put(CommonConstants.INFO_MESSAGE, infoMessage);
+        model.put(CommonConstants.SUCCESS_MESSAGE, successMessage);
         // AND CHALLENGE IS NOT FULL!!! NA JOIN/ODHLASIT SE!!!
 
         return new ModelAndView(CHALLENGE_DETAIL_VIEW_NAME, model);
@@ -169,13 +168,10 @@ public class ChallengeController {
         return new ModelAndView(CHALLENGE_RESULT_VIEW_NAME, model);
     }
 
-    // kontrola na BE pres bindingResult.hasErrors()?
     @PostMapping("/submitResult")
     public ModelAndView challengeSubmitResult(@RequestParam(CHALLENGE_ID_REQUEST_PARAM) int challengeId,
                                               @ModelAttribute(CHALLENGE_RESULT_MODEL_ATTRIBUTE) @Validated ChallengeResultModel challengeResultModel, BindingResult bindingResult,
-                                              RedirectAttributes redirectAttributes,
-                                              HttpServletRequest request) throws EntityNotFoundException, UnexpectedChallengeException {
-
+                                              RedirectAttributes redirectAttributes) throws EntityNotFoundException, UnexpectedChallengeException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, bindingResult.getGlobalErrors().get(0).getDefaultMessage());
             redirectAttributes.addAttribute("challengeId", challengeId);

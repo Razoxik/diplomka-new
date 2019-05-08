@@ -1,7 +1,10 @@
 package com.bartosektom.letsplayfolks.model;
 
-//TODO mit userName v DB uniqie
-public class MapModel {
+import java.io.Serializable;
+
+public class MapModel implements Serializable {
+
+    private static final long serialVersionUID = 2426511738479909798L;
 
     private int challengeId;
     private int hostId;

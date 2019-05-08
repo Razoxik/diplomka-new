@@ -1,6 +1,11 @@
 package com.bartosektom.letsplayfolks.model;
 
-public class ChallengeResultModel {
+import java.io.Serializable;
+
+public class ChallengeResultModel implements Serializable {
+
+    private static final long serialVersionUID = 4471171156150431370L;
+
     private String resultState;
     private int winnerScore;
     private int loserScore;

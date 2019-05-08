@@ -1,6 +1,10 @@
 package com.bartosektom.letsplayfolks.model;
 
-public class HistoryModel {
+import java.io.Serializable;
+
+public class HistoryModel implements Serializable {
+
+    private static final long serialVersionUID = -876288543884723638L;
 
     private Integer challengeId;
     private String gameName;

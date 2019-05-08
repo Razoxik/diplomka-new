@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class FriendModel implements Serializable {
 
+    private static final long serialVersionUID = 7607324651648429973L;
+
     private long userId;
     private String userName;
     private String firstName;

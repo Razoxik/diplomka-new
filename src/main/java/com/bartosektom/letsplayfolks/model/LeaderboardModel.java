@@ -1,6 +1,10 @@
 package com.bartosektom.letsplayfolks.model;
 
-public class LeaderboardModel {
+import java.io.Serializable;
+
+public class LeaderboardModel implements Serializable {
+
+    private static final long serialVersionUID = 5704216032402542904L;
 
     private long gameId;
     private String gameName;
