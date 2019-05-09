@@ -26,12 +26,15 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class GameController {
 
-    private static final String GAME_CREATE_VIEW_NAME = "game/create";
-    private static final String GAME_APPROVAL_VIEW_NAME = "game/approval";
+    private static final String APPROVAL_REQUEST_PARAM = "approval";
+    private static final String GAME_ID_REQUEST_PARAM = "gameId";
 
-    private static final String GAME_MODEL_MODEL_KEY = "gameModel";
     private static final String GAME_MODELS_MODEL_KEY = "gameModels";
+    private static final String GAME_MODEL_MODEL_KEY = "gameModel";
     private static final String APPROVAL_MODEL_KEY = "approval";
+
+    private static final String GAME_APPROVAL_VIEW_NAME = "game/approval";
+    private static final String GAME_CREATE_VIEW_NAME = "game/create";
 
     @Autowired
     GameService gameService;
@@ -49,8 +52,8 @@ public class GameController {
 
     @GetMapping("/create")
     public ModelAndView createGame(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
-                                   @RequestParam(value = "approval", required = false) boolean approval,
-                                   @RequestParam(value = "gameId", required = false) Integer gameId,
+                                   @RequestParam(value = APPROVAL_REQUEST_PARAM, required = false) boolean approval,
+                                   @RequestParam(value = GAME_ID_REQUEST_PARAM, required = false) Integer gameId,
                                    Map<String, Object> model) throws EntityNotFoundException {
         model.put(ActiveTabConstants.ACTIVE_TAB, ActiveTabConstants.GAME);
         model.put(GAME_MODEL_MODEL_KEY, gameService.prepareGameModel(gameId));
@@ -76,6 +79,7 @@ public class GameController {
     public ModelAndView createGameApproval(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
                                            RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         gameService.approveGame(gameModel);
+
         redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "info.message.createGame.approved");
         return new ModelAndView("redirect:/game/approval");
     }

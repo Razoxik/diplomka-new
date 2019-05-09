@@ -23,9 +23,9 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class FriendsController {
 
-    private static final String FRIEND_LIST_VIEW_NAME = "friend/list";
-
     private static final String FRIENDS_MODEL_MODEL_KEY = "friendModels";
+
+    private static final String FRIEND_LIST_VIEW_NAME = "friend/list";
 
     @Autowired
     FriendService friendService;

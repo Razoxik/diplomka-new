@@ -26,19 +26,19 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class UserController {
 
-    private static final String DETAIL_VIEW_NAME = "/user/detail";
-    private static final String REGISTRATION_VIEW_NAME = "/user/registration";
-
-    private static final String USER_MODEL_KEY = "userModel";
-    private static final String USER_RATINGS_MODEL_KEY = "userRatingModels";
-    private static final String IS_OWNER_OF_PROFILE_MODEL_KEY = "isOwnerOfProfile";
     private static final String CAN_BE_ADDED_TO_FRIENDS_MODEL_KEY = "canBeAddedToFriends";
+    private static final String IS_OWNER_OF_PROFILE_MODEL_KEY = "isOwnerOfProfile";
+    private static final String USER_RATINGS_MODEL_KEY = "userRatingModels";
+    private static final String USER_MODEL_KEY = "userModel";
 
-    @Autowired
-    UserService userService;
+    private static final String REGISTRATION_VIEW_NAME = "/user/registration";
+    private static final String DETAIL_VIEW_NAME = "/user/detail";
 
     @Autowired
     FriendService friendService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/detail")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
@@ -86,7 +86,6 @@ public class UserController {
             redirectAttributes.addAttribute(CommonConstants.ERROR_MESSAGE, "info.message.register.userAlreadyExists");
             return new ModelAndView("redirect:/user/registration");
         }
-
         redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "info.message.register.userRegistered");
         return new ModelAndView("redirect:/login");
     }

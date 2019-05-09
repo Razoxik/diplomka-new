@@ -26,15 +26,15 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class HistoryController {
 
-    private static final String HISTORY_LIST_VIEW_NAME = "/history/list";
-
     private static final String HISTORY_MODELS_KEY = "historyModels";
 
-    @Autowired
-    UserRepository userRepository;
+    private static final String HISTORY_LIST_VIEW_NAME = "/history/list";
 
     @Autowired
     ChallengeResultRepository challengeResultRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     HistoryService historyService;

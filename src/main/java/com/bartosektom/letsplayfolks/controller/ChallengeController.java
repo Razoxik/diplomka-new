@@ -46,7 +46,6 @@ public class ChallengeController {
 
     private static final String CHALLENGE_USER_ID_REQUEST_PARAM = "challengeUserId";
     private static final String CHALLENGE_ID_REQUEST_PARAM = "challengeId";
-
     private static final String LAT_COORDS_REQUEST_PARAM = "latCoords";
     private static final String LNG_COORDS_REQUEST_PARAM = "lngCoords";
 
@@ -57,17 +56,16 @@ public class ChallengeController {
     private static final String CHALLENGE_DETAIL_MODEL_KEY = "challengeDetailModel";
     private static final String CHALLENGE_USER_ID_MODEL_KEY = "challengeUserId";
     private static final String CHALLENGE_MODEL_KEY = "challenge";
-    private static final String CAN_USER_ENTER_RESULT_MODEL_KEY = "canUserEnterResult";
+    private static final String IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY = "isUserAlreadyInChallenge";
+    private static final String IS_CHALLENGE_FINISHED_MODEL_KEY = "isChallengeFinished";
     private static final String IS_CHALLENGE_FULL_MODEL_KEY = "isChallengeFull";
+    private static final String CAN_USER_ENTER_RESULT_MODEL_KEY = "canUserEnterResult";
     private static final String GAMES_MODEL_KEY = "games";
 
     private static final String CHALLENGE_QUESTIONABLE_LIST_VIEW_NAME = "challenge/questionable/list";
     private static final String CHALLENGE_RESULT_VIEW_NAME = "challenge/result";
     private static final String CHALLENGE_DETAIL_VIEW_NAME = "challenge/detail";
     private static final String CHALLENGE_CREATE_VIEW_NAME = "challenge/create";
-
-    private static final String IS_USER_ALREADY_IN_CHALLENGE_MODEL_KEY = "isUserAlreadyInChallenge";
-    private static final String IS_CHALLENGE_FINISHED_MODEL_KEY = "isChallengeFinished";
 
     @Autowired
     private SessionManager sessionManager;
@@ -215,7 +213,6 @@ public class ChallengeController {
 
     private ModelAndView redirectToChallengeDetail(@NonNull int challengeId, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute(CHALLENGE_ID_REQUEST_PARAM, challengeId);
-
         return new ModelAndView("redirect:/challenge/detail");
     }
 }

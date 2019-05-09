@@ -26,10 +26,10 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class ReportController {
 
-    private static final String REPORT_VIEW_NAME = "/report/report";
-
     private static final String REPORT_REASONS_MODEL_KEY = "reportReasons";
     private static final String REPORT_MODEL_KEY = "reportModel";
+
+    private static final String REPORT_VIEW_NAME = "/report/report";
 
     @Autowired
     ReportReasonRepository reportReasonRepository;
@@ -52,9 +52,9 @@ public class ReportController {
     public ModelAndView submitReportUser(@ModelAttribute(REPORT_MODEL_KEY) ReportModel reportModel,
                                          RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         reportService.createReportFromModel(reportModel);
+
         redirectAttributes.addAttribute(CommonConstants.USER_ID, reportModel.getUserId());
         redirectAttributes.addAttribute(CommonConstants.INFO_MESSAGE, "info.message.userReported");
-
         return new ModelAndView("redirect:/report/report");
     }
 }

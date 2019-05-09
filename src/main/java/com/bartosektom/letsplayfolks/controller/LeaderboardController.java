@@ -20,12 +20,12 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class LeaderboardController {
 
-    private static final String LEADERBOARD_LIST_VIEW_NAME = "/leaderboard/list";
-
     private static final String GAME_ID_REQUEST_PARAM = "gameId";
 
     private static final String GAMES_MODEL_KEY = "games";
     private static final String LEADERBOARD_MODELS_MODEL_KEY = "leaderboardModels";
+
+    private static final String LEADERBOARD_LIST_VIEW_NAME = "/leaderboard/list";
 
     @Autowired
     GameRepository gameRepository;

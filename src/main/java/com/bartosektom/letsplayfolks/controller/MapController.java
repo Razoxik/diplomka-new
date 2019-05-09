@@ -14,9 +14,9 @@ import java.util.Map;
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
 public class MapController {
 
-    private static final String MAP_VIEW_NAME = "map/show";
-
     private static final String MAP_MODELS_MODEL_KEY = "mapModels";
+
+    private static final String MAP_VIEW_NAME = "map/show";
 
     @Autowired
     MapService mapService;

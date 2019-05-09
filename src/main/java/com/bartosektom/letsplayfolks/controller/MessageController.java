@@ -30,16 +30,16 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class MessageController {
 
-    private static final String MESSAGE_ID_PARAM = "messageId";
-    private static final String MESSAGE_SENT_PARAM = "messageSent";
     private static final String USER_NOT_FOUND_PARAM = "userNotFound";
+    private static final String MESSAGE_SENT_PARAM = "messageSent";
+    private static final String MESSAGE_ID_PARAM = "messageId";
 
     private static final String MESSAGE_MODEL_KEY = "messageModel";
     private static final String MESSAGES_MODEL_KEY = "messages";
 
-    private static final String MESSAGE_LIST_VIEW_NAME = "/message/list";
     private static final String MESSAGE_DETAIL_VIEW_NAME = "/message/detail";
     private static final String MESSAGE_CREATE_VIEW_NAME = "/message/create";
+    private static final String MESSAGE_LIST_VIEW_NAME = "/message/list";
 
     @Autowired
     SessionManager sessionManager;
@@ -89,8 +89,8 @@ public class MessageController {
         if (userName != null) {
             messageModel.setAuthor(userName);
         }
-        model.put(MESSAGE_MODEL_KEY, messageModel);
         model.put(USER_NOT_FOUND_PARAM, userNotFound);
+        model.put(MESSAGE_MODEL_KEY, messageModel);
 
         return new ModelAndView(MESSAGE_CREATE_VIEW_NAME, model);
     }
@@ -101,12 +101,11 @@ public class MessageController {
         try {
             messageService.createMessageFromModel(messageModel);
         } catch (EntityNotFoundException e) {
-            model.put(MESSAGES_MODEL_KEY, messageModel);
             model.put(USER_NOT_FOUND_PARAM, true);
+            model.put(MESSAGES_MODEL_KEY, messageModel);
             return new ModelAndView(MESSAGE_CREATE_VIEW_NAME, model);
         }
         redirectAttributes.addAttribute(MESSAGE_SENT_PARAM, true);
-
         return new ModelAndView("redirect:/message/list");
     }
 }
