@@ -61,7 +61,7 @@ public class LeaderboardServiceImpl implements LeaderboardService {
             long numberOfLoses = challengeResultService.countChallengeResultsForResultState(userGameChallengeResult, ResultStateConstants.DEFEATED);
             long numberOfTies = challengeResultService.countChallengeResultsForResultState(userGameChallengeResult, ResultStateConstants.TIE);
             long totalNumberOfGames = numberOfWins + numberOfLoses + numberOfTies;
-            long winningPercentage = totalNumberOfGames != 0 ? (numberOfWins / totalNumberOfGames) * 100 : 0;
+            long winningPercentage = totalNumberOfGames != 0 ? (numberOfWins * 100 / totalNumberOfGames)  : 0;
             Integer rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
 
             LeaderboardModel leaderboardModel = new LeaderboardModel();

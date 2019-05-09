@@ -12,6 +12,15 @@
 <%@ include file="../common/header.jsp" %>
 <div class="content">
     <div class="container-fluid">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            TLAČÍTKO PRO ZADÁNÍ VÝSLEDKU JE NA PŘEDEŠLÉ STRÁNCE ZOBRAZENO PRO TESTOVACÍ ÚČELY A SPRÁVNĚ BY BYLO PRAVDĚPODOBNĚ SKRYTO.<br>
+            Zadat výsledek, na produkčním prostředí, půjde pouze po splnění těchto podmínek:<br>
+            1. Aktuální čas je až po čase začátku výzvy<br>
+            2. Na výzvu se přihlásil potřebný počet lidí.<br>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <c:if test="${not empty infoMessage}">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <spring:message code="${infoMessage}"/>

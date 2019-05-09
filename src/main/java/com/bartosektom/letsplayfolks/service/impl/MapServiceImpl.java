@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,10 @@ public class MapServiceImpl implements MapService {
         List<MapModel> mapModels = new ArrayList<>();
 
         for (Challenge challenge : challengeRepository.findAll()) {
+            // Nechceme vyzvy co maji end date dyl nez je ted
+            if (challenge.getEnd().before(new Date())){
+                continue;
+            }
             List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
             // players sou uz vsici v tom challengeResults
             // challengeresults sort by created date pro hosta
@@ -55,7 +60,6 @@ public class MapServiceImpl implements MapService {
             MapModel mapModel = new MapModel();
             mapModel.setChallengeId(challenge.getId());
             // TODO Nezobrazovat již ukončené výzvy (ve stavu finished)
-            // TODO kdyz odchazis z vyzvy a je prazdna tak se rovnou smaze at nemusis resit prazdnou vyzvu na nully a dava to i sense
             mapModel.setHostId(host.getId());
             mapModel.setHostName(host.getUserName());
             mapModel.setGameName(game.getName());

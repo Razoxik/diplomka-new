@@ -1,12 +1,30 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
+import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
+import com.bartosektom.letsplayfolks.constants.GameParamConstants;
 import com.bartosektom.letsplayfolks.constants.QuestionableChallengeReason;
+import com.bartosektom.letsplayfolks.constants.ResultStateConstants;
+import com.bartosektom.letsplayfolks.entity.Challenge;
+import com.bartosektom.letsplayfolks.entity.ChallengeResult;
+import com.bartosektom.letsplayfolks.entity.ChallengeState;
+import com.bartosektom.letsplayfolks.entity.Game;
+import com.bartosektom.letsplayfolks.entity.Rating;
+import com.bartosektom.letsplayfolks.entity.ResultState;
+import com.bartosektom.letsplayfolks.entity.User;
+import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
 import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.manager.SessionManager;
+import com.bartosektom.letsplayfolks.model.ChallengeDetailModel;
 import com.bartosektom.letsplayfolks.model.ChallengeDetailUserModel;
+import com.bartosektom.letsplayfolks.model.ChallengeModel;
 import com.bartosektom.letsplayfolks.model.ChallengeResultModel;
 import com.bartosektom.letsplayfolks.model.QuestionableChallengeModel;
+import com.bartosektom.letsplayfolks.repository.ChallengeRepository;
+import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
 import com.bartosektom.letsplayfolks.repository.ChallengeStateRepository;
+import com.bartosektom.letsplayfolks.repository.GameParamRepository;
+import com.bartosektom.letsplayfolks.repository.GameRepository;
+import com.bartosektom.letsplayfolks.repository.RatingRepository;
 import com.bartosektom.letsplayfolks.repository.ResultStateRepository;
 import com.bartosektom.letsplayfolks.repository.UserRepository;
 import com.bartosektom.letsplayfolks.repository.UserRepositoryCustom;
@@ -14,23 +32,11 @@ import com.bartosektom.letsplayfolks.service.ChallengeResultService;
 import com.bartosektom.letsplayfolks.service.ChallengeService;
 import com.bartosektom.letsplayfolks.service.FriendService;
 import com.bartosektom.letsplayfolks.tools.LocalDateTimeJPAConverter;
-import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
-import com.bartosektom.letsplayfolks.constants.GameParamConstants;
-import com.bartosektom.letsplayfolks.constants.ResultStateConstants;
-import com.bartosektom.letsplayfolks.entity.Challenge;
-import com.bartosektom.letsplayfolks.entity.ChallengeResult;
-import com.bartosektom.letsplayfolks.entity.Game;
-import com.bartosektom.letsplayfolks.entity.Rating;
-import com.bartosektom.letsplayfolks.entity.User;
-import com.bartosektom.letsplayfolks.exception.EntityNotFoundException;
-import com.bartosektom.letsplayfolks.repository.ChallengeRepository;
-import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
-import com.bartosektom.letsplayfolks.repository.GameParamRepository;
-import com.bartosektom.letsplayfolks.repository.RatingRepository;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +70,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     RatingRepository ratingRepository;
 
     @Autowired
+    GameRepository gameRepository;
+
+    @Autowired
     UserRepositoryCustom userRepositoryCustom;
 
     @Autowired
@@ -86,12 +95,19 @@ public class ChallengeServiceImpl implements ChallengeService {
         return ChallengeStateConstants.FINISHED.equals(challenge.getChallengeStateByChallengeStateId().getState());
     }
 
+    @Override
+    public boolean isChallengeFull(Challenge challenge) {
+        int numberOfPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        return userRepositoryCustom.findAllChallengeUsersByChallenge(challenge).size() >= numberOfPlayers;
+    }
+
     /**
      * User can enter result if there is 1: that many people, that game needs
      * 2: if its after start date of challenge
      *
-     * @param challenge
-     * @return
+     * @param challenge s
+     * @return s
      */
     @Override
     public boolean canUserEnterResult(Challenge challenge) {
@@ -298,6 +314,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         return true;
     }
 
+    @Override
     public void finishChallenge(User user, Challenge challenge, ChallengeResultModel challengeResultModel) throws UnexpectedChallengeException {
         // Steps for finishing challenge
         // 1. Submit challenge results - every time
@@ -312,6 +329,81 @@ public class ChallengeServiceImpl implements ChallengeService {
         }
     }
 
+    @Override
+    public void createChallenge(ChallengeModel challengeModel) throws EntityNotFoundException {
+        Challenge challenge = new Challenge();
+        ChallengeState challengeState = challengeStateRepository.findByState(ChallengeStateConstants.CREATED);
+        Game game = gameRepository.findById(challengeModel.getGameId()).orElseThrow(() -> new EntityNotFoundException("Game does not found"));
+
+        challenge.setChallengeStateByChallengeStateId(challengeState);
+        challenge.setGameByGameId(game);
+        challenge.setStart(Timestamp.valueOf(challengeModel.getStart()));
+        challenge.setEnd(Timestamp.valueOf(challengeModel.getEnd()));
+        challenge.setCoordsLat(challengeModel.getLatCoords());
+        challenge.setCoordsLng(challengeModel.getLngCoords());
+        challenge.setDescription(challengeModel.getDescription());
+        challenge.setPassword(challengeModel.getPassword());
+        challengeRepository.save(challenge);
+
+        ChallengeResult challengeResult = new ChallengeResult();
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        ResultState resultState = resultStateRepository.findByState(ResultStateConstants.IN_PROGRESS);
+
+        challengeResult.setChallengeByChallengeId(challenge);
+        challengeResult.setUserByUserId(user);
+        challengeResult.setResultStateByResultStateId(resultState);
+        challengeResultRepository.save(challengeResult);
+    }
+
+    @Override
+    public void joinChallenge(int challengeId) throws EntityNotFoundException {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+        ResultState resultState = resultStateRepository.findByState(ResultStateConstants.IN_PROGRESS);
+
+        ChallengeResult challengeResult = new ChallengeResult();
+        challengeResult.setChallengeByChallengeId(challenge);
+        challengeResult.setUserByUserId(user);
+        challengeResult.setResultStateByResultStateId(resultState);
+        challengeResultRepository.save(challengeResult);
+
+        // IF number of people in game is ten počet max
+        // IF je po START čase vyzvy
+        challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findByState(ChallengeStateConstants.IN_PROGRESS));
+        challengeRepository.save(challenge);
+    }
+
+    @Override
+    public boolean leaveChallenge(int challengeId) throws EntityNotFoundException {
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
+
+        ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
+        challengeResultRepository.delete(challengeResult);
+
+        // Pokud jsem poslední na výzvě a odcházím tak smazat.
+        if (challengeResultRepository.findByChallengeByChallengeId(challenge).isEmpty()) {
+            challengeRepository.delete(challenge);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public ChallengeDetailModel prepareChallengeDetailDto(Challenge challenge) throws EntityNotFoundException {
+        Game game = challenge.getGameByGameId();
+
+        ChallengeDetailModel challengeDetailModel = new ChallengeDetailModel();
+        Pair<List<ChallengeDetailUserModel>, List<ChallengeDetailUserModel>> teamsDtos = prepareTeamsDtos(challenge);
+        int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
+                game, GameParamConstants.NUMBER_OF_PLAYERS).getValue());
+        challengeDetailModel.setFirstTeam(teamsDtos.getLeft());
+        challengeDetailModel.setSecondTeam(teamsDtos.getRight());
+        challengeDetailModel.setMaxPlayers(maxPlayers);
+
+        return challengeDetailModel;
+    }
+
     private void submitChallengeResults(User user, Challenge challenge, ChallengeResultModel challengeResultModel) {
         ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
         challengeResult.setResultStateByResultStateId(resultStateRepository.findByState(challengeResultModel.getResultState()));
@@ -321,7 +413,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         challengeResultRepository.save(challengeResult);
     }
 
-    // TODO - ZAKAZAT ZAKLADANI HER NA LICHY POCET HRACU
     private void recalculateRatingAfterFinishedChallenge(Challenge challenge) {
         Integer ratingTeam1 = calculateTeamRating(challenge, 1);
         Integer ratingTeam2 = calculateTeamRating(challenge, 2);

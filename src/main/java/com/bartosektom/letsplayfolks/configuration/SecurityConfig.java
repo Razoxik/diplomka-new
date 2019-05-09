@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // Access to pages
                 .authorizeRequests()
-                .antMatchers("/user/*").authenticated()
+                .antMatchers("/user/detail*").authenticated()
                 .antMatchers("/friend/*").authenticated()
                 .antMatchers("/message/*").authenticated()
                 .antMatchers("/history/*").authenticated()

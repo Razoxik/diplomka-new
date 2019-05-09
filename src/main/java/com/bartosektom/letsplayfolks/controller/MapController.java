@@ -3,7 +3,6 @@ package com.bartosektom.letsplayfolks.controller;
 import com.bartosektom.letsplayfolks.constants.ActiveTabConstants;
 import com.bartosektom.letsplayfolks.service.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -13,7 +12,6 @@ import java.util.Map;
 
 @Controller
 @SessionAttributes(ActiveTabConstants.ACTIVE_TAB)
-@PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
 public class MapController {
 
     private static final String MAP_VIEW_NAME = "map/show";
