@@ -1,5 +1,6 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
+import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
 import com.bartosektom.letsplayfolks.constants.GameParamConstants;
 import com.bartosektom.letsplayfolks.repository.ChallengeRepository;
 import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
@@ -42,8 +43,8 @@ public class MapServiceImpl implements MapService {
         List<MapModel> mapModels = new ArrayList<>();
 
         for (Challenge challenge : challengeRepository.findAll()) {
-            // Nechceme vyzvy co maji end date dyl nez je ted
-            if (challenge.getEnd().before(new Date())){
+            // Nechceme vyzvy co maji end date dyl nez je ted a ty co sou uz finished
+            if (challenge.getEnd().before(new Date()) || challenge.getChallengeStateByChallengeStateId().getState().equals(ChallengeStateConstants.FINISHED)){
                 continue;
             }
             List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
@@ -59,7 +60,6 @@ public class MapServiceImpl implements MapService {
             Game game = challenge.getGameByGameId();
             MapModel mapModel = new MapModel();
             mapModel.setChallengeId(challenge.getId());
-            // TODO Nezobrazovat již ukončené výzvy (ve stavu finished)
             mapModel.setHostId(host.getId());
             mapModel.setHostName(host.getUserName());
             mapModel.setGameName(game.getName());

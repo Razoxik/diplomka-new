@@ -39,11 +39,14 @@ public class FriendsController {
     }
 
     @GetMapping("/addToFriends")
-    public ModelAndView addToFriend(@RequestParam(CommonConstants.USER_ID) Integer userId, HttpServletRequest request,
+    public ModelAndView addToFriend(@RequestParam(value = CommonConstants.SUCCESS_MESSAGE, required = false) String successMessage,
+                                    @RequestParam(CommonConstants.USER_ID) Integer userId, HttpServletRequest request,
                                     RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         friendService.addToFriend(userId);
 
-        redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "friendAdded");
+        if (!request.getHeader("Referer").contains("friendAdded")) {
+            redirectAttributes.addAttribute(CommonConstants.SUCCESS_MESSAGE, "friendAdded");
+        }
         return new ModelAndView("redirect:" + request.getHeader("Referer"));
     }
 }

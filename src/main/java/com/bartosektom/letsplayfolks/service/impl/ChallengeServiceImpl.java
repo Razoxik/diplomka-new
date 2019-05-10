@@ -451,8 +451,6 @@ public class ChallengeServiceImpl implements ChallengeService {
                         recalculatedRating += (ratingTeam1 / 200);
                     }
                     break;
-                default:
-                    break;
             }
             rating.setRating(recalculatedRating);
             ratingRepository.save(rating);
