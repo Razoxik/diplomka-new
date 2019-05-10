@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">
-                            Založení nové aktivity
+                            <spring:message code="game.create"/>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -34,7 +34,8 @@
                                     <spring:message code="game.create.numberOfPlayers"/>
                                 </label>
                                 <form:input path="numberOfPlayers" cssClass="form-control" required="true"
-                                            value="${gameModel.numberOfPlayers}" type="text" pattern="^\d*[2468]|[1-9][02468]$"
+                                            value="${gameModel.numberOfPlayers}" type="text"
+                                            pattern="^\d*[2468]|[1-9][02468]$"
                                             title="Číslo musí být sudé a menší než 100."/>
                             </div>
                             <div class="form-group">

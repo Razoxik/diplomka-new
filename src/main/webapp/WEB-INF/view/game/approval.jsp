@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--TODO: Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát návrhováno tímto uživatelem--%>
 <%--@elvariable id="gameModel" type="com.bartosektom.letsplayfolks.model.GameModel"--%>
 <%--@elvariable id="gameModels" type="java.util.List<com.bartosektom.letsplayfolks.model.GameModel>"--%>
 

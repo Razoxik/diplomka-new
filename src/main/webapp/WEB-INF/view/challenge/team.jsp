@@ -30,7 +30,7 @@
                 <table class="table">
                     <thead class="text-primary">
                     <tr>
-                        <th >
+                        <th>
                             <spring:message code="challenge.detail.team.table.header.userName"/>
                         </th>
                         <th>

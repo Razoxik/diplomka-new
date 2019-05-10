@@ -16,76 +16,74 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                <div class="card-header card-header-primary">
-                    <h4 class="card-title">
-                       Založit výzvu
-                    </h4>
-                </div>
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">
+                            <spring:message code="challenge.create"/>
+                        </h4>
+                    </div>
                     <div class="card-body">
-
-                    <form:form method="POST" action="create" modelAttribute="challengeModel">
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="challenge.create.start"/>
-                        </label>
-                        <form:input type="datetime-local" path="start" cssClass="form-control datetimepicker"
-                                    value="${challengeModel.start.plusHours(2)}"/>
-                        <form:errors path="start" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="challenge.create.end"/>
-                        </label>
-                        <form:input type="datetime-local" path="end" cssClass="form-control datetimepicker"
-                                    value="${challengeModel.start.plusHours(8)}"/>
-                        <form:errors path="end" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="challenge.create.coords"/>
-                        </label>
-                        <div class="row">
-                            <div class="col">
-                                <form:input path="latCoords" cssClass="form-control" placeholder="Lat"
-                                            value="${challengeModel.latCoords}" disabled="true"/>
-                                <form:input path="latCoords" type="hidden" value="${challengeModel.latCoords}"/>
+                        <form:form method="POST" action="create" modelAttribute="challengeModel">
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="challenge.create.start"/>
+                                </label>
+                                <form:input type="datetime-local" path="start" cssClass="form-control datetimepicker"
+                                            value="${challengeModel.start.plusHours(2)}"/>
+                                <form:errors path="start" cssClass="error"/>
                             </div>
-                            <div class="col">
-                                <form:input path="lngCoords" cssClass="form-control" placeholder="Lng"
-                                            value="${challengeModel.lngCoords}" disabled="true"/>
-                                <form:input path="lngCoords" type="hidden" value="${challengeModel.lngCoords}"/>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="challenge.create.end"/>
+                                </label>
+                                <form:input type="datetime-local" path="end" cssClass="form-control datetimepicker"
+                                            value="${challengeModel.start.plusHours(8)}"/>
+                                <form:errors path="end" cssClass="error"/>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="challenge.create.coords"/>
+                                </label>
+                                <div class="row">
+                                    <div class="col">
+                                        <form:input path="latCoords" cssClass="form-control" placeholder="Lat"
+                                                    value="${challengeModel.latCoords}" disabled="true"/>
+                                        <form:input path="latCoords" type="hidden" value="${challengeModel.latCoords}"/>
+                                    </div>
+                                    <div class="col">
+                                        <form:input path="lngCoords" cssClass="form-control" placeholder="Lng"
+                                                    value="${challengeModel.lngCoords}" disabled="true"/>
+                                        <form:input path="lngCoords" type="hidden" value="${challengeModel.lngCoords}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="challenge.create.game"/>
+                                </label>
+                                <form:select path="gameId" cssClass="form-control selectpicker">
+                                    <c:forEach items="${games}" var="game">
+                                        <form:option value="${game.id}" cssStyle="color:black">
+                                            <spring:message code="global.game.${game.name}" text="${game.name}"/>
+                                        </form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-control">
+                                    <spring:message code="challenge.create.desc"/>
+                                </label>
+                                <form:textarea path="description" cssClass="form-control"
+                                               value="${challengeModel.description}" type="textarea" rows="5"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <spring:message code="global.submit"/>
+                            </button>
+                            <spring:url value="/game/create" var="enterResultUrl"/>
+                            <a href="${enterResultUrl}" class="btn btn-primary" role="button" aria-disabled="true">
+                                <spring:message code="challenge.create.newGame"/>
+                            </a>
+                        </form:form>
                     </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="challenge.create.game"/>
-                        </label>
-                        <form:select path="gameId" cssClass="form-control selectpicker">
-                            <c:forEach items="${games}" var="game">
-                                <form:option value="${game.id}" cssStyle="color:black">
-                                    <spring:message code="global.game.${game.name}" text="${game.name}"/>
-                                </form:option>
-                            </c:forEach>
-                        </form:select>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-control">
-                            <spring:message code="challenge.create.desc"/>
-                        </label>
-                        <form:textarea path="description" cssClass="form-control"
-                                       value="${challengeModel.description}" type="textarea" rows="5"/>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <spring:message code="global.submit"/>
-                    </button>
-                    <spring:url value="/game/create" var="enterResultUrl"/>
-                    <a href="${enterResultUrl}" class="btn btn-primary" role="button" aria-disabled="true">
-                        <spring:message code="challenge.create.newGame"/>
-                    </a>
-                </form:form>
-                    </div>
-
                 </div>
             </div>
         </div>

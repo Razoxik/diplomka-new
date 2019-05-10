@@ -11,7 +11,7 @@
                 </li>
                 <li>
                     <a href="http://www.tomasbartosek.cz">
-                        About Us
+                        <spring:message code="footer.aboutUs"/>
                     </a>
                 </li>
                 <li>

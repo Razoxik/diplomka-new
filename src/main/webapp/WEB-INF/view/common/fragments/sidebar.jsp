@@ -8,11 +8,6 @@
 <%--@elvariable id="userId" type="java.lang.Integer"--%>
 
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="/img/sidebar.jpg">
-    <!--
-    Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-    Tip 2: you can also add an image using data-image tag
-    -->
     <div class="logo">
         <spring:url value="https://letsplayfolks.herokuapp.com/" var="appUrl"/>
         <a href="${appUrl}" class="simple-text logo-normal">
@@ -107,15 +102,3 @@
         </ul>
     </div>
 </div>
-<%--   <li class="nav-item">
-               <a class="nav-link" href="../../theme/examples/icons.html">
-                   <i class="material-icons">bubble_chart</i>
-                   <p>Statistics</p>
-               </a>
-           </li>--%>
-<%--  <li class="nav-item">
-      <a class="nav-link" href="../../theme/examples/notifications.html">
-          <i class="material-icons">notifications</i>
-          <p>Notifications</p>
-      </a>
-  </li>--%>

@@ -41,7 +41,8 @@
                                 <c:forEach items="${historyModels}" var="historyModel" varStatus="status">
                                     <tr>
                                         <td>
-                                            <spring:message code="global.game.${historyModel.gameName}" text="${historyModel.gameName}"/>
+                                            <spring:message code="global.game.${historyModel.gameName}"
+                                                            text="${historyModel.gameName}"/>
                                         </td>
                                         <td>
                                                 ${historyModel.start}

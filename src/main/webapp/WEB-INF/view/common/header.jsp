@@ -4,7 +4,6 @@
 <html>
 <head>
     <%@ include file="fragments/meta.jsp" %>
-    <%@ include file="fragments/jsCommon.jsp" %>
 </head>
 <body class="dark-edition">
 <div class="wrapper">
