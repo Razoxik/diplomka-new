@@ -63,25 +63,6 @@
                                 </form:select>
                                 <form:errors path="resultState" cssClass="error"/>
                             </div>
-                            <script>
-                                /*
-                                const winnerScore = document.getElementById("winnerScore");
-                                const loserScore = document.getElementById("loserScore");
-
-                                function setMin() {
-                                    winnerScore.min = loserScore.value;
-                                }
-
-                                function setMax() {
-                                    loserScore.max = winnerScore.value;
-                                }
-
-                                const trigger = document.getElementById("winnerScore");
-                                trigger.addEventListener("change", setMin, false);
-                                const loserScoreTrigger = document.getElementById("loserScore");
-                                loserScoreTrigger.addEventListener("change", setMax, false);
-                                */
-                            </script>
                             <div class="form-group">
                                 <label class="label-control">
                                     <spring:message code="challenge.result.winnerScore"/>
@@ -94,7 +75,6 @@
                                     <spring:message code="challenge.result.losserScore"/>
                                 </label>
                                 <form:input path="loserScore" id="loserScore" type="number" class="form-control"/>
-                                    <%--  onchange="document.getElementById('winnerScore').min = this.value;" --%>
                                 <form:errors path="loserScore" cssClass="error"/>
                             </div>
                             <div class="form-group">

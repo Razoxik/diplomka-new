@@ -28,7 +28,6 @@
                     <spring:url value="/user/detail" var="userDetailUrl">
                         <spring:param name="userId" value="${userId}"/>
                     </spring:url>
-
                     <a class="nav-link" href="${userDetailUrl}">
                         <i class="material-icons">person</i>
                         <p><spring:message code="sidebar.user.userProfile"/></p>

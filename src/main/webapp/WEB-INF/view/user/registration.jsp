@@ -5,7 +5,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%--@elvariable id="userModel" type="com.bartosektom.letsplayfolks.model.UserModel"--%>
-<%--TODO: Upravit vsechny formulare at maji i ten header jako je tady "Registrace" je to hezci"  --%>
 
 <%@ include file="../common/header.jsp" %>
 <div class="content">

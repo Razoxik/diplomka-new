@@ -12,5 +12,5 @@ public interface FriendRepository extends CrudRepository<Friend, Integer> {
 
     List<Friend> findByUserByFromUserId(User user);
 
-    Friend findByUserByToUserId(User user);
+    Friend findByUserByToUserIdAndUserByFromUserId(User userTo, User userFrom);
 }

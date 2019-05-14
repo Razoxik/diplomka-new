@@ -46,7 +46,6 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
         List<LeaderboardModel> leaderboardModels = new ArrayList<>();
 
-        // Najdi všechny uživatele, najdi pro každýho uživatele jeho challenge resulty a z nich vem pouze ty co se týkají vybrané hry
         // FIND ALL USERS
         for (User user : userRepository.findAll()) {
             // FIND ALL CHALLENGE RESULTS FOR USER

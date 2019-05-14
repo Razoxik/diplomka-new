@@ -56,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/history/*").authenticated()
                 .antMatchers("/challenge/*").authenticated()
                 .antMatchers("/challenge/questionable/*").hasAnyAuthority("OPERATOR", "ADMIN")
-                .antMatchers("/game/*").hasAuthority("ADMIN")
+                .antMatchers("/game/*").authenticated()
+                .antMatchers("/game/approval/*").hasAuthority("ADMIN")
                 .antMatchers("/h2-console").hasAuthority("ADMIN")
                 .and()
                 // Login

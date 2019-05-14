@@ -26,7 +26,7 @@
             <c:set var="teamNumber" value="2" scope="request"/>
             <jsp:include page="team.jsp"/>
             <div class="col-md-12">
-                <%-- todo: and canUserEnterResult missing:just for testing purpose}--%>
+                <%-- TODO: !!!and canUserEnterResult missing: just for testing purpose!!! --%>
                 <c:if test="${not isChallengeFinished and isUserAlreadyInChallenge}">
                     <spring:url value="enterResult" var="enterResultUrl" htmlEscape="true">
                         <spring:param name="challengeId" value="${challenge.id}"/>
@@ -51,14 +51,6 @@
                         <spring:message code="challenge.detail.login"/>
                     </a>
                 </c:if>
-                <%--
-                <spring:url value="cancel" var="cancelUrl" htmlEscape="true">
-                    <spring:param name="challengeId" value="${challenge.id}"/>
-                </spring:url>
-                <a href="${cancelUrl}" class="btn btn-success" role="button" aria-disabled="true">
-                    <spring:message code="challenge.detail.cancel"/>
-                </a>
-                --%>
             </div>
         </div>
     </div>

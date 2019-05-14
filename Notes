@@ -1,18 +1,9 @@
-// PRO KAZDOU CLASSU MEJ INTERFACE, JE TO PREJ DOBRY viz google or tyhel dva odkazy
-//https://softwareengineering.stackexchange.com/questions/159813/do-i-need-to-use-an-interface-when-only-one-class-will-ever-implement-it
-//https://softwareengineering.stackexchange.com/questions/150045/what-is-the-point-of-having-every-service-class-have-an-interface
-
-<%--TODO: Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát návrhováno tímto uživatelem--%>
-
-// v DP popsat anotace jako creation timestamp a entitiy generate apod.
-
-
 Kapitoly:
     - SpringBoot
     - Spring
     - Spring Security (LoginHandlerCustom)
         - Crsf token
-    - Configurační soubory
+    - Konfigurační soubory
     - Maven
     - H2 DB
     - Application properties
@@ -20,7 +11,7 @@ Kapitoly:
     - Javascript
     - GoogleMapsApi
     - MVC návrh
-        - Entity
+        - Entity (anotace jako creation timestamp a entitiy generate apod.)
         - Repository
         - Service
         - Controller
@@ -32,35 +23,27 @@ Kapitoly:
     - Sonar Lint
     - Git
     - Jira
-    - Confluence?
-    - Bootstrap - vzhledem k tomu, že nejsem koder, ale programator byla vyuzita bootstrapova sablona
+    - Confluence
+    - Bootstrap
 
-TODO:
-    - ADD aboutMe do tabulky v DB - user
-    - Admin bude moct schvalovat novy hry
-        - nova hra, formular na jmeno a pocet hracu
-    - Rozvalit swaggera
-    - Theme:
-        - Admin - červený tlačítko - přimo H2 console
-                - schvalovani novych her
-        - Operator - Tyrkysový - spravuje výzvy, který nemají jednotné skore
-        - User/Nepřihlášen - Fialový
-    - Nějaký custom anotace?
-    - BindingResult validace na BE, jednotlivých formulářů ( message - empty subject/author atd..) ne jen validace na FE ale i na BE
-        - TODO možné vylepšení
-        - ve zprávách zobrazovat i odeslané
-        - možnost řazení/filtrování ve zprávách i jinde
-    -- Strankovani na Historii, žebříčku, zprávách, friendech, zkrátka všude
+-- TASKS!!
+    - Upravit data model pro property jako je approved, about me, atd.
+    - Zprovoznit swaggera
+    - Custom anotace?
+    - BindingResult validace na BE
+    - ve zprávách zobrazovat i odeslané
+    - možnost řazení/filtrování ve zprávách i jinde
+    - Strankovani na Historii, žebříčku, zprávách, friendech, zkrátka všude
+    - Přidat do tabulky Game, který uživatel hru vytvořil a do této tabulky potom dát návrhováno tímto uživatelem
 
-DTO = tvoje MODEL classy! Jako Data transfer objecty(DTO) se nepouzivaji ENTITY classy (message apod.)
-zkratka to co zobrazujes na VIEW nema byt to co mas v ENTITACH, ale nejakej tvuj object
-co nese to info co potrebujes
-https://softwareengineering.stackexchange.com/questions/350067/is-it-good-practice-to-use-entity-objects-as-data-transfer-objects
-https://stackoverflow.com/questions/31165016/dto-and-entity-in-one-object
-
-https://stackoverflow.com/questions/37499821/good-jsp-code-structure-for-header-and-footer
-Use <%@include> because it is static include and <jsp:include> is dynamic include.
-When you use <jsp:include> the file will be included at runtime.
-When you use <%@include> file will be included at compile time.
-
-                <!--https://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message -->
+-- Some interesting links:
+    - https://softwareengineering.stackexchange.com/questions/350067/is-it-good-practice-to-use-entity-objects-as-data-transfer-objects
+    - https://stackoverflow.com/questions/31165016/dto-and-entity-in-one-object
+    - https://stackoverflow.com/questions/37499821/good-jsp-code-structure-for-header-and-footer
+    - Use <%@include> because it is static include and <jsp:include> is dynamic include.
+    - When you use <jsp:include> the file will be included at runtime.
+    - When you use <%@include> file will be included at compile time.
+    - https://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message
+    - For EVERY class have interface, see links bellow
+    - https://softwareengineering.stackexchange.com/questions/159813/do-i-need-to-use-an-interface-when-only-one-class-will-ever-implement-it
+    - https://softwareengineering.stackexchange.com/questions/150045/what-is-the-point-of-having-every-service-class-have-an-interface

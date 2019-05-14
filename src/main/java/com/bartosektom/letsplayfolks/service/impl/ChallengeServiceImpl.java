@@ -103,11 +103,12 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     /**
-     * User can enter result if there is 1: that many people, that game needs
+     * User can enter result if there is
+     * 1: that many people, that game needs
      * 2: if its after start date of challenge
      *
-     * @param challenge s
-     * @return s
+     * @param challenge challenge
+     * @return true or false
      */
     @Override
     public boolean canUserEnterResult(Challenge challenge) {
@@ -145,13 +146,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         }
     }
 
-    /**
-     * // First value = team 1; second value = team 2
-     *
-     * @param challenge x
-     * @return x
-     */
-
+    // First value = team 1; second value = team 2
     @Override
     public Pair<List<User>, List<User>> prepareTeamsUsers(Challenge challenge) {
         recalculateTeams(challenge);
@@ -163,33 +158,25 @@ public class ChallengeServiceImpl implements ChallengeService {
         return Pair.of(firstTeamUsers, secondTeamUsers);
     }
 
-    /**
-     * Prepare ONE team of UserDtos, TODO MAKE THIS METHOD PRIVATE AND SO OTHERS
-     *
-     * @param challenge x
-     * @param users     x
-     * @return x
-     */
-
     @Override
     public List<ChallengeDetailUserModel> prepareChallengeDetailUserModels(Challenge challenge, List<User> users) throws EntityNotFoundException {
         Game game = challenge.getGameByGameId();
-
         List<ChallengeDetailUserModel> challengeDetailUserModels = new ArrayList<>();
+
         for (User user : users) {
             int userId = user.getId();
             int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
             String userName = user.getUserName();
-            // TADY TI CHYBI JESTE ZAS FILTER NA GAME, JINAK TI TO POCITA VYHRY ZE VSECH HER a ne treba jen z šachů
-            // udelat metodu return Triple<int, int int> xx (User user, Game game) ktera bude vracet win, loose, tie pro hrace pro tu hru
 
             int numberOfWins = (int) challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
                     user, resultStateRepository.findByState(ResultStateConstants.WINNER)).stream().filter(
                     challengeResult -> challengeResult.getChallengeByChallengeId().getGameByGameId().equals(challenge.getGameByGameId())).count();
-            int numberOfLosses = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
-                    user, resultStateRepository.findByState(ResultStateConstants.DEFEATED)).size();
-            int numberOfTies = challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
-                    user, resultStateRepository.findByState(ResultStateConstants.TIE)).size();
+            int numberOfLosses = (int) challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
+                    user, resultStateRepository.findByState(ResultStateConstants.DEFEATED)).stream().filter(
+                    challengeResult -> challengeResult.getChallengeByChallengeId().getGameByGameId().equals(challenge.getGameByGameId())).count();
+            int numberOfTies = (int) challengeResultRepository.findByUserByUserIdAndResultStateByResultStateId(
+                    user, resultStateRepository.findByState(ResultStateConstants.TIE)).stream().filter(
+                    challengeResult -> challengeResult.getChallengeByChallengeId().getGameByGameId().equals(challenge.getGameByGameId())).count();
             int totalNumberOfGames = numberOfWins + numberOfLosses + numberOfTies;
             ChallengeResult result = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
 
@@ -209,20 +196,12 @@ public class ChallengeServiceImpl implements ChallengeService {
             } else {
                 challengeDetailUserModel.setChallengeResultState(ResultStateConstants.IN_PROGRESS);
             }
-            // can be added to Friends? to by melo fakat
-
             challengeDetailUserModels.add(challengeDetailUserModel);
         }
         return challengeDetailUserModels;
     }
 
-    /**
-     * Prepare BOTH teams of User Dtos
-     *
-     * @param challenge x
-     * @return x
-     */
-
+    //Prepare BOTH teams of User Dtos
     @Override
     public Pair<List<ChallengeDetailUserModel>, List<ChallengeDetailUserModel>> prepareTeamsDtos(Challenge challenge)
             throws EntityNotFoundException {
@@ -233,12 +212,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         return Pair.of(firstTeam, secondTeam);
     }
 
-    // Pokud ZADANE vyzsledky u vyzvy nejsou shodne tak je vyzva sporna
-    // Pokud je vyzva dyl jak 10 dni po ukonceni bez skore je sporna
-    //for each Challenge
-    //       find Result v challengeresult repku
-    //      list<resultu pro tu challenge>
-    //check if score of every result challenge is same if true add to list to decide
     @Override
     public List<QuestionableChallengeModel> prepareQuestionableChallengeModels() throws UnexpectedChallengeException {
         List<QuestionableChallengeModel> questionableChallengeModels = new ArrayList<>();
@@ -265,9 +238,18 @@ public class ChallengeServiceImpl implements ChallengeService {
         return questionableChallengeModels;
     }
 
-    // Challenge má být převedena do stavu finished v případě, že všichni uživatelé zadali shodné skore
-    // tzn. V případě hry fotbal musí 8 hráčů zadat shodné skore
-    // potom previst challenge do FINISHED - nezobrazovat na mape, a prepocitat rating hracu
+    //
+
+    /**
+     * Challenge should be finished when:
+     * If every player in challenge insert same score.
+     * eg. for football, there has to be 8 same scores
+     * Then set state to Finished and recalculate rating
+     *
+     * @param challenge challenge
+     * @return true or false
+     * @throws UnexpectedChallengeException in case of unexpected challenge state
+     */
     private boolean shouldBeChallengeFinished(Challenge challenge) throws UnexpectedChallengeException {
         List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
         int numberOfPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
@@ -277,19 +259,17 @@ public class ChallengeServiceImpl implements ChallengeService {
             throw new UnexpectedChallengeException("Challenge without result should not exist.");
         }
 
-        // mame tolik vysledku kolik je hracu? neboli máme od každého hráče výsledek?
-        // pokud ne, tak vyzva neni dokoncena a vratit false
+        // Do we have that many results as many players or in other words do we have result from every player?
         if (challengeResults.size() != numberOfPlayers) {
             return false;
         }
 
-        // kdyz mame od kazdeho hrace vysledek tak se jen kouknem jestli se shoduji
+        // We compare all challenge results to first challenge result - they have to be all same to finish challenge
         Integer scoreWinner = challengeResults.get(0).getScoreWinner();
         Integer scoreLoser = challengeResults.get(0).getScoreDefeated();
 
-        // pokud se nějaky shodovat nebude vratit false - jde na rozhodovani operatora
-        // nutno kontrolovat i ten vysledek WIN/LOSER, aby kdyz daj oba ze vyhrali s 1:0 to neproslo i kdyz to skore je stejny zejo
-        // Pokud tam bude víc vítězů než je půlka number of players - zkrátka na 8 hráčů, když tam zadá 5 lidí vítězství, tak je něco špatně
+        // If score or result state(WIN/LOSE) are different return false - qustionable challenge for operator
+        // If there is more winners then half of the players; eg 5 winners on 8 players, return false
         int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
                 challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
         int maxAllowedWinners = maxPlayers / 2;
@@ -309,8 +289,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                 return false;
             }
         }
-        // v pripade ze mame 1. tolik vysledku kolik je hracu teto hry
-        //                  2. a vsechny se shoduji vratime true, vyzva muze byt ukoncena
+        // If we have as many results as there are players in challenge and they are all the same return true
         return true;
     }
 
@@ -367,8 +346,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         challengeResult.setResultStateByResultStateId(resultState);
         challengeResultRepository.save(challengeResult);
 
-        // IF number of people in game is ten počet max
-        // IF je po START čase vyzvy
         challenge.setChallengeStateByChallengeStateId(challengeStateRepository.findByState(ChallengeStateConstants.IN_PROGRESS));
         challengeRepository.save(challenge);
     }
@@ -381,7 +358,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(user, challenge);
         challengeResultRepository.delete(challengeResult);
 
-        // Pokud jsem poslední na výzvě a odcházím tak smazat.
+        // If last player leaving, delete challenge.
         if (challengeResultRepository.findByChallengeByChallengeId(challenge).isEmpty()) {
             challengeRepository.delete(challenge);
             return false;
@@ -413,12 +390,17 @@ public class ChallengeServiceImpl implements ChallengeService {
         challengeResultRepository.save(challengeResult);
     }
 
+    /**
+     * In case of WIN, we win 1% rating of OPPONENT
+     * In case of LOSE, we lose 1% rating of OURS
+     * In case of TIE it is 0.5%
+     *
+     * @param challenge challenge
+     */
     private void recalculateRatingAfterFinishedChallenge(Challenge challenge) {
         Integer ratingTeam1 = calculateTeamRating(challenge, 1);
         Integer ratingTeam2 = calculateTeamRating(challenge, 2);
-        // V případě výhry vyhrajeme 1% ratingu SOUPEŘE.
-        // V případě prohry prohrajeme 1% ratingu NAŠEHO.
-        // V případě remízy vyhrajeme/prohrajeme 0.5% ratingu, na základě toho jestli jsme měli/neměli větší rating než druhý tým.
+
         for (ChallengeResult challengeResult : challengeResultRepository.findByChallengeByChallengeId(challenge)) {
             Rating rating = ratingRepository.findByUserByUserIdAndGameByGameId(challengeResult.getUserByUserId(), challenge.getGameByGameId());
             int recalculatedRating = rating.getRating();

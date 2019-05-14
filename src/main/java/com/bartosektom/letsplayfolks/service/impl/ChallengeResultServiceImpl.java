@@ -1,15 +1,15 @@
 package com.bartosektom.letsplayfolks.service.impl;
 
-import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
-import com.bartosektom.letsplayfolks.service.ChallengeResultService;
 import com.bartosektom.letsplayfolks.constants.ChallengeStateConstants;
 import com.bartosektom.letsplayfolks.constants.GameParamConstants;
 import com.bartosektom.letsplayfolks.constants.ResultStateConstants;
 import com.bartosektom.letsplayfolks.entity.Challenge;
 import com.bartosektom.letsplayfolks.entity.ChallengeResult;
 import com.bartosektom.letsplayfolks.entity.Game;
+import com.bartosektom.letsplayfolks.exception.UnexpectedChallengeException;
 import com.bartosektom.letsplayfolks.repository.ChallengeResultRepository;
 import com.bartosektom.letsplayfolks.repository.GameParamRepository;
+import com.bartosektom.letsplayfolks.service.ChallengeResultService;
 import io.micrometer.core.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
 
     @Autowired
     ChallengeResultRepository challengeResultRepository;
+
     @Autowired
     GameParamRepository gameParamRepository;
 
@@ -42,13 +43,13 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
     }
 
     /**
-     * Pokud se všechny scoreWinner a scoreLoser ve vyzve nerovnaji tak je skore rozdilne
-     * Krome skore se take musi rovnat vysledek vyzvy tzn. VITEZ, PROHRANY, aby vsicihni nerekli ze vyhrali se stejnym skorem
-     * Kontroluješ tohle pouze u zadanych hodnot tzn. NE STAV IN PROGRESS u result statu
+     * If all scoreWinner and scoreLoser are not same
+     * Beside score, we need to check even result state eg. winner, loser
+     * Only check for inserted result score - that means not for result state IN PROGRESS
      *
      * @param challenge challenge
      * @return true or false
-     * @throws UnexpectedChallengeException sdas
+     * @throws UnexpectedChallengeException when challenge has unexpected state
      */
     @Override
     public boolean isChallengeResultScoreDifferent(@NonNull Challenge challenge) throws UnexpectedChallengeException {
@@ -57,10 +58,11 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
         if (challengeResults.isEmpty()) {
             throw new UnexpectedChallengeException("Challenge without result should not exist.");
         }
-        // pracujes s Integerama protoze to muze byt null a do int null nedas
+        // Need Integers because it can be null.
         Integer scoreWinner = challengeResults.get(0).getScoreWinner();
         Integer scoreLoser = challengeResults.get(0).getScoreDefeated();
-        // Pokud tam bude víc vítězů než je půlka number of players - zkrátka na 8 hráčů, když tam zadá 5 lidí vítězství, tak je něco špatně
+        // If there is more winners than half of the players
+        // eg if on 8 players there is 5 winners there is there is something bad
         int maxPlayers = Integer.parseInt(gameParamRepository.findByGameByGameIdAndName(
                 challenge.getGameByGameId(), GameParamConstants.NUMBER_OF_PLAYERS).getValue());
         int maxAllowedWinners = maxPlayers / 2;
@@ -84,9 +86,13 @@ public class ChallengeResultServiceImpl implements ChallengeResultService {
         return false;
     }
 
-    // Challenge je poslana na rozhodovani pokud nedosahla stavu FINISHED do 3 dnu od Konce vyzvy
-    // Do stavu finished se dostane, kdyz tam vsichni zadaji stejne skore
-    // presunou to dchallengeservice
+    /**
+     * Challenge is too long without score if there is not Finished state after 3 days after challenge end.
+     * Finished is after everybody put same score
+     *
+     * @param challenge challenge
+     * @return true or false
+     */
     public boolean isChallengeTooLongWithoutScore(@NonNull Challenge challenge) {
         Timestamp challengeEndDate = challenge.getEnd();
         LocalDate date = LocalDate.now().minusDays(3);

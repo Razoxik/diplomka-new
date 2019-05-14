@@ -76,6 +76,7 @@ public class GameController {
     }
 
     @PostMapping("/approval")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView createGameApproval(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
                                            RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         gameService.approveGame(gameModel);
@@ -85,6 +86,7 @@ public class GameController {
     }
 
     @PostMapping("/decline")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView createGameDecline(@ModelAttribute(GAME_MODEL_MODEL_KEY) GameModel gameModel,
                                           RedirectAttributes redirectAttributes) throws EntityNotFoundException {
         gameService.declineGame(gameModel);

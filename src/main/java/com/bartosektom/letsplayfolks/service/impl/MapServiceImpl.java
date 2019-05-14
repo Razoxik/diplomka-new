@@ -43,13 +43,12 @@ public class MapServiceImpl implements MapService {
         List<MapModel> mapModels = new ArrayList<>();
 
         for (Challenge challenge : challengeRepository.findAll()) {
-            // Nechceme vyzvy co maji end date dyl nez je ted a ty co sou uz finished
+            // We do not want challenges with end date later than now or has state finished
             if (challenge.getEnd().before(new Date()) || challenge.getChallengeStateByChallengeStateId().getState().equals(ChallengeStateConstants.FINISHED)){
                 continue;
             }
             List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
-            // players sou uz vsici v tom challengeResults
-            // challengeresults sort by created date pro hosta
+            // Sort challenge result for host.
             User host = challengeResults.get(0).getUserByUserId();
             int rating = 0;
             for (ChallengeResult challengeResult : challengeResults) {

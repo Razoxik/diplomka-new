@@ -20,7 +20,7 @@ public class ChallengeResult {
     private Timestamp created;
     private Integer scoreWinner;
     private Integer scoreDefeated;
-    private Integer teamNumber; // TODO:UPRAVIT DATA MODEL!
+    private Integer teamNumber;
     private String description;
     private Challenge challengeByChallengeId;
     private User userByUserId;

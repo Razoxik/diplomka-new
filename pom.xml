@@ -3,17 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.bartosektom.letsplayfolks</groupId>
     <artifactId>LetsPlayFolks</artifactId>
     <version>1.0</version>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.3.RELEASE</version>
     </parent>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,14 +25,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
             <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Jinak me nesel view resolver / routovani na jednotlivz url bey techhlech dependencz-->
+        <!-- For view resolver and routing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -48,21 +44,19 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
-
         <!-- http://www.springboottutorial.com/spring-boot-and-h2-in-memory-database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!-- Pro http://localhost:8080/h2-console/ -->
-        <!-- Nově i na: http://localhost:8082, po přídání H2ServerConf fajlu -->
+        <!-- For http://localhost:8080/h2-console/ -->
+        <!-- Now even on http://localhost:8082, after configuration in H2ServerConfig.java -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -72,14 +66,6 @@
             <artifactId>hibernate-java8</artifactId>
             <version>5.0.5.Final</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.sitemesh/sitemesh -->
-        <!--   <dependency>
-          <groupId>org.sitemesh</groupId>
-          <artifactId>sitemesh</artifactId>
-          <version>3.0.1</version>
-      </dependency>-->
-
         <!--  https://www.baeldung.com/spring-security-with-maven -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -91,7 +77,6 @@
             <artifactId>spring-security-web</artifactId>
             <version>5.0.6.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -111,29 +96,23 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava ...for Preconditions.notnull-->
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava, for Preconditions.notNull -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>27.0-jre</version>
         </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
-        <!--   <dependency>
-                 <groupId>postgresql</groupId>
-                 <artifactId>postgresql</artifactId>
-                 <version>9.1-901-1.jdbc4</version>
-             </dependency> -->
-
+        <!-- Site mash - interesting thing, look it up sometime
+        https://mvnrepository.com/artifact/org.sitemesh/sitemesh
+        <dependency>
+            <groupId>org.sitemesh</groupId>
+            <artifactId>sitemesh</artifactId>
+            <version>3.0.1</version>
+        </dependency> -->
     </dependencies>
-
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
-
     <build>
         <plugins>
             <plugin>

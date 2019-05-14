@@ -111,7 +111,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "aboutMe") // todo: diagram do nej
+    @Column(name = "aboutMe")
     public String getAboutMe() {
         return aboutMe;
     }

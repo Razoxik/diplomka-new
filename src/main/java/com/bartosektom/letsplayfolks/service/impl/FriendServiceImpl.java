@@ -65,9 +65,8 @@ public class FriendServiceImpl implements FriendService {
         User userInSession = userRepository.findById(sessionManager.getUserId()).orElseThrow(EntityNotFoundException::new);
         User userDisplayed = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
 
-
         boolean isSameUser = userInSession.equals(userDisplayed);
-        boolean isAlreadyInFriends = userInSession.getFriendsByFromUserId().contains(friendRepository.findByUserByToUserId(userDisplayed));
+        boolean isAlreadyInFriends = userInSession.getFriendsByFromUserId().contains(friendRepository.findByUserByToUserIdAndUserByFromUserId(userDisplayed, userInSession));
 
         return !isSameUser && !isAlreadyInFriends;
     }

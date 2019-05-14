@@ -20,7 +20,7 @@ public class Game {
     private Timestamp created;
     private String name;
     private String description;
-    private Integer approved; // TODO: add to diagram
+    private Integer approved;
     private Collection<Challenge> challengesById;
     private Collection<GameParam> gameParamsById;
     private Collection<Rating> ratingsById;
