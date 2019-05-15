@@ -121,28 +121,30 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     private void recalculateTeams(Challenge challenge) {
-        List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
-        List<User> users = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
-        Game game = challenge.getGameByGameId();
-        // sort players based on rating
-        List<Pair<User, Integer>> usersWithRatings = new ArrayList<>();
-        for (User user : users) {
-            int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
-            Pair<User, Integer> userWithRating = Pair.of(user, rating);
-            usersWithRatings.add(userWithRating);
-        }
-        usersWithRatings.sort(Comparator.comparingInt(Pair::getValue));
-        Collections.reverse(usersWithRatings); // we want players with better rankings be in team 1
-
-        //set teams for players based on their ratings
-        for (int i = 0; i < usersWithRatings.size(); i++) {
-            ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(usersWithRatings.get(i).getKey(), challenge);
-            if (i % 2 == 0) {
-                challengeResult.setTeamNumber(1);
-            } else {
-                challengeResult.setTeamNumber(2);
+        if (!challenge.getChallengeStateByChallengeStateId().getState().equals(ChallengeStateConstants.FINISHED)) {
+            List<ChallengeResult> challengeResults = challengeResultRepository.findByChallengeByChallengeId(challenge);
+            List<User> users = challengeResults.stream().map(ChallengeResult::getUserByUserId).collect(Collectors.toList());
+            Game game = challenge.getGameByGameId();
+            // sort players based on rating
+            List<Pair<User, Integer>> usersWithRatings = new ArrayList<>();
+            for (User user : users) {
+                int rating = ratingRepository.findByUserByUserIdAndGameByGameId(user, game).getRating();
+                Pair<User, Integer> userWithRating = Pair.of(user, rating);
+                usersWithRatings.add(userWithRating);
             }
-            challengeResultRepository.save(challengeResult);
+            usersWithRatings.sort(Comparator.comparingInt(Pair::getValue));
+            Collections.reverse(usersWithRatings); // we want players with better rankings be in team 1
+
+            //set teams for players based on their ratings
+            for (int i = 0; i < usersWithRatings.size(); i++) {
+                ChallengeResult challengeResult = challengeResultRepository.findByUserByUserIdAndChallengeByChallengeId(usersWithRatings.get(i).getKey(), challenge);
+                if (i % 2 == 0) {
+                    challengeResult.setTeamNumber(1);
+                } else {
+                    challengeResult.setTeamNumber(2);
+                }
+                challengeResultRepository.save(challengeResult);
+            }
         }
     }
 
